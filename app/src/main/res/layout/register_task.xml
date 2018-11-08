@@ -7,7 +7,7 @@
     <data>
         <variable
             name="taskVM"
-            type="com.aklob.pomer.viewmodel.RegisterTaskVM"/>
+            type="com.mochoi.pomer.viewmodel.RegisterTaskVM"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

@@ -1,15 +1,13 @@
-package com.aklob.pomer;
+package com.mochoi.pomer;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 
-import com.aklob.pomer.contract.RegisterTaskNavigator;
-import com.aklob.pomer.databinding.RegisterTaskBinding;
-import com.aklob.pomer.viewmodel.RegisterTaskVM;
-import com.aklob.pomer.viewmodel.Task;
+import com.mochoi.pomer.contract.RegisterTaskNavigator;
+import com.mochoi.pomer.databinding.RegisterTaskBinding;
+import com.mochoi.pomer.viewmodel.RegisterTaskVM;
+import com.mochoi.pomer.viewmodel.Task;
 
 public class RegisterTaskActivity extends AppCompatActivity implements RegisterTaskNavigator {
     @Override

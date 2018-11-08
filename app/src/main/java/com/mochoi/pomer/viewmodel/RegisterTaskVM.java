@@ -1,12 +1,9 @@
-package com.aklob.pomer.viewmodel;
+package com.mochoi.pomer.viewmodel;
 
-import android.app.Activity;
-import android.content.Context;
-import android.database.Observable;
 import android.databinding.ObservableField;
 import android.util.Log;
 
-import com.aklob.pomer.contract.RegisterTaskNavigator;
+import com.mochoi.pomer.contract.RegisterTaskNavigator;
 
 public class RegisterTaskVM {
 

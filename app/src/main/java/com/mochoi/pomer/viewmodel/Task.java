@@ -1,4 +1,4 @@
-package com.aklob.pomer.viewmodel;
+package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableField;
 

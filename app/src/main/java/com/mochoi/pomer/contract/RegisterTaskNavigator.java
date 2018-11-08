@@ -1,4 +1,4 @@
-package com.aklob.pomer.contract;
+package com.mochoi.pomer.contract;
 
 public interface RegisterTaskNavigator {
     public void backActivity();

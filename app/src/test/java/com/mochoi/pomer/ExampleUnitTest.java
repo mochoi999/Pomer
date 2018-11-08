@@ -1,4 +1,4 @@
-package com.aklob.pomer;
+package com.mochoi.pomer;
 
 import org.junit.Test;
 
