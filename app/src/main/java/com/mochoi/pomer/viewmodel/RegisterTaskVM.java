@@ -8,6 +8,7 @@ import com.mochoi.pomer.contract.RegisterTaskNavigator;
 public class RegisterTaskVM {
 
     public final ObservableField<Task> task = new ObservableField<>();
+    public ObservableField<String> aaa = new ObservableField<>();
     public RegisterTaskNavigator navigator;
 
     public void setNavigator(RegisterTaskNavigator navigator){
@@ -15,7 +16,8 @@ public class RegisterTaskVM {
     }
 
     public void register(){
-        Log.d("TEST","%%%%%%%%%%%%%%%%%%%%"+task.get().getTaskName().toString());
+        String taskName = task.get().taskName;
+
     }
 
     public void backActivity(){

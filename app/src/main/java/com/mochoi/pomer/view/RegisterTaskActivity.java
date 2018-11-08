@@ -1,6 +1,7 @@
 package com.mochoi.pomer.view;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,8 +18,13 @@ public class RegisterTaskActivity extends AppCompatActivity implements RegisterT
 
         RegisterTaskBinding registerTaskBinding = DataBindingUtil.setContentView(this, R.layout.register_task);
         RegisterTaskVM registerTaskVM = new RegisterTaskVM();
-        registerTaskVM.task.set(new Task());
-        registerTaskVM.setNavigator(this);
+//        registerTaskVM.task.set(new Task());
+        registerTaskVM.task.set(new Task());;
+        ObservableField<String> aaa = new ObservableField<>();
+        aaa.set("aaa");
+        registerTaskVM.aaa = aaa;
+
+                registerTaskVM.setNavigator(this);
         registerTaskBinding.setTaskVM(registerTaskVM);//layoutのnameにセット
 
     }
