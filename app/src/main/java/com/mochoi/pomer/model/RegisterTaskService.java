@@ -2,6 +2,9 @@ package com.mochoi.pomer.model;
 
 import io.realm.Realm;
 
+/**
+ * タスク登録サービス
+ */
 public class RegisterTaskService {
     Realm realm;
 

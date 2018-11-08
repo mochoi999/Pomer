@@ -5,6 +5,9 @@ import android.databinding.ObservableField;
 import com.mochoi.pomer.model.TaskRO;
 import com.mochoi.pomer.model.RegisterTaskService;
 
+/**
+ * タスク登録用ビューモデル
+ */
 public class RegisterTaskVM {
 
     public final ObservableField<Task> task = new ObservableField<>();

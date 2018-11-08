@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="task"
+            type="com.mochoi.pomer.viewmodel.Task"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="11dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/taskName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="9"
+            android:gravity="left"
+            android:text="@{task.taskName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_delete" />
+    </LinearLayout>
+</layout>
