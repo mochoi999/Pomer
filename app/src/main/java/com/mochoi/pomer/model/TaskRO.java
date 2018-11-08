@@ -1,4 +1,4 @@
-package com.mochoi.pomer.viewmodel;
+package com.mochoi.pomer.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

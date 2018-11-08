@@ -2,6 +2,7 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableField;
 
+import com.mochoi.pomer.model.TaskRO;
 import com.mochoi.pomer.model.TaskRegisterService;
 
 public class RegisterTaskVM {

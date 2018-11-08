@@ -1,11 +1,6 @@
 package com.mochoi.pomer.model;
 
-import android.util.Log;
-
-import com.mochoi.pomer.viewmodel.TaskRO;
-
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class TaskRegisterService {
     Realm realm;
