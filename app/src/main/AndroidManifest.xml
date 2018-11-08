@@ -22,6 +22,7 @@
         </activity>
         <activity android:name="com.mochoi.pomer.view.TodoListActivity" />
         <activity android:name="com.mochoi.pomer.view.RegisterTaskActivity" />
+        <activity android:name="com.mochoi.pomer.view.BacklogActivity" />
     </application>
 
 </manifest>

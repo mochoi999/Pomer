@@ -6,20 +6,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <fragment
             android:id="@+id/add_task_fragment"
             android:name="com.mochoi.pomer.view.AddNewTaskView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/add_task_fragment"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="moveBacklog"
+            android:text="バックログ" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/add_task_fragment"
+            android:layout_below="@+id/button"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="今日のTODO"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
     </RelativeLayout>

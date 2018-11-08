@@ -3,7 +3,7 @@ package com.mochoi.pomer.viewmodel;
 import android.databinding.ObservableField;
 
 import com.mochoi.pomer.model.TaskRO;
-import com.mochoi.pomer.model.TaskRegisterService;
+import com.mochoi.pomer.model.RegisterTaskService;
 
 public class RegisterTaskVM {
 
@@ -12,7 +12,7 @@ public class RegisterTaskVM {
     public void register(){
         TaskRO taskRO = new TaskRO();
         taskRO.taskName = task.get().taskName;
-        new TaskRegisterService().register(taskRO);
+        new RegisterTaskService().register(taskRO);
 
     }
 
