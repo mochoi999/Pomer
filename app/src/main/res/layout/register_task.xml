@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="76dp"
-            android:onClick="@{()->taskVM.backActivity()}"
+            android:onClick="backActivity"
             android:text="戻る"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorAccent"
