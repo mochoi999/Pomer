@@ -1,4 +1,4 @@
-package com.mochoi.pomer;
+package com.mochoi.pomer.view;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

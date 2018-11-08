@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mochoi.pomer.MainActivity">
+    tools:context="com.mochoi.pomer.view.MainActivity">
 
     <include layout="@layout/part_titlebar"/>
 
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
         <fragment
             android:id="@+id/add_task_fragment"
-            android:name="com.mochoi.pomer.AddNewTaskView"
+            android:name="com.mochoi.pomer.view.AddNewTaskView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </RelativeLayout>
