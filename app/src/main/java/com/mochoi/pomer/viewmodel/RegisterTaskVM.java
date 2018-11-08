@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.util.Log;
 
 import com.mochoi.pomer.contract.RegisterTaskNavigator;
+import com.mochoi.pomer.model.TaskRegisterService;
 
 public class RegisterTaskVM {
 
@@ -16,7 +17,12 @@ public class RegisterTaskVM {
     }
 
     public void register(){
-        String taskName = task.get().taskName;
+        TaskRO taskRO = new TaskRO();
+        taskRO.taskName = task.get().taskName;
+
+        Log.d("TEST","---"+task.get().taskName);
+
+        new TaskRegisterService().register(taskRO);
 
     }
 
