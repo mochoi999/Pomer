@@ -9,7 +9,6 @@ import com.mochoi.pomer.model.TaskRegisterService;
 public class RegisterTaskVM {
 
     public final ObservableField<Task> task = new ObservableField<>();
-    public ObservableField<String> aaa = new ObservableField<>();
     public RegisterTaskNavigator navigator;
 
     public void setNavigator(RegisterTaskNavigator navigator){
@@ -19,9 +18,6 @@ public class RegisterTaskVM {
     public void register(){
         TaskRO taskRO = new TaskRO();
         taskRO.taskName = task.get().taskName;
-
-        Log.d("TEST","---"+task.get().taskName);
-
         new TaskRegisterService().register(taskRO);
 
     }

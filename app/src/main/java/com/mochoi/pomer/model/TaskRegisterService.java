@@ -17,7 +17,6 @@ public class TaskRegisterService {
     public void register(TaskRO task){
 
         Number maxid = realm.where(TaskRO.class).max("id");
-        Log.d("TEST","---------"+maxid);
         if (maxid == null){
             maxid = 0;
         }

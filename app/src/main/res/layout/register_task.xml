@@ -58,23 +58,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="76dp"
-            android:text="キャンセル"
             android:onClick="@{()->taskVM.backActivity()}"
-            android:textColor="@color/colorAccent"
+            android:text="戻る"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@+id/register_task"
             app:layout_constraintTop_toTopOf="@+id/register_task" />
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="62dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@={taskVM.aaa}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_task" />
     </android.support.constraint.ConstraintLayout>
 </layout>

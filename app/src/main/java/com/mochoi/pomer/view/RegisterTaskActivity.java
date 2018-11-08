@@ -21,13 +21,8 @@ public class RegisterTaskActivity extends BaseActivity implements RegisterTaskNa
         super.onCreate(savedInstanceState);
 
         RegisterTaskBinding registerTaskBinding = DataBindingUtil.setContentView(this, R.layout.register_task);
-//        registerTaskVM.task.set(new Task());
         registerTaskVM.task.set(new Task());;
-        ObservableField<String> aaa = new ObservableField<>();
-        aaa.set("aaa");
-        registerTaskVM.aaa = aaa;
-
-                registerTaskVM.setNavigator(this);
+        registerTaskVM.setNavigator(this);
         registerTaskBinding.setTaskVM(registerTaskVM);//layoutのnameにセット
 
     }
