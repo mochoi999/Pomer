@@ -15,10 +15,12 @@ import android.util.Log;
 import java.util.List;
 
 public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.ViewHolder> {
+    private BacklogActivity activity;
     private BacklogVM vm;
     private List<Task> tasks;
 
-    public BacklogTaskRecyclerViewAdapter(BacklogVM vm){
+    public BacklogTaskRecyclerViewAdapter(BacklogActivity activity, BacklogVM vm){
+        this.activity = activity;
         this.vm = vm;
     }
 
@@ -66,6 +68,8 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
         @Override
         public void onClick(View v) {
             vm.removeTask(binding.getTask().id);
+            activity.showNotification("削除しました");
+            vm.setUpTaskList();
         }
     }
 }

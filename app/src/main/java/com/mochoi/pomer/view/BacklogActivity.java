@@ -24,7 +24,7 @@ public class BacklogActivity extends BaseActivity {
         vm.setUpTaskList();
         binding.setBacklogVM(vm);
 
-        BacklogTaskRecyclerViewAdapter adapter = new BacklogTaskRecyclerViewAdapter(vm);
+        BacklogTaskRecyclerViewAdapter adapter = new BacklogTaskRecyclerViewAdapter(this, vm);
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
         binding.recycler.setAdapter(adapter);
 
@@ -35,4 +35,6 @@ public class BacklogActivity extends BaseActivity {
         super.onRestart();
         vm.setUpTaskList();
     }
+
+
 }
