@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.mochoi.pomer.databinding.BacklogItemBinding;
-import com.mochoi.pomer.viewmodel.Task;
+import com.mochoi.pomer.model.Task;
 
 import java.util.List;
 

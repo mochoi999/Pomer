@@ -7,7 +7,7 @@ import android.view.View;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.RegisterTaskBinding;
 import com.mochoi.pomer.viewmodel.RegisterTaskVM;
-import com.mochoi.pomer.viewmodel.Task;
+import com.mochoi.pomer.model.Task;
 
 public class RegisterTaskActivity extends BaseActivity {
     RegisterTaskVM registerTaskVM = new RegisterTaskVM();

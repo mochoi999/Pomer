@@ -2,7 +2,7 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableField;
 
-import com.mochoi.pomer.model.TaskRO;
+import com.mochoi.pomer.model.Task;
 import com.mochoi.pomer.model.RegisterTaskService;
 
 /**
@@ -13,9 +13,9 @@ public class RegisterTaskVM {
     public final ObservableField<Task> task = new ObservableField<>();
 
     public void register(){
-        TaskRO taskRO = new TaskRO();
-        taskRO.taskName = task.get().taskName;
-        new RegisterTaskService().register(taskRO);
+        Task data = new Task();
+        data.taskName = task.get().taskName;
+        new RegisterTaskService().register(data);
 
     }
 

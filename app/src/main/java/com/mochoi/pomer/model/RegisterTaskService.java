@@ -1,5 +1,7 @@
 package com.mochoi.pomer.model;
 
+import android.util.Log;
+
 import io.realm.Realm;
 
 /**
@@ -12,10 +14,10 @@ public class RegisterTaskService {
         realm = Realm.getDefaultInstance();
     }
 
-    public void register(TaskRO task){
+    public void register(Task task){
         realm.beginTransaction();
 
-        Number maxid = realm.where(TaskRO.class).max("id");
+        Number maxid = realm.where(Task.class).max("id");
         if (maxid == null){
             maxid = 0;
         }

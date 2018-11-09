@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogMainBinding;
 import com.mochoi.pomer.viewmodel.BacklogVM;
-import com.mochoi.pomer.viewmodel.Task;
+import com.mochoi.pomer.model.Task;
 
 import java.util.ArrayList;
 
