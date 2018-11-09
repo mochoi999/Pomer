@@ -13,6 +13,7 @@
         <activity
             android:name="com.mochoi.pomer.view.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mochoi.pomer.view.TodoListActivity" />
-        <activity android:name="com.mochoi.pomer.view.RegisterTaskActivity" />
-        <activity android:name="com.mochoi.pomer.view.BacklogActivity" />
+        <activity android:name="com.mochoi.pomer.view.TodoListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.mochoi.pomer.view.RegisterTaskActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.mochoi.pomer.view.BacklogActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

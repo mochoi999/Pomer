@@ -13,13 +13,7 @@ import java.util.List;
 public class BindingAdapters {
     @BindingAdapter("items")
     public static void setItems(RecyclerView recyclerView, List<Task> tasks) {
-        TaskRecyclerViewAdapter adapter = (TaskRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null)
-        {
-            adapter.replaceData(tasks);
-        } else {
-            adapter = new TaskRecyclerViewAdapter(tasks);
-            recyclerView.setAdapter(adapter);
-        }
+        BacklogTaskRecyclerViewAdapter adapter = (BacklogTaskRecyclerViewAdapter) recyclerView.getAdapter();
+        adapter.replaceData(tasks);
     }
 }

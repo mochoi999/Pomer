@@ -27,10 +27,6 @@ public class FindTaskService {
         List<Task> tasks = null;
         if(results != null){
             tasks = Arrays.asList(results.toArray(new Task[0]));
-
-            for (Task ta : tasks) {
-                Log.d("TEST", ""+ta.isFinished);
-            }
         }
         return tasks;
     }

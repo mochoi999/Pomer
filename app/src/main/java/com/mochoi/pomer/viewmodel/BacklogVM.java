@@ -3,6 +3,7 @@ package com.mochoi.pomer.viewmodel;
 import android.databinding.ObservableField;
 
 import com.mochoi.pomer.model.FindTaskService;
+import com.mochoi.pomer.model.RemoveTaskService;
 import com.mochoi.pomer.model.Task;
 
 import java.util.ArrayList;
@@ -16,5 +17,9 @@ public class BacklogVM {
 
     public void setUpTaskList(){
         tasks.set(new FindTaskService().findNotFinished());
+    }
+
+    public void removeTask(long id){
+        new RemoveTaskService().removeTask(id);//TODO
     }
 }

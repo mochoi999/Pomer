@@ -2,18 +2,24 @@ package com.mochoi.pomer.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogItemBinding;
 import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.viewmodel.BacklogVM;
+
+import android.util.Log;
 
 import java.util.List;
 
-public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder> {
+public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.ViewHolder> {
+    private BacklogVM vm;
     private List<Task> tasks;
 
-    public TaskRecyclerViewAdapter(List<Task> items) {
-        replaceData(items);
+    public BacklogTaskRecyclerViewAdapter(BacklogVM vm){
+        this.vm = vm;
     }
 
     @Override
@@ -26,12 +32,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Task task = tasks.get(position);
-
-        // データセット
         holder.binding.setTask(task);
-
-        // Viewへの反映を即座に行う
-        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -51,13 +52,20 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final BacklogItemBinding binding;
 
         public ViewHolder(BacklogItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
+            itemView.findViewById(R.id.remove).setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            vm.removeTask(binding.getTask().id);
         }
     }
 }

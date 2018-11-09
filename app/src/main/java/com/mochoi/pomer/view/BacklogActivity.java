@@ -8,10 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogMainBinding;
 import com.mochoi.pomer.viewmodel.BacklogVM;
-import com.mochoi.pomer.model.Task;
 
-import java.util.ArrayList;
-
+/**
+ * バックログ画面用アクティビティ
+ */
 public class BacklogActivity extends BaseActivity {
     private BacklogVM vm;
 
@@ -24,9 +24,15 @@ public class BacklogActivity extends BaseActivity {
         vm.setUpTaskList();
         binding.setBacklogVM(vm);
 
-        TaskRecyclerViewAdapter adapter = new TaskRecyclerViewAdapter(new ArrayList<Task>());
+        BacklogTaskRecyclerViewAdapter adapter = new BacklogTaskRecyclerViewAdapter(vm);
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
         binding.recycler.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        vm.setUpTaskList();
     }
 }
