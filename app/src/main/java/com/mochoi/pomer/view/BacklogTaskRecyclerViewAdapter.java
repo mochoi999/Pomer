@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogItemBinding;
 import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.ViewHolder> {
     private BacklogActivity activity;
     private BacklogVM vm;
-    private List<Task> tasks;
+    private List<BacklogItemVM> items;
 
     public BacklogTaskRecyclerViewAdapter(BacklogActivity activity, BacklogVM vm){
         this.activity = activity;
@@ -34,24 +35,24 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Task task = tasks.get(position);
-        holder.binding.setTask(task);
+        BacklogItemVM item = items.get(position);
+        holder.binding.setItem(item);
     }
 
     @Override
     public int getItemCount() {
-        if(tasks == null){
+        if(items == null){
             return 0;
         } else {
-            return tasks.size();
+            return items.size();
         }
     }
 
-    public void replaceData(List<Task> items) {
+    public void replaceData(List<BacklogItemVM> items) {
         setList(items);
     }
-    private void setList(List<Task> items) {
-        this.tasks = items;
+    private void setList(List<BacklogItemVM> items) {
+        this.items = items;
         notifyDataSetChanged();
     }
 
@@ -66,7 +67,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
             itemView.findViewById(R.id.taskName).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.moveEditActivity(binding.getTask().id);
+                    activity.moveEditActivity(binding.getItem().task.get().id);
                 }
             });
             itemView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -80,7 +81,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
                             })
                             .setPositiveButton("削除", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    vm.removeTask(binding.getTask().id);
+                                    vm.removeTask(binding.getItem().task.get().id);
                                     activity.showNotification("削除しました");
                                     vm.setUpTaskList();
                                 }

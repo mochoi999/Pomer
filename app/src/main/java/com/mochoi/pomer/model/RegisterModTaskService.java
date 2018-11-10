@@ -3,14 +3,15 @@ package com.mochoi.pomer.model;
 import android.util.Log;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * タスク登録サービス
  */
-public class RegisterEditTaskService {
+public class RegisterModTaskService {
     Realm realm;
 
-    public RegisterEditTaskService(){
+    public RegisterModTaskService(){
         realm = Realm.getDefaultInstance();
     }
 
@@ -31,6 +32,20 @@ public class RegisterEditTaskService {
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
         result.taskName = task.taskName;
+        realm.commitTransaction();
+    }
+
+    public void modifyBacklog2Todo(Long[] ids){
+        realm.beginTransaction();
+        Log.d("TEST", ""+ids.toString());
+        for(Long id : ids){
+            Log.d("TEST", ""+id);
+        }
+        RealmResults<Task> results = realm.where(Task.class).in("id", ids).findAll();
+        for(Task task : results){
+            task.taskKind = TaskKind.ToDoToday.getValue();
+            Log.d("TEST", ""+task.taskKind);
+        }
         realm.commitTransaction();
     }
 }

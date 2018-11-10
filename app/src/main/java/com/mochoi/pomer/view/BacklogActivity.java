@@ -8,13 +8,17 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogMainBinding;
+import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * バックログ画面用アクティビティ
@@ -57,7 +61,16 @@ public class BacklogActivity extends BaseActivity {
     }
 
     public void moveTaskToTodo(View view){
-        CheckBox checkBox = findViewById(R.id.checkBox);
-        Log.d("TEST", ""+checkBox.isChecked());
+         List<BacklogItemVM> items = vm.items.get();
+         List<Long> ids = new ArrayList<>();
+         int i = 0;
+         for(BacklogItemVM item : items){
+             if(item.check.get()){
+                 ids.add(item.task.get().id);
+             }
+         }
+         vm.modifyBacklog2Todo(ids.toArray(new Long[ids.size()]));
+         showNotification("移動しました");
+         vm.setUpTaskList();
     }
 }

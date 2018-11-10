@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="task"
-            type="com.mochoi.pomer.model.Task"/>
+            name="item"
+            type="com.mochoi.pomer.viewmodel.BacklogItemVM"/>
     </data>
 
     <LinearLayout
@@ -20,7 +20,8 @@
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:checked="@={item.check}"/>
 
         <TextView
             android:id="@+id/taskName"
@@ -31,7 +32,7 @@
             android:elevation="15dp"
             android:gravity="start"
             android:maxWidth="100dp"
-            android:text="@{task.taskName}"
+            android:text="@{item.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <ImageView

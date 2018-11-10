@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class RegisterEditTaskServiceTest {
+public class RegisterModTaskServiceTest {
 
     @Before
     public void setUp() throws Exception {

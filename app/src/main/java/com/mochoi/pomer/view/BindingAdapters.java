@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 
 import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.viewmodel.BacklogItemVM;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ import java.util.List;
  */
 public class BindingAdapters {
     @BindingAdapter("items")
-    public static void setItems(RecyclerView recyclerView, List<Task> tasks) {
+    public static void setItems(RecyclerView recyclerView, List<BacklogItemVM> items) {
         BacklogTaskRecyclerViewAdapter adapter = (BacklogTaskRecyclerViewAdapter) recyclerView.getAdapter();
-        adapter.replaceData(tasks);
+        adapter.replaceData(items);
     }
 }
