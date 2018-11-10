@@ -30,4 +30,14 @@ public class FindTaskService {
         }
         return tasks;
     }
+
+    public Task findById(long id){
+        Task results = realm.where(Task.class)
+                .equalTo("id", id)
+                .findFirst();
+        Task task = new Task();
+        task.id = id;
+        task.taskName = results.taskName;
+        return task;
+    }
 }

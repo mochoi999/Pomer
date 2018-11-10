@@ -7,7 +7,8 @@
     <data>
         <variable
             name="taskVM"
-            type="com.mochoi.pomer.viewmodel.RegisterTaskVM"/>
+            type="com.mochoi.pomer.viewmodel.RegisterEditTaskVM"/>
+        <import type="android.view.View"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -15,13 +16,12 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="新規タスクの追加"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:text='@{(taskVM.isRegisterMode)?"バックログへタスクを登録":"タスクを更新"}'
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +29,6 @@
             android:id="@+id/task_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="タスク名"
@@ -37,21 +36,37 @@
             android:text="@={taskVM.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <TextView
-            android:id="@+id/register_task"
+        <RelativeLayout
+            android:id="@+id/frame_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="register"
-            android:text="登録"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorAccent"
+            android:layout_height="457dp"
             app:layout_constraintStart_toStartOf="@+id/task_name"
-            app:layout_constraintTop_toBottomOf="@+id/task_name" />
+            app:layout_constraintTop_toBottomOf="@+id/task_name">>
+
+            <TextView
+                android:id="@+id/register_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:onClick="register"
+                android:text="登録"
+                android:visibility="@{(taskVM.isRegisterMode)? View.VISIBLE : View.GONE}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorAccent" />
+            <TextView
+                android:id="@+id/modify_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:onClick="modify"
+                android:text="更新"
+                android:visibility="@{(taskVM.isRegisterMode)? View.GONE : View.VISIBLE}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorAccent" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/cancel"
@@ -62,8 +77,8 @@
             android:text="戻る"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorAccent"
-            app:layout_constraintStart_toEndOf="@+id/register_task"
-            app:layout_constraintTop_toTopOf="@+id/register_task" />
+            app:layout_constraintStart_toEndOf="@+id/frame_layout"
+            app:layout_constraintTop_toTopOf="@+id/frame_layout" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

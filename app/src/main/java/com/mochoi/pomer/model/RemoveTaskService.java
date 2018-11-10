@@ -3,6 +3,9 @@ package com.mochoi.pomer.model;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+/**
+ * タスク削除用サービス
+ */
 public class RemoveTaskService {
     Realm realm;
 

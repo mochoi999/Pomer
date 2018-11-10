@@ -67,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="16dp"
-            android:text="今日のTODOへ移動"
+            android:text="今日のTODOへ移す"
+            android:onClick="moveTaskToTodo"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
             app:layout_constraintStart_toStartOf="parent" />

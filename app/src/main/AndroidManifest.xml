@@ -23,7 +23,7 @@
         </activity>
         <activity android:name="com.mochoi.pomer.view.TodoListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.mochoi.pomer.view.RegisterTaskActivity"
+        <activity android:name="com.mochoi.pomer.view.RegisterEditTaskActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="com.mochoi.pomer.view.BacklogActivity"
             android:screenOrientation="portrait"/>

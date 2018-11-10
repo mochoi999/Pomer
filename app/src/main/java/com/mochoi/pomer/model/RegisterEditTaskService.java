@@ -7,10 +7,10 @@ import io.realm.Realm;
 /**
  * タスク登録サービス
  */
-public class RegisterTaskService {
+public class RegisterEditTaskService {
     Realm realm;
 
-    public RegisterTaskService(){
+    public RegisterEditTaskService(){
         realm = Realm.getDefaultInstance();
     }
 
@@ -24,6 +24,13 @@ public class RegisterTaskService {
 
         task.id = maxid.longValue() + 1;
         realm.copyToRealm(task);
+        realm.commitTransaction();
+    }
+
+    public void modifyById(Task task){
+        realm.beginTransaction();
+        Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
+        result.taskName = task.taskName;
         realm.commitTransaction();
     }
 }
