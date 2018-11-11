@@ -6,6 +6,7 @@ import com.mochoi.pomer.model.FindTaskService;
 import com.mochoi.pomer.model.RegisterModTaskService;
 import com.mochoi.pomer.model.RemoveTaskService;
 import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.model.TaskKind;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,10 @@ public class BacklogVM {
     }
 
     public void removeTask(long id){
-        new RemoveTaskService().removeTask(id);
+        new RemoveTaskService().removeTaskById(id);
     }
 
     public void modifyBacklog2Todo(Long[] ids){
-        new RegisterModTaskService().modifyBacklog2Todo(ids);
+        new RegisterModTaskService().modifyTaskKind(ids, TaskKind.ToDoToday.getValue());
     }
 }

@@ -1,9 +1,10 @@
 package com.mochoi.pomer.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +15,12 @@ import android.view.ViewGroup;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TodolistItemBinding;
 import com.mochoi.pomer.databinding.TodolistMainBinding;
+import com.mochoi.pomer.model.RegisterModTaskService;
+import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.TodolistItemVM;
 import com.mochoi.pomer.viewmodel.TodolistVM;
 
+import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
 
@@ -57,8 +61,38 @@ public class TodoListActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    void removeFromTodoList(long id){
-        vm.removeFromTodoList(id);
+    void removeTask(final long id){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("タスクを削除します。よろしいですか？")
+                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .setPositiveButton("削除", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int i) {
+                        vm.removeTask(id);
+                        showNotification("削除しました");
+                        vm.setUpTaskList();
+                    }
+                });
+        builder.show();
+    }
+
+    public void moveTaskToBacklog(View view){
+        List<TodolistItemVM> items = vm.items.get();
+        List<Long> ids = new ArrayList<>();
+        for(TodolistItemVM item : items){
+            if(item.check.get()){
+                ids.add(item.task.get().id);
+            }
+        }
+
+        if(ids.size() == 0){
+            showNotification("移動するタスクをチェックしてください");
+            return;
+        }
+
+        vm.modifyTodo2Backlog(ids.toArray(new Long[ids.size()]));
         showNotification("バックログに戻しました");
         vm.setUpTaskList();
     }
@@ -112,7 +146,7 @@ public class TodoListActivity extends BaseActivity {
                 itemView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        activity.removeFromTodoList(binding.getItem().task.get().id);
+                       activity.removeTask(binding.getItem().task.get().id);
                     }
                 });
 

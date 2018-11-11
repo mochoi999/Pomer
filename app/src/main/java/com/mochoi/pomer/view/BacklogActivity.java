@@ -62,7 +62,6 @@ public class BacklogActivity extends BaseActivity {
     public void moveTaskToTodo(View view){
          List<BacklogItemVM> items = vm.items.get();
          List<Long> ids = new ArrayList<>();
-         int i = 0;
          for(BacklogItemVM item : items){
              if(item.check.get()){
                  ids.add(item.task.get().id);

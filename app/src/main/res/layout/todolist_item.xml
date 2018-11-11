@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="item"
             type="com.mochoi.pomer.viewmodel.TodolistItemVM"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/background_light">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center"
+            android:checked="@={item.check}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/task_name"
@@ -18,17 +29,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:maxWidth="230dp"
+            android:minWidth="230dp"
+            android:paddingBottom="8dp"
             android:text="@{item.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkBox"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:backgroundTint="@android:color/background_light"
+            android:contentDescription="削除"
+            android:layout_gravity="center"
             app:layout_constraintEnd_toStartOf="@+id/start"
             app:layout_constraintTop_toTopOf="@+id/task_name"
             app:srcCompat="@android:drawable/ic_delete" />
@@ -39,9 +54,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@android:color/background_light"
+            android:contentDescription="開始"
+            android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/remove"
             app:srcCompat="@android:drawable/ic_media_play" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </layout>

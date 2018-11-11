@@ -1,5 +1,7 @@
 package com.mochoi.pomer.model;
 
+import android.util.Log;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -13,7 +15,10 @@ public class RemoveTaskService {
         realm = Realm.getDefaultInstance();
     }
 
-    public void removeTask(long id){
+    public void removeTaskById(long id){
+
+        Log.d("TEST",""+id);
+
         realm.beginTransaction();
         RealmResults<Task> results = realm.where(Task.class).equalTo("id", id).findAll();
         results.deleteFirstFromRealm();

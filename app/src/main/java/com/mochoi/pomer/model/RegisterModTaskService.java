@@ -42,27 +42,18 @@ public class RegisterModTaskService {
     }
 
     /**
-     * バックログタスクをTodoタスクに更新
+     * タスク種別を更新
      * @param ids 更新対象のid配列
+     * @param taskKind タスク種別
      */
-    public void modifyBacklog2Todo(Long[] ids){
+    public void modifyTaskKind(Long[] ids, int taskKind){
         realm.beginTransaction();
         RealmResults<Task> results = realm.where(Task.class).in("id", ids).findAll();
         for(Task task : results){
-            task.taskKind = TaskKind.ToDoToday.getValue();
+            task.taskKind = taskKind;
         }
         realm.commitTransaction();
     }
 
-    /**
-     * Todoタスクをバックログタスクに更新
-     * @param id 更新対象のタスクのid
-     */
-    public void modifyTodo2Backlog(long id){
-        realm.beginTransaction();
-        Task result = realm.where(Task.class).equalTo("id", id).findFirst();
-        result.taskKind = TaskKind.BackLog.getValue();
-        realm.commitTransaction();
-    }
 
 }
