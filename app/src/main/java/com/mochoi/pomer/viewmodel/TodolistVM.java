@@ -9,6 +9,9 @@ import com.mochoi.pomer.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Todoリスト画面用ビューモデル
+ */
 public class TodolistVM {
     public final ObservableField<List<TodolistItemVM>> items = new ObservableField<>();
 

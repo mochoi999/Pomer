@@ -11,6 +11,9 @@ import com.mochoi.pomer.model.Task;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * タスク登録・更新画面用アクティビティ
+ */
 public class RegisterEditTaskActivity extends BaseActivity {
     private RegisterEditTaskVM registerEditTaskVM = new RegisterEditTaskVM();
 

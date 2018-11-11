@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * バックログ画面用ビューモデル
  */
 public class BacklogVM {
     public final ObservableField<List<BacklogItemVM>> items = new ObservableField<>();

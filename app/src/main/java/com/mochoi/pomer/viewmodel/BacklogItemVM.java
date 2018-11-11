@@ -4,8 +4,9 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import com.mochoi.pomer.model.Task;
 
-import java.util.List;
-
+/**
+ * バックログ画面のリストアイテム用ビューモデル
+ */
 public class BacklogItemVM {
     public final ObservableBoolean check = new ObservableBoolean(false);
     public final ObservableField<Task> task = new ObservableField<>();

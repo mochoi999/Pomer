@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogMainBinding;
-import com.mochoi.pomer.model.Task;
 import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 

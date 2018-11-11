@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogItemBinding;
-import com.mochoi.pomer.model.Task;
 import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 
 
 import java.util.List;
 
+/**
+ * バックログ画面のRecyclerView用アダプター
+ */
 public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<BacklogTaskRecyclerViewAdapter.ViewHolder> {
     private BacklogActivity activity;
     private BacklogVM vm;

@@ -20,6 +20,9 @@ import com.mochoi.pomer.viewmodel.TodolistVM;
 import java.util.List;
 import android.util.Log;
 
+/**
+ * Todoリスト画面用アクティビティ
+ */
 public class TodoListActivity extends BaseActivity {
     private TodolistVM vm;
 
