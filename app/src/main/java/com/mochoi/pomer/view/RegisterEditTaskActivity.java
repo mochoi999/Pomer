@@ -9,6 +9,8 @@ import com.mochoi.pomer.databinding.RegistereditTaskBinding;
 import com.mochoi.pomer.viewmodel.RegisterEditTaskVM;
 import com.mochoi.pomer.model.Task;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class RegisterEditTaskActivity extends BaseActivity {
     private RegisterEditTaskVM registerEditTaskVM = new RegisterEditTaskVM();
 
@@ -47,7 +49,18 @@ public class RegisterEditTaskActivity extends BaseActivity {
         this.finish();
     }
 
+    private boolean validateInputData(){
+        if(StringUtils.isEmpty(registerEditTaskVM.task.get().taskName)){
+            showNotification("タスク名を入力してください");
+            return false;
+        }
+        return true;
+    }
+
     public void register(View view){
+        if(!validateInputData()){
+            return;
+        }
         registerEditTaskVM.register();
         showNotification("登録しました");
         registerEditTaskVM.task.set(new Task());
@@ -59,6 +72,9 @@ public class RegisterEditTaskActivity extends BaseActivity {
     }
 
     public void modify(View view){
+        if(!validateInputData()){
+            return;
+        }
         registerEditTaskVM.modifyById();
         showNotification("更新しました");
     }

@@ -1,12 +1,10 @@
 package com.mochoi.pomer.model;
 
-import android.util.Log;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
- * タスク登録サービス
+ * タスク登録・更新サービス
  */
 public class RegisterModTaskService {
     Realm realm;
@@ -15,6 +13,10 @@ public class RegisterModTaskService {
         realm = Realm.getDefaultInstance();
     }
 
+    /**
+     * タスクを新規登録
+     * @param task タスク
+     */
     public void register(Task task){
         realm.beginTransaction();
 
@@ -28,6 +30,10 @@ public class RegisterModTaskService {
         realm.commitTransaction();
     }
 
+    /**
+     * idを条件にタスク情報を更新
+     * @param task タスク情報
+     */
     public void modifyById(Task task){
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
@@ -35,17 +41,28 @@ public class RegisterModTaskService {
         realm.commitTransaction();
     }
 
+    /**
+     * バックログタスクをTodoタスクに更新
+     * @param ids 更新対象のid配列
+     */
     public void modifyBacklog2Todo(Long[] ids){
         realm.beginTransaction();
-        Log.d("TEST", ""+ids.toString());
-        for(Long id : ids){
-            Log.d("TEST", ""+id);
-        }
         RealmResults<Task> results = realm.where(Task.class).in("id", ids).findAll();
         for(Task task : results){
             task.taskKind = TaskKind.ToDoToday.getValue();
-            Log.d("TEST", ""+task.taskKind);
         }
         realm.commitTransaction();
     }
+
+    /**
+     * Todoタスクをバックログタスクに更新
+     * @param id 更新対象のタスクのid
+     */
+    public void modifyTodo2Backlog(long id){
+        realm.beginTransaction();
+        Task result = realm.where(Task.class).equalTo("id", id).findFirst();
+        result.taskKind = TaskKind.BackLog.getValue();
+        realm.commitTransaction();
+    }
+
 }

@@ -17,7 +17,7 @@ public class BacklogVM {
     public final ObservableField<List<BacklogItemVM>> items = new ObservableField<>();
 
     public void setUpTaskList(){
-        List<Task> tasks = new FindTaskService().findNotFinished();
+        List<Task> tasks = new FindTaskService().findBacklogList();
         List<BacklogItemVM> items = new ArrayList<>();
         for (Task t : tasks){
             BacklogItemVM vm = new BacklogItemVM();

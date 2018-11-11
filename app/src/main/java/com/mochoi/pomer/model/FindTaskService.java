@@ -19,7 +19,7 @@ public class FindTaskService {
         realm = Realm.getDefaultInstance();
     }
 
-    public List<Task> findNotFinished(){
+    public List<Task> findBacklogList(){
         RealmResults<Task> results = realm.where(Task.class)
                 .equalTo("taskKind", TaskKind.BackLog.getValue())
                 .equalTo("isFinished", false)
@@ -40,4 +40,17 @@ public class FindTaskService {
         task.taskName = results.taskName;
         return task;
     }
+
+    public List<Task> findTodoList(){
+        RealmResults<Task> results = realm.where(Task.class)
+                .equalTo("taskKind", TaskKind.ToDoToday.getValue())
+                .equalTo("isFinished", false)
+                .findAll().sort("id", Sort.DESCENDING);
+        List<Task> tasks = null;
+        if(results != null){
+            tasks = Arrays.asList(results.toArray(new Task[0]));
+        }
+        return tasks;
+    }
+
 }

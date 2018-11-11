@@ -69,6 +69,12 @@ public class BacklogActivity extends BaseActivity {
                  ids.add(item.task.get().id);
              }
          }
+
+         if(ids.size() == 0){
+             showNotification("移動するタスクをチェックしてください");
+             return;
+         }
+
          vm.modifyBacklog2Todo(ids.toArray(new Long[ids.size()]));
          showNotification("移動しました");
          vm.setUpTaskList();
