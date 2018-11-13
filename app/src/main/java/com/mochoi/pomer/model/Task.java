@@ -14,4 +14,5 @@ public class Task extends RealmObject {
     public int taskKind = TaskKind.BackLog.getValue();
     public boolean isWorking = false;
     public boolean isFinished = false;
+    public String forecastPomo = "";
 }

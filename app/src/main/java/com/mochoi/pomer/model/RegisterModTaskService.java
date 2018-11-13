@@ -1,5 +1,7 @@
 package com.mochoi.pomer.model;
 
+import android.util.Log;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -38,6 +40,7 @@ public class RegisterModTaskService {
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
         result.taskName = task.taskName;
+        result.forecastPomo = task.forecastPomo;
         realm.commitTransaction();
     }
 

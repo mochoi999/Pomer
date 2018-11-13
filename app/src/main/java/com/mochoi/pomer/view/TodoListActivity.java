@@ -15,14 +15,11 @@ import android.view.ViewGroup;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TodolistItemBinding;
 import com.mochoi.pomer.databinding.TodolistMainBinding;
-import com.mochoi.pomer.model.RegisterModTaskService;
-import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.TodolistItemVM;
 import com.mochoi.pomer.viewmodel.TodolistVM;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.util.Log;
 
 /**
  * Todoリスト画面用アクティビティ
@@ -36,7 +33,7 @@ public class TodoListActivity extends BaseActivity {
         TodolistMainBinding binding = DataBindingUtil.setContentView(this, R.layout.todolist_main);
 
         vm = new TodolistVM();
-        vm.setUpTaskList();
+        vm.refreshTaskList();
         binding.setTodolistVM(vm);
 
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this);
@@ -53,11 +50,18 @@ public class TodoListActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        vm.setUpTaskList();
+        vm.refreshTaskList();
     }
 
     public void moveBacklog(View view){
         Intent intent = new Intent(this, BacklogActivity.class);
+        startActivity(intent);
+    }
+
+    public void moveEditActivity(long id) {
+        Intent intent = new Intent(this, RegisterEditTaskActivity.class);
+        intent.putExtra("mode", RegisterEditTaskActivity.MODE.EDIT.getId());
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -72,10 +76,16 @@ public class TodoListActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int i) {
                         vm.removeTask(id);
                         showNotification("削除しました");
-                        vm.setUpTaskList();
+                        vm.refreshTaskList();
                     }
                 });
         builder.show();
+    }
+
+    public void moveTimerActivity(long id){
+        Intent intent = new Intent(this, TimerActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     public void moveTaskToBacklog(View view){
@@ -94,7 +104,7 @@ public class TodoListActivity extends BaseActivity {
 
         vm.modifyTodo2Backlog(ids.toArray(new Long[ids.size()]));
         showNotification("バックログに戻しました");
-        vm.setUpTaskList();
+        vm.refreshTaskList();
     }
 
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -143,6 +153,13 @@ public class TodoListActivity extends BaseActivity {
                 super(binding.getRoot());
                 this.binding = binding;
 
+                itemView.findViewById(R.id.task_name).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        activity.moveEditActivity(binding.getItem().task.get().id);
+                    }
+                });
+
                 itemView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,7 +170,7 @@ public class TodoListActivity extends BaseActivity {
                 itemView.findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("TEST","--------------");
+                        activity.moveTimerActivity(binding.getItem().task.get().id);
                     }
                 });
             }

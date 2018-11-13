@@ -2,7 +2,9 @@ package com.mochoi.pomer.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.RegistereditTaskBinding;
@@ -40,12 +42,12 @@ public class RegisterEditTaskActivity extends BaseActivity {
         registerEditTaskVM.task.set(new Task());
         registerTaskBinding.setTaskVM(registerEditTaskVM);//layoutのnameにセット
 
+        //modeの設定
         mode = getIntent().getIntExtra("mode", MODE.REGIST.getId());
         registerEditTaskVM.isRegisterMode.set(MODE.REGIST.getId() == mode);
         if(!registerEditTaskVM.isRegisterMode.get()){
             setTaskData(getIntent().getLongExtra("id", 0));
         }
-
     }
 
     public void backActivity(View view) {
@@ -64,9 +66,19 @@ public class RegisterEditTaskActivity extends BaseActivity {
         if(!validateInputData()){
             return;
         }
+        registerEditTaskVM.task.get().forecastPomo = convertForecastPomoCnt(registerEditTaskVM.task.get().forecastPomo);
         registerEditTaskVM.register();
         showNotification("登録しました");
         registerEditTaskVM.task.set(new Task());
+        findViewById(R.id.task_name).requestFocus();
+    }
+
+    private String convertForecastPomoCnt(String cnt){
+        if(StringUtils.isBlank(cnt) || "0".equals(cnt)){
+            return "1";
+        } else {
+            return cnt;
+        }
     }
 
     private void setTaskData(long id){
@@ -78,6 +90,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
         if(!validateInputData()){
             return;
         }
+        registerEditTaskVM.task.get().forecastPomo = convertForecastPomoCnt(registerEditTaskVM.task.get().forecastPomo);
         registerEditTaskVM.modifyById();
         showNotification("更新しました");
     }

@@ -85,7 +85,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
                                 public void onClick(DialogInterface dialog, int id) {
                                     vm.removeTask(binding.getItem().task.get().id);
                                     activity.showNotification("削除しました");
-                                    vm.setUpTaskList();
+                                    vm.refreshTaskList();
                                 }
                             });
                     builder.show();

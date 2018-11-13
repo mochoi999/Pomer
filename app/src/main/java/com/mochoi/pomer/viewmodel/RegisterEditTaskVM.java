@@ -2,6 +2,7 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import com.mochoi.pomer.model.FindTaskService;
 import com.mochoi.pomer.model.Task;

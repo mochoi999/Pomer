@@ -17,7 +17,7 @@ import java.util.List;
 public class BacklogVM {
     public final ObservableField<List<BacklogItemVM>> items = new ObservableField<>();
 
-    public void setUpTaskList(){
+    public void refreshTaskList(){
         List<Task> tasks = new FindTaskService().findBacklogList();
         List<BacklogItemVM> items = new ArrayList<>();
         for (Task t : tasks){

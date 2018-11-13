@@ -14,8 +14,6 @@ import com.mochoi.pomer.databinding.BacklogMainBinding;
 import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class BacklogActivity extends BaseActivity {
         BacklogMainBinding binding = DataBindingUtil.setContentView(this, R.layout.backlog_main);
 
         vm = new BacklogVM();
-        vm.setUpTaskList();
+        vm.refreshTaskList();
         binding.setBacklogVM(vm);
 
         BacklogTaskRecyclerViewAdapter adapter = new BacklogTaskRecyclerViewAdapter(this, vm);
@@ -49,7 +47,7 @@ public class BacklogActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        vm.setUpTaskList();
+        vm.refreshTaskList();
     }
 
     public void moveEditActivity(long id) {
@@ -75,6 +73,6 @@ public class BacklogActivity extends BaseActivity {
 
          vm.modifyBacklog2Todo(ids.toArray(new Long[ids.size()]));
          showNotification("移動しました");
-         vm.setUpTaskList();
+         vm.refreshTaskList();
     }
 }

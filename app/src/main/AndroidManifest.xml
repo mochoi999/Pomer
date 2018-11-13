@@ -27,6 +27,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.mochoi.pomer.view.BacklogActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".view.TimerActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

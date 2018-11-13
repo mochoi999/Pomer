@@ -17,7 +17,7 @@ import java.util.List;
 public class TodolistVM {
     public final ObservableField<List<TodolistItemVM>> items = new ObservableField<>();
 
-    public void setUpTaskList(){
+    public void refreshTaskList(){
         List<Task> tasks = new FindTaskService().findTodoList();
         List<TodolistItemVM> items = new ArrayList<>();
         for (Task t : tasks){

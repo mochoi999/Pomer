@@ -32,12 +32,14 @@ public class FindTaskService {
     }
 
     public Task findById(long id){
+        //FIXME 詰め直ししたくない
         Task results = realm.where(Task.class)
                 .equalTo("id", id)
                 .findFirst();
         Task task = new Task();
         task.id = id;
         task.taskName = results.taskName;
+        task.forecastPomo = results.forecastPomo;
         return task;
     }
 
