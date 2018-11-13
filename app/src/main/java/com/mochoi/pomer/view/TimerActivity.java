@@ -1,5 +1,7 @@
 package com.mochoi.pomer.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
@@ -72,6 +74,25 @@ public class TimerActivity extends BaseActivity {
 
             vm.isStarted.set(false);
 
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (!vm.isStarted.get()
+                || keyCode != KeyEvent.KEYCODE_BACK) {
+            return super.onKeyDown(keyCode, event);
+        } else {
+            //戻るボタンは使えない
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("ポモドーロ中です")
+                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            builder.show();
+            return false;
         }
     }
 
