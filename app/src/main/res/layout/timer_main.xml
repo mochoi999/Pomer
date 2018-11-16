@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="right"
-                android:text="@{timerVM.task.workedPomo + `／` +timerVM.task.forecastPomo}"
+                android:text="／"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/task_name" />

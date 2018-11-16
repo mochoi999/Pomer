@@ -2,6 +2,8 @@ package com.mochoi.pomer.model;
 
 import android.util.Log;
 
+import java.util.Calendar;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -18,16 +20,28 @@ public class RegisterModTaskService {
     /**
      * タスクを新規登録
      * @param task タスク
+     *             TODO
      */
-    public void register(Task task){
+    public void register(Task task, String forecastPomo){
         realm.beginTransaction();
 
         Number maxid = realm.where(Task.class).max("id");
         if (maxid == null){
             maxid = 0;
         }
-
         task.id = maxid.longValue() + 1;
+
+        //予想ポモドーロ数
+        Number maxidFp = realm.where(ForecastPomo.class).max("id");
+        if(maxidFp == null){
+            maxidFp = 1;
+        }
+        ForecastPomo fp = new ForecastPomo();
+        fp.id = maxidFp.longValue() + 1;
+        fp.pomodoroCount = forecastPomo;
+        fp.registerDate = Calendar.getInstance().getTime();
+        task.forecastPomos.add(fp);
+
         realm.copyToRealm(task);
         realm.commitTransaction();
     }
@@ -36,15 +50,23 @@ public class RegisterModTaskService {
      * idを条件にタスク情報を更新
      * @param task タスク情報
      */
-    public void modifyById(Task task){
+    public void modifyById(Task task, String forecastPomo){
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
         result.taskName = task.taskName;
         result.taskKind = task.taskKind;
         result.isWorking = task.isWorking;
         result.isFinished = task.isFinished;
-        result.forecastPomo = task.forecastPomo;
-        result.workedPomo = task.workedPomo;
+
+        if(forecastPomo != null) {
+            ForecastPomo fp = new ForecastPomo();
+            Number maxidFp = realm.where(ForecastPomo.class).max("id");
+            fp.id = maxidFp.longValue() + 1;
+            fp.pomodoroCount = forecastPomo;
+            fp.registerDate = Calendar.getInstance().getTime();
+            result.forecastPomos.add(fp);
+        }
+
         realm.commitTransaction();
     }
 

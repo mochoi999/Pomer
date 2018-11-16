@@ -39,7 +39,9 @@ public class FindTaskService {
         Task task = new Task();
         task.id = id;
         task.taskName = results.taskName;
-        task.forecastPomo = results.forecastPomo;
+        task.taskKind = results.taskKind;
+        task.isWorking = results.isWorking;
+        task.forecastPomos = results.forecastPomos;
         return task;
     }
 

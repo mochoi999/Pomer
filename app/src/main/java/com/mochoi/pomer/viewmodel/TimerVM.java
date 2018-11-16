@@ -30,7 +30,7 @@ public class TimerVM {
     public void modifyStartPomodoro(){
         Task data = task.get();
         data.isWorking = true;
-        new RegisterModTaskService().modifyById(data);
+        new RegisterModTaskService().modifyById(data, null);
     }
 
     public void registerReason(String reasonStr){
