@@ -16,9 +16,6 @@ public class RemoveTaskService {
     }
 
     public void removeTaskById(long id){
-
-        Log.d("TEST",""+id);
-
         realm.beginTransaction();
         RealmResults<Task> results = realm.where(Task.class).equalTo("id", id).findAll();
         results.deleteFirstFromRealm();

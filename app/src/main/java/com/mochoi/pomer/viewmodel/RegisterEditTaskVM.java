@@ -7,6 +7,7 @@ import android.util.Log;
 import com.mochoi.pomer.model.FindTaskService;
 import com.mochoi.pomer.model.Task;
 import com.mochoi.pomer.model.RegisterModTaskService;
+import com.mochoi.pomer.model.TaskKind;
 
 /**
  * タスク登録・更新画面用ビューモデル
@@ -16,7 +17,8 @@ public class RegisterEditTaskVM {
     public final ObservableField<Task> task = new ObservableField<>();
     public final ObservableBoolean isRegisterMode = new ObservableBoolean(true);
 
-    public void register(){
+    public void register(TaskKind kind){
+        task.get().taskKind = kind.getValue();
         new RegisterModTaskService().register(task.get());
     }
 

@@ -40,7 +40,11 @@ public class RegisterModTaskService {
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
         result.taskName = task.taskName;
+        result.taskKind = task.taskKind;
+        result.isWorking = task.isWorking;
+        result.isFinished = task.isFinished;
         result.forecastPomo = task.forecastPomo;
+        result.workedPomo = task.workedPomo;
         realm.commitTransaction();
     }
 
@@ -58,5 +62,16 @@ public class RegisterModTaskService {
         realm.commitTransaction();
     }
 
+    /**
+     * タスクの完了状態を更新
+     * @param id 更新対象のid
+     * @param status true:完了 false:未完了
+     */
+    public void modifyFinishStatusById(long id, boolean status){
+        realm.beginTransaction();
+        Task results = realm.where(Task.class).equalTo("id", id).findFirst();
+        results.isFinished = status;
+        realm.commitTransaction();
+    }
 
 }

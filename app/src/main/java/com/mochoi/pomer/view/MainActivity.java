@@ -22,16 +22,23 @@ public class MainActivity extends BaseActivity {
         final Context MainActivity = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Button goTodoListBtn = findViewById(R.id.include_main).findViewById(R.id.go_todolist);
-        goTodoListBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity, TodoListActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
+
+    public void moveBacklog(View view){
+        Intent intent = new Intent(this, BacklogActivity.class);
+        startActivity(intent);
+    }
+    public void moveTodoList(View view){
+        Intent intent = new Intent(this, TodoListActivity.class);
+        startActivity(intent);
+    }
+//    public void moveReport(View view){
+//        Intent intent = new Intent(this, TodoListActivity.class);
+//        startActivity(intent);
+//    }
+//    public void moveAction(View view){
+//        Intent intent = new Intent(this, TodoListActivity.class);
+//        startActivity(intent);
+//    }
 
 }

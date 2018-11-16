@@ -15,4 +15,5 @@ public class Task extends RealmObject {
     public boolean isWorking = false;
     public boolean isFinished = false;
     public String forecastPomo = "";
+    public String workedPomo = "0";
 }

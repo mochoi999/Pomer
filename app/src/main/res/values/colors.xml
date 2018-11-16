@@ -4,5 +4,9 @@
     <color name="colorPrimaryDark">#008528</color>
     <color name="colorAccent">#e92720</color>
 
+    <color name="colorPlan">#ffffff</color>
+    <color name="colorDo">#f2bdbb</color>
+    <color name="colorCheck">#ea7b77</color>
+    <color name="colorAction">#e92720</color>
 
 </resources>

@@ -4,10 +4,10 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.RegistereditTaskBinding;
+import com.mochoi.pomer.model.TaskKind;
 import com.mochoi.pomer.viewmodel.RegisterEditTaskVM;
 import com.mochoi.pomer.model.Task;
 
@@ -62,12 +62,20 @@ public class RegisterEditTaskActivity extends BaseActivity {
         return true;
     }
 
-    public void register(View view){
+    public void registerBacklog(View view){
+        register(TaskKind.BackLog);
+    }
+
+    public void registerTodolist(View view){
+        register(TaskKind.ToDoToday);
+    }
+
+    private void register(TaskKind taskKind){
         if(!validateInputData()){
             return;
         }
         registerEditTaskVM.task.get().forecastPomo = convertForecastPomoCnt(registerEditTaskVM.task.get().forecastPomo);
-        registerEditTaskVM.register();
+        registerEditTaskVM.register(taskKind);
         showNotification("登録しました");
         registerEditTaskVM.task.set(new Task());
         findViewById(R.id.task_name).requestFocus();

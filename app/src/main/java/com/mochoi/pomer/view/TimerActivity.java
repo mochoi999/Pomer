@@ -1,24 +1,30 @@
 package com.mochoi.pomer.view;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TimerMainBinding;
 import com.mochoi.pomer.viewmodel.TimerVM;
+
 
 /**
  * タイマー画面用アクティビティ
  */
 public class TimerActivity extends BaseActivity {
     private TimerVM vm;
+    private TimerThread timerThread;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,16 +35,30 @@ public class TimerActivity extends BaseActivity {
         vm = new TimerVM();
         vm.setUpTaskData(id);
         binding.setTimerVM(vm);
+
+        findViewById(R.id.reason).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == false) {
+                    // ソフトキーボードを非表示にする
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
     }
 
     public void startTimer(View view){
+        vm.initializeTimeValue();
         vm.isStarted.set(true);
-        new TimerThread().start();
+        vm.modifyStartPomodoro();
+        timerThread = new TimerThread();
+        timerThread.start();
         //play sound
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
         SoundPool soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();//stream 同時に扱う効果音の数
-        int mp3 = getResources().getIdentifier("stopwatch_start", "raw", getPackageName());
+        int mp3 = getResources().getIdentifier("stopwatch", "raw", getPackageName());
         final int soundID = soundPool.load(getBaseContext(), mp3, 1);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
@@ -49,16 +69,30 @@ public class TimerActivity extends BaseActivity {
 
     }
     private class TimerThread extends Thread {
+        private boolean running = true;
         public void run() {
-            int len = vm.time.get();
-            for (int i = len-1; i >-1; i--) {
-                try {
-                    Thread.sleep(60 * 1000);
-                    vm.time.set(i);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            int lenTime = vm.time.get();
+            for (int i = lenTime-1; i >-1; i--) {
+                if(!running){
+                    return;
                 }
+                //second
+                int lenSec = 59;
+                vm.second.set(lenSec);
+                for (int j = lenSec-1; j >-1; j--) {
+                    if(!running){
+                        return;
+                    }
+                    try {
+                        Thread.sleep(1000);
+                        vm.second.set(j);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                vm.time.set(i);
             }
+
             //play sound
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
@@ -73,7 +107,10 @@ public class TimerActivity extends BaseActivity {
             });
 
             vm.isStarted.set(false);
+        }
 
+        public void stopRunning(){
+            this.running = false;
         }
     }
 
@@ -94,6 +131,23 @@ public class TimerActivity extends BaseActivity {
             builder.show();
             return false;
         }
+    }
+
+    public void stopPomodoro(View view){
+        vm.isShowReason.set(true);
+    }
+
+    public void hideReasonView(View view){
+        vm.isShowReason.set(false);
+    }
+
+    public void registerReason(View view){
+        String reason = ((TextView)findViewById(R.id.reason)).getText().toString();
+        vm.registerReason(reason);
+        ((TextView)findViewById(R.id.reason)).setText("");
+        timerThread.stopRunning();
+        vm.isShowReason.set(false);
+        vm.isStarted.set(false);
     }
 
 }
