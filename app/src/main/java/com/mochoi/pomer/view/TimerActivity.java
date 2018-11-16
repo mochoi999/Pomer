@@ -115,7 +115,7 @@ public class TimerActivity extends BaseActivity {
             }
         });
 
-        vm.registerWorkedPomo();
+        vm.registerWorkedPomo();//TODO 終了POPUP
         vm.isStarted.set(false);
     }
 

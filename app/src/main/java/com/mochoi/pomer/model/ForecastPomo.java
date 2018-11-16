@@ -3,6 +3,8 @@ package com.mochoi.pomer.model;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -13,4 +15,6 @@ public class ForecastPomo extends RealmObject {
     public long id;
     public String pomodoroCount;
     public Date registerDate;
+    @LinkingObjects("forecastPomos")
+    public final RealmResults<Task> tasks = null;
 }

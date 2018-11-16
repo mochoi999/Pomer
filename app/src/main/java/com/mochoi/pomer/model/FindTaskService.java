@@ -57,4 +57,18 @@ public class FindTaskService {
         return tasks;
     }
 
+    public String findForecastPomo(long taskId){
+        RealmResults<ForecastPomo> results = realm.where(ForecastPomo.class)
+                .equalTo("tasks.id", taskId)
+                .findAll();
+        return results.last().pomodoroCount;
+    }
+
+    public String countWorkedPomo(long taskId){
+        RealmResults<WorkedPomo> results = realm.where(WorkedPomo.class)
+                .equalTo("tasks.id", taskId)
+                .findAll();
+        return String.valueOf(results.size());
+    }
+
 }

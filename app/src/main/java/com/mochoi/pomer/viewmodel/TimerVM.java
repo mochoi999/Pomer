@@ -3,7 +3,6 @@ package com.mochoi.pomer.viewmodel;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.util.Log;
 
 import com.mochoi.pomer.model.FindTaskService;
 import com.mochoi.pomer.model.NotFinishedReason;
@@ -17,6 +16,8 @@ import com.mochoi.pomer.model.Task;
  */
 public class TimerVM {
     public final ObservableField<Task> task = new ObservableField<>();
+    public final ObservableField<String> forecastPomo = new ObservableField<>();
+    public final ObservableField<String> workedPomo = new ObservableField<>();
     public final ObservableBoolean isStarted = new ObservableBoolean(false);
     public int timeInitValue = 1;//TODO 設定画面で設定できるように
     public final ObservableInt time = new ObservableInt(timeInitValue);
@@ -24,7 +25,10 @@ public class TimerVM {
     public final ObservableBoolean isShowReason = new ObservableBoolean(false);
 
     public void setUpTaskData(long id){
-        task.set(new FindTaskService().findById(id));
+        FindTaskService findTaskService = new FindTaskService();
+        task.set(findTaskService.findById(id));
+        forecastPomo.set(findTaskService.findForecastPomo(id));
+        workedPomo.set(findTaskService.countWorkedPomo(id));
     }
 
     public void modifyStartPomodoro(){
@@ -45,6 +49,8 @@ public class TimerVM {
     }
 
     public void registerWorkedPomo(){
-        new RegisterModTaskService().registerWorkedPomo(task.get().id);
+        long taskId = task.get().id;
+        new RegisterModTaskService().registerWorkedPomo(taskId);
+        workedPomo.set(new FindTaskService().countWorkedPomo(taskId));
     }
 }
