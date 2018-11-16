@@ -29,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:maxWidth="230dp"
-            android:minWidth="230dp"
+            android:maxWidth="200dp"
+            android:minWidth="200dp"
             android:paddingBottom="8dp"
             android:text="@{item.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -38,11 +38,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/pomodoroCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@{item.forecastPomo}"
+            />
 
         <ImageButton
             android:id="@+id/remove"

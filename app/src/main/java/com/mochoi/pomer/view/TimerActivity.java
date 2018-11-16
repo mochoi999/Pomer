@@ -71,47 +71,52 @@ public class TimerActivity extends BaseActivity {
     private class TimerThread extends Thread {
         private boolean running = true;
         public void run() {
-            int lenTime = vm.time.get();
-            for (int i = lenTime-1; i >-1; i--) {
+            int minutes = vm.time.get() -1;
+            for (int i = minutes; i >-1; i--) {
                 if(!running){
                     return;
                 }
-                //second
-                int lenSec = 59;
-                vm.second.set(lenSec);
-                for (int j = lenSec-1; j >-1; j--) {
+                vm.time.set(i);
+
+                int second = 59;
+                vm.second.set(second);
+                for (int j = second; j >-1; j--) {
                     if(!running){
                         return;
                     }
+                    vm.second.set(j);
                     try {
                         Thread.sleep(1000);
-                        vm.second.set(j);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                vm.time.set(i);
             }
 
-            //play sound
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
-            SoundPool soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();//stream 同時に扱う効果音の数
-            int mp3 = getResources().getIdentifier("alarm", "raw", getPackageName());
-            final int soundID = soundPool.load(getBaseContext(), mp3, 1);
-            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-                @Override
-                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                    soundPool.play(soundID,1f, 1f, 0, 0, 1);
-                }
-            });
-
-            vm.isStarted.set(false);
+            finishedPomodoro();
         }
 
         public void stopRunning(){
             this.running = false;
         }
+    }
+
+    private void finishedPomodoro(){
+        //play sound
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
+        SoundPool soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();//stream 同時に扱う効果音の数
+        int mp3 = getResources().getIdentifier("alarm", "raw", getPackageName());
+        final int soundID = soundPool.load(getBaseContext(), mp3, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                soundPool.play(soundID,1f, 1f, 0, 0, 1);
+            }
+        });
+
+        vm.registerWorkedPomo();
+        vm.isStarted.set(false);
     }
 
     @Override

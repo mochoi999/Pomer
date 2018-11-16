@@ -96,4 +96,24 @@ public class RegisterModTaskService {
         realm.commitTransaction();
     }
 
+    /**
+     * 稼働ポモドーロ（実績）を登録
+     * @param id 更新対象のタスクid
+     */
+    public void registerWorkedPomo(long id){
+        realm.beginTransaction();
+        Task task = realm.where(Task.class).equalTo("id", id).findFirst();
+
+        WorkedPomo wp = new WorkedPomo();
+        Number maxid = realm.where(WorkedPomo.class).max("id");
+        if (maxid == null){
+            maxid = 0;
+        }
+        wp.id = maxid.longValue() + 1;
+        wp.registerDate = Calendar.getInstance().getTime();
+
+        task.workedPomos.add(wp);
+        realm.commitTransaction();
+    }
+
 }

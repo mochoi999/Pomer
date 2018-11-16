@@ -43,4 +43,8 @@ public class TimerVM {
     public void initializeTimeValue(){
         time.set(timeInitValue);
     }
+
+    public void registerWorkedPomo(){
+        new RegisterModTaskService().registerWorkedPomo(task.get().id);
+    }
 }
