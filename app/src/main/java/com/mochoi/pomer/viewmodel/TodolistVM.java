@@ -1,13 +1,12 @@
 package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableField;
-import android.util.Log;
 
-import com.mochoi.pomer.model.FindTaskService;
-import com.mochoi.pomer.model.RegisterModTaskService;
-import com.mochoi.pomer.model.RemoveTaskService;
-import com.mochoi.pomer.model.Task;
-import com.mochoi.pomer.model.TaskKind;
+import com.mochoi.pomer.infra.FindTaskRepository;
+import com.mochoi.pomer.infra.RegisterModTaskRepository;
+import com.mochoi.pomer.infra.RemoveTaskRepository;
+import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class TodolistVM {
     public final ObservableField<List<TodolistItemVM>> items = new ObservableField<>();
 
     public void refreshTaskList(){
-        List<Task> tasks = new FindTaskService().findTodoList();
+        List<Task> tasks = new FindTaskRepository().findTodoList();
         List<TodolistItemVM> items = new ArrayList<>();
         for (Task t : tasks){
             TodolistItemVM vm = new TodolistItemVM();
@@ -30,9 +29,9 @@ public class TodolistVM {
     }
 
     public void removeTask(long id){
-        new RemoveTaskService().removeTaskById(id);
+        new RemoveTaskRepository().removeTaskById(id);
     }
     public void modifyTodo2Backlog(Long[] ids){
-        new RegisterModTaskService().modifyTaskKind(ids, TaskKind.BackLog.getValue());
+        new RegisterModTaskRepository().modifyTaskKind(ids, TaskKind.BackLog.getValue());
     }
 }

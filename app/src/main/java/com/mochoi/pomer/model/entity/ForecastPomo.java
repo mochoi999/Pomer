@@ -1,4 +1,6 @@
-package com.mochoi.pomer.model;
+package com.mochoi.pomer.model.entity;
+
+import com.mochoi.pomer.model.entity.Task;
 
 import java.util.Date;
 
@@ -8,12 +10,13 @@ import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * 稼働ポモドーロ数（実績）管理用オブジェクト
+ * 想定ポモドーロ数（予定）管理オブジェクト
  */
-public class WorkedPomo extends RealmObject {
+public class ForecastPomo extends RealmObject {
     @PrimaryKey
     public long id;
+    public String pomodoroCount;
     public Date registerDate;
-    @LinkingObjects("workedPomos")
+    @LinkingObjects("forecastPomos")
     public final RealmResults<Task> tasks = null;
 }

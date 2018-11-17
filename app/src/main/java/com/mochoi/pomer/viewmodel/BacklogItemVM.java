@@ -2,7 +2,7 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.model.entity.Task;
 
 /**
  * バックログ画面のリストアイテム用ビューモデル

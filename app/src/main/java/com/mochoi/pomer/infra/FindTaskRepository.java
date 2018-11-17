@@ -1,6 +1,9 @@
-package com.mochoi.pomer.model;
+package com.mochoi.pomer.infra;
 
-import android.util.Log;
+import com.mochoi.pomer.model.entity.ForecastPomo;
+import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.model.entity.WorkedPomo;
+import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,10 +15,10 @@ import io.realm.Sort;
 /**
  * タスク取得サービス
  */
-public class FindTaskService {
+public class FindTaskRepository {
     Realm realm;
 
-    public FindTaskService(){
+    public FindTaskRepository(){
         realm = Realm.getDefaultInstance();
     }
 

@@ -1,6 +1,6 @@
-package com.mochoi.pomer.model;
+package com.mochoi.pomer.infra;
 
-import android.util.Log;
+import com.mochoi.pomer.model.entity.Task;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -8,10 +8,10 @@ import io.realm.RealmResults;
 /**
  * タスク削除用サービス
  */
-public class RemoveTaskService {
+public class RemoveTaskRepository {
     Realm realm;
 
-    public RemoveTaskService(){
+    public RemoveTaskRepository(){
         realm = Realm.getDefaultInstance();
     }
 

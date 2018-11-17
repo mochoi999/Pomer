@@ -1,4 +1,4 @@
-package com.mochoi.pomer.model;
+package com.mochoi.pomer.model.vo;
 
 /**
  * タスク種別

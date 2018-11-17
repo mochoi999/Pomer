@@ -2,15 +2,13 @@ package com.mochoi.pomer.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.RegistereditTaskBinding;
-import com.mochoi.pomer.model.ForecastPomo;
-import com.mochoi.pomer.model.TaskKind;
+import com.mochoi.pomer.model.vo.TaskKind;
 import com.mochoi.pomer.viewmodel.RegisterEditTaskVM;
-import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.model.entity.Task;
 
 import org.apache.commons.lang3.StringUtils;
 

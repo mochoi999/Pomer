@@ -2,13 +2,11 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
-import android.util.Log;
 
-import com.mochoi.pomer.model.FindTaskService;
-import com.mochoi.pomer.model.Task;
-import com.mochoi.pomer.model.RegisterModTaskService;
-import com.mochoi.pomer.model.TaskKind;
+import com.mochoi.pomer.infra.FindTaskRepository;
+import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.infra.RegisterModTaskRepository;
+import com.mochoi.pomer.model.vo.TaskKind;
 
 /**
  * タスク登録・更新画面用ビューモデル
@@ -21,15 +19,15 @@ public class RegisterEditTaskVM {
 
     public void register(TaskKind kind){
         task.get().taskKind = kind.getValue();
-        new RegisterModTaskService().register(task.get(), forecastPomo.get());
+        new RegisterModTaskRepository().register(task.get(), forecastPomo.get());
     }
 
     public Task getTaskDataById(long id){
-        return new FindTaskService().findById(id);
+        return new FindTaskRepository().findById(id);
     }
 
     public void modifyById(){
-        new RegisterModTaskService().modifyById(task.get(), forecastPomo.get());
+        new RegisterModTaskRepository().modifyById(task.get(), forecastPomo.get());
     }
 
 }

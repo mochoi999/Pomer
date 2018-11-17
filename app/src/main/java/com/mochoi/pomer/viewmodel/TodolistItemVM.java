@@ -1,10 +1,9 @@
 package com.mochoi.pomer.viewmodel;
 
-import android.database.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
-import com.mochoi.pomer.model.Task;
+import com.mochoi.pomer.model.entity.Task;
 
 /**
  * Todoリスト画面のリストアイテム用ビューモデル

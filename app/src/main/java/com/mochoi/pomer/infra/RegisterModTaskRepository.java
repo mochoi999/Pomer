@@ -1,6 +1,9 @@
-package com.mochoi.pomer.model;
+package com.mochoi.pomer.infra;
 
-import android.util.Log;
+import com.mochoi.pomer.model.entity.ForecastPomo;
+import com.mochoi.pomer.model.entity.Reason;
+import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.model.entity.WorkedPomo;
 
 import java.util.Calendar;
 
@@ -10,10 +13,10 @@ import io.realm.RealmResults;
 /**
  * タスク登録・更新サービス
  */
-public class RegisterModTaskService {
+public class RegisterModTaskRepository {
     Realm realm;
 
-    public RegisterModTaskService(){
+    public RegisterModTaskRepository(){
         realm = Realm.getDefaultInstance();
     }
 
@@ -98,12 +101,10 @@ public class RegisterModTaskService {
 
     /**
      * 稼働ポモドーロ（実績）を登録
-     * @param id 更新対象のタスクid
+     * @param taskId 更新対象のタスクid
      */
-    public void registerWorkedPomo(long id){
+    public void registerWorkedPomo(long taskId){
         realm.beginTransaction();
-        Task task = realm.where(Task.class).equalTo("id", id).findFirst();
-
         WorkedPomo wp = new WorkedPomo();
         Number maxid = realm.where(WorkedPomo.class).max("id");
         if (maxid == null){
@@ -112,7 +113,28 @@ public class RegisterModTaskService {
         wp.id = maxid.longValue() + 1;
         wp.registerDate = Calendar.getInstance().getTime();
 
+        Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();
         task.workedPomos.add(wp);
+        realm.commitTransaction();
+    }
+
+
+    /**
+     * タスクに諸作業の状態の理由を登録
+     * @param taskId 更新対象のタスクid
+     * @param reason 理由オブジェクト
+     */
+    public void registerReason(long taskId, Reason reason){
+        realm.beginTransaction();
+        Number maxid = realm.where(Reason.class).max("id");
+        if (maxid == null){
+            maxid = 0;
+        }
+        reason.id = maxid.longValue() + 1;
+        reason.registerDate = Calendar.getInstance().getTime();
+
+        Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();
+        task.reasons.add(reason);
         realm.commitTransaction();
     }
 

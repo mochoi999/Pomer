@@ -1,4 +1,6 @@
-package com.mochoi.pomer.model;
+package com.mochoi.pomer.model.entity;
+
+import com.mochoi.pomer.model.vo.TaskKind;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -17,4 +19,5 @@ public class Task extends RealmObject {
     public boolean isFinished = false;
     public RealmList<ForecastPomo> forecastPomos = new RealmList<>();
     public RealmList<WorkedPomo> workedPomos = new RealmList<>();
+    public RealmList<Reason> reasons = new RealmList<>();
 }
