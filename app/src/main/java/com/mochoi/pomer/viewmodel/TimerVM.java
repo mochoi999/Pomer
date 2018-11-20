@@ -10,6 +10,8 @@ import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.vo.ReasonKind;
 
+import io.realm.Realm;
+
 
 /**
  * タイマー画面用ビューモデル
@@ -34,14 +36,14 @@ public class TimerVM {
     public void modifyStartPomodoro(){
         Task data = task.get();
         data.isWorking = true;
-        new RegisterModTaskRepositoryImpl().modifyById(data, null);
+        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).modifyById(data, null);
     }
 
     public void registerReason(String reasonStr){
         Reason reason = new Reason();
         reason.kind = ReasonKind.InComplete.getValue();
         reason.reason = reasonStr;
-        new RegisterModTaskRepositoryImpl().registerReason(task.get().id, reason);
+        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).registerReason(task.get().id, reason);
     }
 
     public void initializeTimeValue(){
@@ -50,7 +52,7 @@ public class TimerVM {
 
     public void registerWorkedPomo(){
         long taskId = task.get().id;
-        new RegisterModTaskRepositoryImpl().registerWorkedPomo(taskId);
+        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).registerWorkedPomo(taskId);
         workedPomo.set(new FindTaskRepositoryImpl().countWorkedPomo(taskId));
     }
 }

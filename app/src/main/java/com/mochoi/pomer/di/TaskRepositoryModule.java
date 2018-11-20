@@ -11,12 +11,13 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
 
 @Module
 public class TaskRepositoryModule {
     @Provides
     RegisterModTaskRepository provideRegisterModTaskRepository() {
-        return new RegisterModTaskRepositoryImpl();
+        return new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance());
     }
     @Provides
     FindTaskRepository provideFindTaskRepository(){

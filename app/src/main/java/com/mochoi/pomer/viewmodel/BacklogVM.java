@@ -11,6 +11,8 @@ import com.mochoi.pomer.model.vo.TaskKind;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+
 /**
  * バックログ画面用ビューモデル
  */
@@ -33,6 +35,6 @@ public class BacklogVM {
     }
 
     public void modifyBacklog2Todo(Long[] ids){
-        new RegisterModTaskRepositoryImpl().modifyTaskKind(ids, TaskKind.ToDoToday.getValue());
+        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).modifyTaskKind(ids, TaskKind.ToDoToday.getValue());
     }
 }

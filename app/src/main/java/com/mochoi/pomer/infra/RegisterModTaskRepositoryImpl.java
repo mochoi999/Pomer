@@ -17,8 +17,9 @@ import io.realm.RealmResults;
 public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository {
     Realm realm;
 
-    public RegisterModTaskRepositoryImpl(){
-        realm = Realm.getDefaultInstance();
+    public RegisterModTaskRepositoryImpl(Realm realm){
+//        realm = Realm.getDefaultInstance();
+        this.realm = realm;
     }
 
     /**
