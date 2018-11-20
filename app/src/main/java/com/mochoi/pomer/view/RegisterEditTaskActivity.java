@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.RegistereditTaskBinding;
+import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.model.vo.TaskKind;
 import com.mochoi.pomer.viewmodel.RegisterEditTaskVM;
 import com.mochoi.pomer.model.entity.Task;
@@ -16,7 +17,8 @@ import org.apache.commons.lang3.StringUtils;
  * タスク登録・更新画面用アクティビティ
  */
 public class RegisterEditTaskActivity extends BaseActivity {
-    private RegisterEditTaskVM registerEditTaskVM = new RegisterEditTaskVM();
+//    private RegisterEditTaskVM registerEditTaskVM = new RegisterEditTaskVM();
+    private RegisterEditTaskVM registerEditTaskVM = DaggerAppComponent.create().makeRegisterEditTaskVM();
 
     /**
      * 画面操作モード　登録　更新
@@ -31,7 +33,6 @@ public class RegisterEditTaskActivity extends BaseActivity {
             return id;
         }
     }
-    private int mode = MODE.REGIST.getId();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
         registerTaskBinding.setTaskVM(registerEditTaskVM);//layoutのnameにセット
 
         //modeの設定
-        mode = getIntent().getIntExtra("mode", MODE.REGIST.getId());
+        int mode = getIntent().getIntExtra("mode", MODE.REGIST.getId());
         registerEditTaskVM.isRegisterMode.set(MODE.REGIST.getId() == mode);
         if(!registerEditTaskVM.isRegisterMode.get()){
             setTaskData(getIntent().getLongExtra("id", 0));
@@ -73,7 +74,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
         if(!validateInputData()){
             return;
         }
-//        registerEditTaskVM.task.get().forecastPomo = convertForecastPomoCnt(registerEditTaskVM.task.get().forecastPomo);
+        registerEditTaskVM.forecastPomo.set(convertForecastPomoCnt(registerEditTaskVM.forecastPomo.get()));
         registerEditTaskVM.register(taskKind);
         showNotification("登録しました");
         registerEditTaskVM.task.set(new Task());

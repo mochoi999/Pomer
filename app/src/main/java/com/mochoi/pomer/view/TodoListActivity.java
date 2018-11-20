@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TodolistItemBinding;
 import com.mochoi.pomer.databinding.TodolistMainBinding;
+import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.viewmodel.TodolistItemVM;
 import com.mochoi.pomer.viewmodel.TodolistVM;
 
@@ -34,7 +35,8 @@ public class TodoListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         TodolistMainBinding binding = DataBindingUtil.setContentView(this, R.layout.todolist_main);
 
-        vm = new TodolistVM();
+//        vm = new TodolistVM();
+        vm = DaggerAppComponent.create().makeTodolistVM();
         vm.refreshTaskList();
         binding.setTodolistVM(vm);
 

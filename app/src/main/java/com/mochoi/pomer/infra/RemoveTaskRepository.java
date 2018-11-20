@@ -1,6 +1,7 @@
 package com.mochoi.pomer.infra;
 
 import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.model.repository.RemoveTaskRepositoryIF;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -8,7 +9,7 @@ import io.realm.RealmResults;
 /**
  * タスク削除用サービス
  */
-public class RemoveTaskRepository {
+public class RemoveTaskRepository implements RemoveTaskRepositoryIF {
     Realm realm;
 
     public RemoveTaskRepository(){
