@@ -3,11 +3,9 @@ package com.mochoi.pomer.viewmodel;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
-import com.mochoi.pomer.infra.FindTaskRepository;
 import com.mochoi.pomer.model.entity.Task;
-import com.mochoi.pomer.infra.RegisterModTaskRepository;
-import com.mochoi.pomer.model.repository.FindTaskRepositoryIF;
-import com.mochoi.pomer.model.repository.RegisterModTaskRepositoryIF;
+import com.mochoi.pomer.model.repository.FindTaskRepository;
+import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 import javax.inject.Inject;
@@ -20,9 +18,9 @@ public class RegisterEditTaskVM {
     public final ObservableField<String> forecastPomo = new ObservableField<>();
     public final ObservableBoolean isRegisterMode = new ObservableBoolean(true);
     @Inject
-    RegisterModTaskRepositoryIF registerModTaskRepository;
+    RegisterModTaskRepository registerModTaskRepository;
     @Inject
-    FindTaskRepositoryIF findTaskRepository;
+    FindTaskRepository findTaskRepository;
 
     @Inject
     public RegisterEditTaskVM(){}

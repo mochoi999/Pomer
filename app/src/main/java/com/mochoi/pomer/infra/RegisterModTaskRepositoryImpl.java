@@ -4,7 +4,7 @@ import com.mochoi.pomer.model.entity.ForecastPomo;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
-import com.mochoi.pomer.model.repository.RegisterModTaskRepositoryIF;
+import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
 
 import java.util.Calendar;
 
@@ -14,10 +14,10 @@ import io.realm.RealmResults;
 /**
  * タスク登録・更新サービス
  */
-public class RegisterModTaskRepository implements RegisterModTaskRepositoryIF {
+public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository {
     Realm realm;
 
-    public RegisterModTaskRepository(){
+    public RegisterModTaskRepositoryImpl(){
         realm = Realm.getDefaultInstance();
     }
 

@@ -4,8 +4,8 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 
-import com.mochoi.pomer.infra.FindTaskRepository;
-import com.mochoi.pomer.infra.RegisterModTaskRepository;
+import com.mochoi.pomer.infra.FindTaskRepositoryImpl;
+import com.mochoi.pomer.infra.RegisterModTaskRepositoryImpl;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.vo.ReasonKind;
@@ -25,7 +25,7 @@ public class TimerVM {
     public final ObservableBoolean isShowReason = new ObservableBoolean(false);
 
     public void setUpTaskData(long id){
-        FindTaskRepository findTaskService = new FindTaskRepository();
+        FindTaskRepositoryImpl findTaskService = new FindTaskRepositoryImpl();
         task.set(findTaskService.findById(id));
         forecastPomo.set(findTaskService.findForecastPomo(id));
         workedPomo.set(findTaskService.countWorkedPomo(id));
@@ -34,14 +34,14 @@ public class TimerVM {
     public void modifyStartPomodoro(){
         Task data = task.get();
         data.isWorking = true;
-        new RegisterModTaskRepository().modifyById(data, null);
+        new RegisterModTaskRepositoryImpl().modifyById(data, null);
     }
 
     public void registerReason(String reasonStr){
         Reason reason = new Reason();
         reason.kind = ReasonKind.InComplete.getValue();
         reason.reason = reasonStr;
-        new RegisterModTaskRepository().registerReason(task.get().id, reason);
+        new RegisterModTaskRepositoryImpl().registerReason(task.get().id, reason);
     }
 
     public void initializeTimeValue(){
@@ -50,7 +50,7 @@ public class TimerVM {
 
     public void registerWorkedPomo(){
         long taskId = task.get().id;
-        new RegisterModTaskRepository().registerWorkedPomo(taskId);
-        workedPomo.set(new FindTaskRepository().countWorkedPomo(taskId));
+        new RegisterModTaskRepositoryImpl().registerWorkedPomo(taskId);
+        workedPomo.set(new FindTaskRepositoryImpl().countWorkedPomo(taskId));
     }
 }

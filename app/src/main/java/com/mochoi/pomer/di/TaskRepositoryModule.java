@@ -1,11 +1,11 @@
 package com.mochoi.pomer.di;
 
-import com.mochoi.pomer.infra.FindTaskRepository;
-import com.mochoi.pomer.infra.RegisterModTaskRepository;
-import com.mochoi.pomer.infra.RemoveTaskRepository;
-import com.mochoi.pomer.model.repository.FindTaskRepositoryIF;
-import com.mochoi.pomer.model.repository.RegisterModTaskRepositoryIF;
-import com.mochoi.pomer.model.repository.RemoveTaskRepositoryIF;
+import com.mochoi.pomer.infra.FindTaskRepositoryImpl;
+import com.mochoi.pomer.infra.RegisterModTaskRepositoryImpl;
+import com.mochoi.pomer.infra.RemoveTaskRepositoryImpl;
+import com.mochoi.pomer.model.repository.FindTaskRepository;
+import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
+import com.mochoi.pomer.model.repository.RemoveTaskRepository;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,15 +13,15 @@ import dagger.Provides;
 @Module
 public class TaskRepositoryModule {
     @Provides
-    RegisterModTaskRepositoryIF provideRegisterModTaskRepository() {
-        return new RegisterModTaskRepository();
+    RegisterModTaskRepository provideRegisterModTaskRepository() {
+        return new RegisterModTaskRepositoryImpl();
     }
     @Provides
-    FindTaskRepositoryIF provideFindTaskRepository(){
-        return new FindTaskRepository();
+    FindTaskRepository provideFindTaskRepository(){
+        return new FindTaskRepositoryImpl();
     }
     @Provides
-    RemoveTaskRepositoryIF provideRemoveTaskRepository(){
-        return new RemoveTaskRepository();
+    RemoveTaskRepository provideRemoveTaskRepository(){
+        return new RemoveTaskRepositoryImpl();
     }
 }

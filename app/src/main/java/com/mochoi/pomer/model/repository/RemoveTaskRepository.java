@@ -1,5 +1,5 @@
 package com.mochoi.pomer.model.repository;
 
-public interface RemoveTaskRepositoryIF {
+public interface RemoveTaskRepository {
     void removeTaskById(long id);
 }

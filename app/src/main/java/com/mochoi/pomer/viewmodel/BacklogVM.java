@@ -2,9 +2,9 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableField;
 
-import com.mochoi.pomer.infra.FindTaskRepository;
-import com.mochoi.pomer.infra.RegisterModTaskRepository;
-import com.mochoi.pomer.infra.RemoveTaskRepository;
+import com.mochoi.pomer.infra.FindTaskRepositoryImpl;
+import com.mochoi.pomer.infra.RegisterModTaskRepositoryImpl;
+import com.mochoi.pomer.infra.RemoveTaskRepositoryImpl;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.vo.TaskKind;
 
@@ -18,7 +18,7 @@ public class BacklogVM {
     public final ObservableField<List<BacklogItemVM>> items = new ObservableField<>();
 
     public void refreshTaskList(){
-        List<Task> tasks = new FindTaskRepository().findBacklogList();
+        List<Task> tasks = new FindTaskRepositoryImpl().findBacklogList();
         List<BacklogItemVM> items = new ArrayList<>();
         for (Task t : tasks){
             BacklogItemVM vm = new BacklogItemVM();
@@ -29,10 +29,10 @@ public class BacklogVM {
     }
 
     public void removeTask(long id){
-        new RemoveTaskRepository().removeTaskById(id);
+        new RemoveTaskRepositoryImpl().removeTaskById(id);
     }
 
     public void modifyBacklog2Todo(Long[] ids){
-        new RegisterModTaskRepository().modifyTaskKind(ids, TaskKind.ToDoToday.getValue());
+        new RegisterModTaskRepositoryImpl().modifyTaskKind(ids, TaskKind.ToDoToday.getValue());
     }
 }

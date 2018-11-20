@@ -15,7 +15,7 @@ import io.realm.Sort;
 /**
  * タスク取得サービス
  */
-public interface FindTaskRepositoryIF {
+public interface FindTaskRepository {
     List<Task> findBacklogList();
 
     Task findById(long id);

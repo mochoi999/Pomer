@@ -2,13 +2,10 @@ package com.mochoi.pomer.viewmodel;
 
 import android.databinding.ObservableField;
 
-import com.mochoi.pomer.infra.FindTaskRepository;
-import com.mochoi.pomer.infra.RegisterModTaskRepository;
-import com.mochoi.pomer.infra.RemoveTaskRepository;
 import com.mochoi.pomer.model.entity.Task;
-import com.mochoi.pomer.model.repository.FindTaskRepositoryIF;
-import com.mochoi.pomer.model.repository.RegisterModTaskRepositoryIF;
-import com.mochoi.pomer.model.repository.RemoveTaskRepositoryIF;
+import com.mochoi.pomer.model.repository.FindTaskRepository;
+import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
+import com.mochoi.pomer.model.repository.RemoveTaskRepository;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.ArrayList;
@@ -22,11 +19,11 @@ import javax.inject.Inject;
 public class TodolistVM {
     public final ObservableField<List<TodolistItemVM>> items = new ObservableField<>();
     @Inject
-    FindTaskRepositoryIF findTaskRepository;
+    FindTaskRepository findTaskRepository;
     @Inject
-    RegisterModTaskRepositoryIF registerModTaskRepository;
+    RegisterModTaskRepository registerModTaskRepository;
     @Inject
-    RemoveTaskRepositoryIF removeTaskRepository;
+    RemoveTaskRepository removeTaskRepository;
 
     @Inject
     public TodolistVM(){}

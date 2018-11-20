@@ -3,7 +3,7 @@ package com.mochoi.pomer.infra;
 import com.mochoi.pomer.model.entity.ForecastPomo;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
-import com.mochoi.pomer.model.repository.FindTaskRepositoryIF;
+import com.mochoi.pomer.model.repository.FindTaskRepository;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.Arrays;
@@ -16,10 +16,10 @@ import io.realm.Sort;
 /**
  * タスク取得サービス
  */
-public class FindTaskRepository implements FindTaskRepositoryIF {
+public class FindTaskRepositoryImpl implements FindTaskRepository {
     Realm realm;
 
-    public FindTaskRepository(){
+    public FindTaskRepositoryImpl(){
         realm = Realm.getDefaultInstance();
     }
 
