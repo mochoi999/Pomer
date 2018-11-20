@@ -17,7 +17,7 @@ import io.realm.Sort;
  * タスク取得サービス
  */
 public class FindTaskRepositoryImpl implements FindTaskRepository {
-    Realm realm;
+    private Realm realm;
 
     public FindTaskRepositoryImpl(){
         realm = Realm.getDefaultInstance();

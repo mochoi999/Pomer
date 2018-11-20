@@ -39,7 +39,7 @@ public class TimerActivity extends BaseActivity {
         findViewById(R.id.reason).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus == false) {
+                if (!hasFocus) {
                     // ソフトキーボードを非表示にする
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -96,7 +96,7 @@ public class TimerActivity extends BaseActivity {
             finishedPomodoro();
         }
 
-        public void stopRunning(){
+        void stopRunning(){
             this.running = false;
         }
     }

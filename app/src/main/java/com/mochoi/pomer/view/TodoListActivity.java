@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TodolistItemBinding;
@@ -114,19 +114,20 @@ public class TodoListActivity extends BaseActivity {
         private List<TodolistItemVM> items;
         private TodoListActivity activity;
 
-        public RecyclerViewAdapter(TodoListActivity activity){
+        RecyclerViewAdapter(TodoListActivity activity){
             this.activity = activity;
         }
 
         @Override
-        public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        @NonNull
+        public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             // DataBinding
             TodolistItemBinding binding = TodolistItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new RecyclerViewAdapter.ViewHolder(binding);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
             TodolistItemVM item = items.get(position);
             //TODO
             item.forecastPomo.set(item.task.get().forecastPomos.last().pomodoroCount);
@@ -143,7 +144,7 @@ public class TodoListActivity extends BaseActivity {
             }
         }
 
-        public void replaceData(List<TodolistItemVM> items) {
+        void replaceData(List<TodolistItemVM> items) {
             setList(items);
         }
         private void setList(List<TodolistItemVM> items) {
@@ -155,7 +156,7 @@ public class TodoListActivity extends BaseActivity {
 
             final TodolistItemBinding binding;
 
-            public ViewHolder(final TodolistItemBinding binding) {
+            ViewHolder(final TodolistItemBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
 

@@ -2,6 +2,7 @@ package com.mochoi.pomer.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,20 +25,21 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
     private BacklogVM vm;
     private List<BacklogItemVM> items;
 
-    public BacklogTaskRecyclerViewAdapter(BacklogActivity activity, BacklogVM vm){
+    BacklogTaskRecyclerViewAdapter(BacklogActivity activity, BacklogVM vm){
         this.activity = activity;
         this.vm = vm;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // DataBinding
         BacklogItemBinding binding = BacklogItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BacklogItemVM item = items.get(position);
         //TODO
         Task task = item.task.get();
@@ -56,7 +58,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
         }
     }
 
-    public void replaceData(List<BacklogItemVM> items) {
+    void replaceData(List<BacklogItemVM> items) {
         setList(items);
     }
     private void setList(List<BacklogItemVM> items) {
@@ -68,7 +70,7 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
 
         final BacklogItemBinding binding;
 
-        public ViewHolder(final BacklogItemBinding binding) {
+        ViewHolder(final BacklogItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

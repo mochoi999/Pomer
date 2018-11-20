@@ -15,12 +15,16 @@ public class BindingAdapters {
     @BindingAdapter("backlog_items")
     public static void setBacklogItems(RecyclerView recyclerView, List<BacklogItemVM> items) {
         BacklogTaskRecyclerViewAdapter adapter = (BacklogTaskRecyclerViewAdapter) recyclerView.getAdapter();
-        adapter.replaceData(items);
+        if(adapter != null) {
+            adapter.replaceData(items);
+        }
     }
 
     @BindingAdapter("todo_items")
     public static void setTodoItems(RecyclerView recyclerView, List<TodolistItemVM> items) {
         TodoListActivity.RecyclerViewAdapter adapter = (TodoListActivity.RecyclerViewAdapter) recyclerView.getAdapter();
-        adapter.replaceData(items);
+        if(adapter != null) {
+            adapter.replaceData(items);
+        }
     }
 }
