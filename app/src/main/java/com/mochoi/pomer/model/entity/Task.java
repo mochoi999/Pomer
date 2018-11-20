@@ -2,6 +2,8 @@ package com.mochoi.pomer.model.entity;
 
 import com.mochoi.pomer.model.vo.TaskKind;
 
+import java.util.Objects;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -20,4 +22,25 @@ public class Task extends RealmObject {
     public RealmList<ForecastPomo> forecastPomos = new RealmList<>();
     public RealmList<WorkedPomo> workedPomos = new RealmList<>();
     public RealmList<Reason> reasons = new RealmList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id &&
+                taskKind == task.taskKind &&
+                isWorking == task.isWorking &&
+                isFinished == task.isFinished &&
+                Objects.equals(taskName, task.taskName) &&
+                Objects.equals(forecastPomos, task.forecastPomos) &&
+                Objects.equals(workedPomos, task.workedPomos) &&
+                Objects.equals(reasons, task.reasons);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, taskName, taskKind, isWorking, isFinished, forecastPomos, workedPomos, reasons);
+    }
 }

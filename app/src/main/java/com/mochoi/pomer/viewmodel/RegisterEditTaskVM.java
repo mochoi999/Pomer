@@ -37,7 +37,7 @@ public class RegisterEditTaskVM {
     }
 
     public void modifyById(){
-        registerModTaskRepository.modifyById(task.get(), forecastPomo.get());
+        registerModTaskRepository.modify(task.get(), forecastPomo.get());
     }
 
 }

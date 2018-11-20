@@ -17,7 +17,7 @@ import io.realm.RealmResults;
  * タスク登録・更新サービス
  */
 public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository {
-    Realm realm;
+    private Realm realm;
 
     public RegisterModTaskRepositoryImpl(Realm realm){
         this.realm = realm;
@@ -49,7 +49,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
     }
 
     @Override
-    public Task modifyById(Task task, String forecastPomo){
+    public void modify(Task task, String forecastPomo){
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
         result.taskName = task.taskName;
@@ -58,7 +58,6 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         result.isFinished = task.isFinished;
 
         if(forecastPomo != null
-                && !forecastPomo.equals("0")
                 && !forecastPomo.equals(result.forecastPomos.last().pomodoroCount)) {
             ForecastPomo fp = new ForecastPomo();
             Number maxidFp = realm.where(ForecastPomo.class).max("id");
@@ -69,7 +68,6 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         }
 
         realm.commitTransaction();
-        return result;
     }
 
     /**

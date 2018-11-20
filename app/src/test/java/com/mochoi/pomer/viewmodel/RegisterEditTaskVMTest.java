@@ -66,10 +66,10 @@ public class RegisterEditTaskVMTest {
     }
 
 //    @Test
-//    public void modifyById() {
+//    public void modify() {
 //        RegisterEditTaskVM vm = DaggerAppComponent
 //                .builder().taskRepositoryModule(new TaskRepositoryModuleMock()).build().makeRegisterEditTaskVM();
-//        vm.modifyById();
-//        verify(registerModTaskRepository, times(1)).modifyById(new Task(), "1");
+//        vm.modify();
+//        verify(registerModTaskRepository, times(1)).modify(new Task(), "1");
 //    }
 }

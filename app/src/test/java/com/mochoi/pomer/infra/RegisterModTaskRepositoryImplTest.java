@@ -41,8 +41,8 @@ public class RegisterModTaskRepositoryImplTest {
 
     @Test
     public void register() {
-        when(mockRealm.where(Task.class).max("id")).thenReturn(0);
-        when(mockRealm.where(ForecastPomo.class).max("id")).thenReturn(0);
+        when(mockRealm.where(Task.class).max("id")).thenReturn(null);
+        when(mockRealm.where(ForecastPomo.class).max("id")).thenReturn(1);
 
         RegisterModTaskRepositoryImpl repository = new RegisterModTaskRepositoryImpl(mockRealm);
         Task task = new Task();
@@ -51,16 +51,16 @@ public class RegisterModTaskRepositoryImplTest {
         String forecastPomo = "2";
         repository.register(task, forecastPomo);
 
-        assertThat(1L, is(task.id));
-        assertThat("taskname", is(task.taskName));
-        assertThat(TaskKind.BackLog.getValue(), is(task.taskKind));
-        assertThat(false, is(task.isFinished));
-        assertThat(false, is(task.isWorking));
-        assertThat(1, is(task.forecastPomos.size()));
-        assertThat(1L, is(task.forecastPomos.get(0).id));
-        assertThat("2", is(task.forecastPomos.get(0).pomodoroCount));
-        assertThat(0, is(task.reasons.size()));
-        assertThat(0, is(task.workedPomos.size()));
+        assertThat(task.id, is(1L));
+        assertThat(task.taskName, is("taskname"));
+        assertThat(task.taskKind, is(TaskKind.BackLog.getValue()));
+        assertThat(task.isFinished, is(false));
+        assertThat(task.isWorking, is(false));
+        assertThat(task.forecastPomos.size(), is(1));
+        assertThat(task.forecastPomos.get(0).id, is(2L));
+        assertThat(task.forecastPomos.get(0).pomodoroCount, is("2"));
+        assertThat(task.reasons.size(), is(0));
+        assertThat(task.workedPomos.size(), is(0));
         verify(mockRealm, times(1)).copyToRealm(task);
         verify(mockRealm, times(1)).beginTransaction();
         verify(mockRealm, times(1)).commitTransaction();
@@ -68,7 +68,7 @@ public class RegisterModTaskRepositoryImplTest {
     }
 
     @Test
-    public void modifyById_異なる予想ポモ数() {
+    public void modify_異なる予想ポモ数() {
         Task t = new Task();
         t.id = 1L;
         t.taskName = "taskname";
@@ -93,24 +93,24 @@ public class RegisterModTaskRepositoryImplTest {
 
         when(mockRealm.where(Task.class).equalTo("id", t.id).findFirst()).thenReturn(t);
         when(mockRealm.where(ForecastPomo.class).max("id")).thenReturn(t.forecastPomos.get(0).id);
-        Task result = repository.modifyById(t2, "3");
+        repository.modify(t2, "3");
 
-        assertThat(t2.id, is(result.id));
-        assertThat(t2.taskName, is(result.taskName));
-        assertThat(t2.taskKind, is(result.taskKind));
-        assertThat(t2.isFinished, is(result.isFinished));
-        assertThat(t2.isWorking, is(result.isWorking));
-        assertThat(2, is(result.forecastPomos.size()));
-        assertThat(2L, is(result.forecastPomos.last().id));
-        assertThat("3", is(result.forecastPomos.get(1).pomodoroCount));
-        assertThat(1, is(result.workedPomos.size()));
-        assertThat(0, is(result.reasons.size()));
+        assertThat(t.id, is(t2.id));
+        assertThat(t.taskName, is(t2.taskName));
+        assertThat(t.taskKind, is(t2.taskKind));
+        assertThat(t.isFinished, is(t2.isFinished));
+        assertThat(t.isWorking, is(t2.isWorking));
+        assertThat(t.forecastPomos.size(),is(2));
+        assertThat(t.forecastPomos.last().id,is(2L));
+        assertThat(t.forecastPomos.get(1).pomodoroCount,is("3"));
+        assertThat(t.workedPomos.size(),is(1));
+        assertThat(t.reasons.size(),is(0));
         verify(mockRealm, times(1)).beginTransaction();
         verify(mockRealm, times(1)).commitTransaction();
     }
 
     @Test
-    public void modifyById_前回と同じ予想ポモ数() {
+    public void modify_前回と同じ予想ポモ数() {
         Task t = new Task();
         ForecastPomo fp = new ForecastPomo();
         fp.id = 1L;
@@ -122,11 +122,11 @@ public class RegisterModTaskRepositoryImplTest {
 
         when(mockRealm.where(Task.class).equalTo("id", t.id).findFirst()).thenReturn(t);
         when(mockRealm.where(ForecastPomo.class).max("id")).thenReturn(t.forecastPomos.get(0).id);
-        Task result = repository.modifyById(t2, "1");
+        repository.modify(t2, "1");
 
-        assertThat(1, is(result.forecastPomos.size()));
-        assertThat(1L, is(result.forecastPomos.get(0).id));
-        assertThat("1", is(result.forecastPomos.get(0).pomodoroCount));
+        assertThat(t.forecastPomos.size(), is(1));
+        assertThat(t.forecastPomos.get(0).id, is(1L));
+        assertThat(t.forecastPomos.get(0).pomodoroCount, is("1"));
         verify(mockRealm, times(1)).beginTransaction();
         verify(mockRealm, times(1)).commitTransaction();
     }
