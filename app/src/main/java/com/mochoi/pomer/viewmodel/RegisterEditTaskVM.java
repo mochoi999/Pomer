@@ -17,13 +17,15 @@ public class RegisterEditTaskVM {
     public final ObservableField<Task> task = new ObservableField<>();
     public final ObservableField<String> forecastPomo = new ObservableField<>();
     public final ObservableBoolean isRegisterMode = new ObservableBoolean(true);
-    @Inject
-    RegisterModTaskRepository registerModTaskRepository;
-    @Inject
-    FindTaskRepository findTaskRepository;
+    private RegisterModTaskRepository registerModTaskRepository;
+    private FindTaskRepository findTaskRepository;
 
     @Inject
-    public RegisterEditTaskVM(){}
+    public RegisterEditTaskVM(RegisterModTaskRepository registerModTaskRepository
+                            ,FindTaskRepository findTaskRepository){
+        this.registerModTaskRepository = registerModTaskRepository;
+        this.findTaskRepository = findTaskRepository;
+    }
 
     public void register(TaskKind kind){
         task.get().taskKind = kind.getValue();

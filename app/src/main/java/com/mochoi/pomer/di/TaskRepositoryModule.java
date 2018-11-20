@@ -7,6 +7,8 @@ import com.mochoi.pomer.model.repository.FindTaskRepository;
 import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
 import com.mochoi.pomer.model.repository.RemoveTaskRepository;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 

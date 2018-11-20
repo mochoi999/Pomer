@@ -35,7 +35,6 @@ public class TodoListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         TodolistMainBinding binding = DataBindingUtil.setContentView(this, R.layout.todolist_main);
 
-//        vm = new TodolistVM();
         vm = DaggerAppComponent.create().makeTodolistVM();
         vm.refreshTaskList();
         binding.setTodolistVM(vm);

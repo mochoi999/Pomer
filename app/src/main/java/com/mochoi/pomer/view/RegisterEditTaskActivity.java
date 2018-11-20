@@ -17,8 +17,8 @@ import org.apache.commons.lang3.StringUtils;
  * タスク登録・更新画面用アクティビティ
  */
 public class RegisterEditTaskActivity extends BaseActivity {
-//    private RegisterEditTaskVM registerEditTaskVM = new RegisterEditTaskVM();
-    private RegisterEditTaskVM registerEditTaskVM = DaggerAppComponent.create().makeRegisterEditTaskVM();
+
+    private RegisterEditTaskVM registerEditTaskVM;
 
     /**
      * 画面操作モード　登録　更新
@@ -39,6 +39,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         RegistereditTaskBinding registerTaskBinding = DataBindingUtil.setContentView(this, R.layout.registeredit_task);
+        registerEditTaskVM = DaggerAppComponent.create().makeRegisterEditTaskVM();
         registerEditTaskVM.task.set(new Task());
         registerTaskBinding.setTaskVM(registerEditTaskVM);//layoutのnameにセット
 

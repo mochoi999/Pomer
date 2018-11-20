@@ -18,15 +18,18 @@ import javax.inject.Inject;
  */
 public class TodolistVM {
     public final ObservableField<List<TodolistItemVM>> items = new ObservableField<>();
-    @Inject
-    FindTaskRepository findTaskRepository;
-    @Inject
-    RegisterModTaskRepository registerModTaskRepository;
-    @Inject
-    RemoveTaskRepository removeTaskRepository;
+    private FindTaskRepository findTaskRepository;
+    private RegisterModTaskRepository registerModTaskRepository;
+    private RemoveTaskRepository removeTaskRepository;
 
     @Inject
-    public TodolistVM(){}
+    public TodolistVM(FindTaskRepository findTaskRepository
+            ,RegisterModTaskRepository registerModTaskRepository
+            ,RemoveTaskRepository removeTaskRepository) {
+        this.findTaskRepository=findTaskRepository;
+        this.registerModTaskRepository=registerModTaskRepository;
+        this.removeTaskRepository=removeTaskRepository;
+    }
 
     public void refreshTaskList(){
         List<Task> tasks = findTaskRepository.findTodoList();
