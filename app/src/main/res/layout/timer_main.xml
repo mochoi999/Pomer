@@ -126,6 +126,7 @@
                 android:gravity="right"
                 android:text="@{timerVM.workedPomo + `／` + timerVM.forecastPomo}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@{(Integer.parseInt(timerVM.workedPomo) > Integer.parseInt(timerVM.forecastPomo)) ? @color/colorAccent : @android:color/black}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/task_name" />
 

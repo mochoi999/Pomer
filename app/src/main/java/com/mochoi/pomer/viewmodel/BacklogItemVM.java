@@ -10,5 +10,7 @@ import com.mochoi.pomer.model.entity.Task;
 public class BacklogItemVM {
     public final ObservableBoolean check = new ObservableBoolean(false);
     public final ObservableField<Task> task = new ObservableField<>();
+    public ObservableField<String> forecastPomo = new ObservableField<>();
+    public ObservableField<String> workedPomo = new ObservableField<>();
 
 }

@@ -41,7 +41,9 @@
             android:id="@+id/pomodoroCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.forecastPomo}"
+            android:text="@{item.workedPomo + `/` + item.forecastPomo}"
+            android:textColor="@{(Integer.parseInt(item.workedPomo) > Integer.parseInt(item.forecastPomo)) ? @color/colorAccent : @android:color/black}"
+            android:layout_gravity="center"
             />
 
         <ImageButton

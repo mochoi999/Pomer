@@ -35,6 +35,15 @@
             android:text="@{item.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+        <TextView
+            android:id="@+id/pomodoro_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{item.workedPomo + `/` + item.forecastPomo}"
+            android:textColor="@{(Integer.parseInt(item.workedPomo) > Integer.parseInt(item.forecastPomo)) ? @color/colorAccent : @android:color/black}"
+            />
+
         <ImageView
             android:id="@+id/remove"
             android:layout_width="wrap_content"

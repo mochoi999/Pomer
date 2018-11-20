@@ -130,6 +130,7 @@ public class TodoListActivity extends BaseActivity {
             TodolistItemVM item = items.get(position);
             //TODO
             item.forecastPomo.set(item.task.get().forecastPomos.last().pomodoroCount);
+            item.workedPomo.set(String.valueOf(item.task.get().workedPomos.size()));
             holder.binding.setItem(item);
         }
 

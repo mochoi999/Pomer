@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogItemBinding;
+import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 
@@ -38,6 +39,11 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         BacklogItemVM item = items.get(position);
+        //TODO
+        Task task = item.task.get();
+        item.forecastPomo.set(task.forecastPomos.last().pomodoroCount);
+        item.workedPomo.set(String.valueOf(task.workedPomos.size()));
+
         holder.binding.setItem(item);
     }
 
