@@ -1,5 +1,7 @@
 package com.mochoi.pomer.infra;
 
+import android.support.annotation.NonNull;
+
 import com.mochoi.pomer.model.entity.ForecastPomo;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
@@ -18,15 +20,10 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
     Realm realm;
 
     public RegisterModTaskRepositoryImpl(Realm realm){
-//        realm = Realm.getDefaultInstance();
         this.realm = realm;
     }
 
-    /**
-     * タスクを新規登録
-     * @param task タスク
-     *             TODO
-     */
+    @Override
     public void register(Task task, String forecastPomo){
         realm.beginTransaction();
 
@@ -34,7 +31,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         if (maxid == null){
             maxid = 0;
         }
-        task.id = maxid.longValue() + 1;
+        task.id = maxid.longValue() + 1L;
 
         //予想ポモドーロ数
         Number maxidFp = realm.where(ForecastPomo.class).max("id");
@@ -42,7 +39,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
             maxidFp = 1;
         }
         ForecastPomo fp = new ForecastPomo();
-        fp.id = maxidFp.longValue() + 1;
+        fp.id = maxidFp.longValue() + 1L;
         fp.pomodoroCount = forecastPomo;
         fp.registerDate = Calendar.getInstance().getTime();
         task.forecastPomos.add(fp);
@@ -51,11 +48,8 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         realm.commitTransaction();
     }
 
-    /**
-     * idを条件にタスク情報を更新
-     * @param task タスク情報
-     */
-    public void modifyById(Task task, String forecastPomo){
+    @Override
+    public Task modifyById(Task task, String forecastPomo){
         realm.beginTransaction();
         Task result = realm.where(Task.class).equalTo("id", task.id).findFirst();
         result.taskName = task.taskName;
@@ -63,16 +57,17 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         result.isWorking = task.isWorking;
         result.isFinished = task.isFinished;
 
-        if(forecastPomo != null) {
+        if(forecastPomo != null && !forecastPomo.equals(result.forecastPomos.last().pomodoroCount)) {
             ForecastPomo fp = new ForecastPomo();
             Number maxidFp = realm.where(ForecastPomo.class).max("id");
-            fp.id = maxidFp.longValue() + 1;
+            fp.id = maxidFp.longValue() + 1L;
             fp.pomodoroCount = forecastPomo;
             fp.registerDate = Calendar.getInstance().getTime();
             result.forecastPomos.add(fp);
         }
 
         realm.commitTransaction();
+        return result;
     }
 
     /**
