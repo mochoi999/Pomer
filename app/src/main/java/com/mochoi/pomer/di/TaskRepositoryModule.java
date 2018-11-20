@@ -16,15 +16,15 @@ import io.realm.Realm;
 @Module
 public class TaskRepositoryModule {
     @Provides
-    RegisterModTaskRepository provideRegisterModTaskRepository() {
+    public RegisterModTaskRepository provideRegisterModTaskRepository() {
         return new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance());
     }
     @Provides
-    FindTaskRepository provideFindTaskRepository(){
+    public FindTaskRepository provideFindTaskRepository(){
         return new FindTaskRepositoryImpl();
     }
     @Provides
-    RemoveTaskRepository provideRemoveTaskRepository(){
+    public RemoveTaskRepository provideRemoveTaskRepository(){
         return new RemoveTaskRepositoryImpl();
     }
 }

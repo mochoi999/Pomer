@@ -57,7 +57,9 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         result.isWorking = task.isWorking;
         result.isFinished = task.isFinished;
 
-        if(forecastPomo != null && !forecastPomo.equals(result.forecastPomos.last().pomodoroCount)) {
+        if(forecastPomo != null
+                && !forecastPomo.equals("0")
+                && !forecastPomo.equals(result.forecastPomos.last().pomodoroCount)) {
             ForecastPomo fp = new ForecastPomo();
             Number maxidFp = realm.where(ForecastPomo.class).max("id");
             fp.id = maxidFp.longValue() + 1L;
@@ -84,17 +86,17 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         realm.commitTransaction();
     }
 
-    /**
-     * タスクの完了状態を更新
-     * @param id 更新対象のid
-     * @param status true:完了 false:未完了
-     */
-    public void modifyFinishStatusById(long id, boolean status){
-        realm.beginTransaction();
-        Task results = realm.where(Task.class).equalTo("id", id).findFirst();
-        results.isFinished = status;
-        realm.commitTransaction();
-    }
+//    /**
+//     * タスクの完了状態を更新
+//     * @param id 更新対象のid
+//     * @param status true:完了 false:未完了
+//     */
+//    public void modifyFinishStatusById(long id, boolean status){
+//        realm.beginTransaction();
+//        Task results = realm.where(Task.class).equalTo("id", id).findFirst();
+//        results.isFinished = status;
+//        realm.commitTransaction();
+//    }
 
     /**
      * 稼働ポモドーロ（実績）を登録

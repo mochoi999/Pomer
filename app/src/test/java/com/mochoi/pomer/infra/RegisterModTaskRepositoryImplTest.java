@@ -110,6 +110,29 @@ public class RegisterModTaskRepositoryImplTest {
     }
 
     @Test
+    public void modifyById_前回と同じ予想ポモ数() {
+        Task t = new Task();
+        ForecastPomo fp = new ForecastPomo();
+        fp.id = 1L;
+        fp.pomodoroCount = "1";
+        t.forecastPomos.add(fp);
+
+        RegisterModTaskRepository repository = new RegisterModTaskRepositoryImpl(mockRealm);
+        Task t2 = new Task();
+
+        when(mockRealm.where(Task.class).equalTo("id", t.id).findFirst()).thenReturn(t);
+        when(mockRealm.where(ForecastPomo.class).max("id")).thenReturn(t.forecastPomos.get(0).id);
+        Task result = repository.modifyById(t2, "1");
+
+        assertThat(1, is(result.forecastPomos.size()));
+        assertThat(1L, is(result.forecastPomos.get(0).id));
+        assertThat("1", is(result.forecastPomos.get(0).pomodoroCount));
+        verify(mockRealm, times(1)).beginTransaction();
+        verify(mockRealm, times(1)).commitTransaction();
+    }
+
+
+    @Test
     public void modifyTaskKind() {
     }
 
