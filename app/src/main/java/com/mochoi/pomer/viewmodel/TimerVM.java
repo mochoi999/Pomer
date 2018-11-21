@@ -61,4 +61,8 @@ public class TimerVM {
         registerModTaskRepository.registerWorkedPomo(taskId);
         workedPomo.set(findTaskRepository.countWorkedPomo(taskId));
     }
+
+    public void finishTask(){
+        registerModTaskRepository.modifyFinishStatus(task.get().id, true);
+    }
 }

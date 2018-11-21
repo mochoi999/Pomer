@@ -39,6 +39,13 @@ public interface RegisterModTaskRepository {
     void registerWorkedPomo(long taskId);
 
     /**
+     * タスクの完了状態を更新
+     * @param id 更新対象のid
+     * @param status true:完了 false:未完了
+     */
+    void modifyFinishStatus(long id, boolean status);
+
+    /**
      * タスクに諸作業の状態の理由を登録
      * @param taskId 更新対象のタスクid
      * @param reasonKind 理由種別

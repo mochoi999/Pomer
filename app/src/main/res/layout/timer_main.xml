@@ -110,6 +110,7 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout"/>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -145,6 +146,22 @@
                 app:layout_constraintTop_toTopOf="@+id/pomodoro_count" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/finish_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="finishTaskAlert"
+            android:text="タスクを完了にする"
+            android:enabled="@{!timerVM.isStarted}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -170,4 +187,5 @@
         </FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
+
 </layout>

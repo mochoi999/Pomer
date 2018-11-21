@@ -36,6 +36,7 @@ public class TodolistVM {
     }
 
     public void refreshTaskList(){
+        //list
         List<Task> tasks = findTaskRepository.findTodoList();
         List<TodolistItemVM> items = new ArrayList<>();
         for (Task t : tasks){
@@ -45,22 +46,23 @@ public class TodolistVM {
         }
         this.items.set(items);
 
-        calcTodaysPomodoro();
-    }
-
-    /**
-     * 今日のポモドーロ数を算出する
-     */
-    private void calcTodaysPomodoro(){
-        CalcTodaysPomoService calcTodaysPomoService = DaggerAppComponent.create().makeCalcTodaysPomoService();
-        int pomodoro = calcTodaysPomoService.calc();
+        //予定ポモドーロ数
+        int pomodoro = calcTodaysPomodoro();
         if(pomodoro == CalcTodaysPomoService.CAN_NOT_CALCLATE){
-            todaysPomodoroAlert.set("今日の予想ポモドーロ数が不明です。実績が予想を超えているタスクのポモドーロ数を調整してください");
+            todaysPomodoroAlert.set("今日の予定ポモドーロ数が不明です。実績が予想を超えているタスクのポモドーロ数を調整してください");
             todaysPomodoro.set("");
         } else {
             todaysPomodoroAlert.set("");
             todaysPomodoro.set(String.valueOf(pomodoro));
         }
+    }
+
+    /**
+     * 今日のポモドーロ数を算出する
+     */
+    private int calcTodaysPomodoro(){
+        CalcTodaysPomoService calcTodaysPomoService = DaggerAppComponent.create().makeCalcTodaysPomoService();
+        return calcTodaysPomoService.calc();
     }
 
     public void removeTask(long id){

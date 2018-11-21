@@ -41,6 +41,16 @@ public class TimerActivity extends BaseActivity {
         vm.setUpTaskData(id);
         binding.setTimerVM(vm);
 
+        findViewById(R.id.stop_reason).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // ソフトキーボードを非表示にする
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
         findViewById(R.id.status_reason).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -140,6 +150,34 @@ public class TimerActivity extends BaseActivity {
             builder.show();
             return false;
         }
+    }
+
+    public void finishTaskAlert(View view){
+        if("0".equals(vm.workedPomo.get())){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("ポモドーロを一度もしていません。完了してよろしいですか？")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finishTask();
+                        }
+                    })
+                    .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            builder.show();
+
+        } else {
+            finishTask();
+        }
+    }
+
+    public void finishTask(){
+        vm.finishTask();
+        showNotification("タスクを完了にしました");
+        finish();
     }
 
     ////////// 中断理由登録フラグメント //////////
