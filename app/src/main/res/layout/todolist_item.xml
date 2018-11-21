@@ -29,11 +29,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:maxWidth="180dp"
-            android:minWidth="180dp"
+            android:maxWidth="200dp"
+            android:minWidth="200dp"
+            android:paddingEnd="8dp"
             android:paddingBottom="8dp"
             android:text="@{item.task.taskName}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@+id/checkBox"
             app:layout_constraintTop_toTopOf="parent" />
 

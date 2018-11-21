@@ -79,8 +79,6 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="今日のTODOへ移す"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
             app:layout_constraintStart_toEndOf="@+id/imageView" />
 

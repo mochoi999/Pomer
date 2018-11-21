@@ -9,6 +9,7 @@
             name="todolistVM"
             type="com.mochoi.pomer.viewmodel.TodolistVM"/>
     </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,13 +27,15 @@
 
             <Button
                 android:id="@+id/move_backlog"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/add_task_fragment"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="-10dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginBottom="-10dp"
                 android:onClick="moveBacklog"
                 android:text="Backlog" />
 
@@ -43,13 +46,12 @@
                 android:layout_below="@+id/move_backlog"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:background="@color/colorAction"
                 android:gravity="center_horizontal"
+                android:padding="10dp"
                 android:text="今日のTODO"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/colorAccent" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/todays_pomo_text"
@@ -69,10 +71,9 @@
                 android:layout_below="@+id/title"
                 android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@+id/todays_pomo_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:text="@{`` + todolistVM.todaysPomodoro}"
-                android:visibility="@{StringUtils.isBlank(todolistVM.todaysPomodoroAlert) ? View.VISIBLE : View.INVISIBLE}"
-                />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:visibility="@{StringUtils.isBlank(todolistVM.todaysPomodoroAlert) ? View.VISIBLE : View.INVISIBLE}" />
 
             <ImageView
                 android:id="@+id/tomato"
@@ -100,7 +101,7 @@
                 android:id="@+id/recycler"
                 todo_items="@{todolistVM.items}"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 android:layout_above="@+id/button2"
                 android:layout_below="@+id/todays_pomodoro"
                 android:layout_alignParentStart="true"
@@ -131,12 +132,10 @@
                 android:layout_alignTop="@+id/imageView"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="0dp"
-                android:layout_marginBottom="-16dp"
+                android:layout_marginTop="-16dp"
                 android:layout_toEndOf="@+id/imageView"
                 android:onClick="moveTaskToBacklog"
                 android:text="Backlogへ戻す"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorAccent"
                 app:layout_constraintStart_toEndOf="@+id/imageView" />
 
         </RelativeLayout>

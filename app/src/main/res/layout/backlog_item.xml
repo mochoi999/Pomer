@@ -34,16 +34,17 @@
             android:maxWidth="100dp"
             android:minWidth="100dp"
             android:text="@{item.task.taskName}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/pomodoro_count"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="@{item.workedPomo + `/` + item.forecastPomo}"
-            android:textColor="@{(Integer.parseInt(item.workedPomo) > Integer.parseInt(item.forecastPomo)) ? @color/colorAccent : @android:color/black}"
-            />
+            android:textColor="@{(Integer.parseInt(item.workedPomo) > Integer.parseInt(item.forecastPomo)) ? @color/colorAccent : @android:color/black}" />
 
         <ImageView
             android:id="@+id/remove"
