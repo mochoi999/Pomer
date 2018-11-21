@@ -225,13 +225,20 @@ public class TimerActivity extends BaseActivity {
         String reason = ((EditText)findViewById(R.id.diff_reason)).getText().toString();
         vm.registerReason(ReasonKind.DiffActualAndForecast, reason);
 
+        hideDiffReasonFragment();
+        finishTask();
+    }
+
+    public void hideDiffReasonFragment(View view){
+        hideDiffReasonFragment();
+    }
+
+    private void hideDiffReasonFragment(){
         //フラグメントを破棄
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .remove(diffReasonFragment)
                 .commit();
-
-        finishTask();
     }
 
     ////////// 終了状態登録フラグメント //////////
