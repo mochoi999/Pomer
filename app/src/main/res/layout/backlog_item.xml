@@ -32,6 +32,7 @@
             android:elevation="15dp"
             android:gravity="start"
             android:maxWidth="100dp"
+            android:minWidth="100dp"
             android:text="@{item.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 

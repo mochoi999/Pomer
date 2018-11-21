@@ -13,6 +13,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.mochoi.pomer.R;
@@ -119,7 +121,6 @@ public class TimerActivity extends BaseActivity {
         });
 
         vm.isShowFinishStatus.set(true);
-        vm.isStarted.set(false);
     }
 
     @Override
@@ -142,7 +143,6 @@ public class TimerActivity extends BaseActivity {
     }
 
     ////////// 中断理由登録フラグメント //////////
-
     public void stopPomodoro(View view){
         vm.isShowReason.set(true);
     }
@@ -163,33 +163,30 @@ public class TimerActivity extends BaseActivity {
     }
 
     ////////// 終了状態登録フラグメント //////////
-    public void onClickStatusButton(View view){
-        int id = view.getId();
+    public void registerFinishStatus(View view){
+        int id = ((RadioGroup)findViewById(R.id.radioGroup)).getCheckedRadioButtonId();
+        ReasonKind reasonKind = null;
         switch(id){
             case R.id.good :
-                vm.reasonKind = ReasonKind.GoodConcentration;
+                reasonKind = ReasonKind.GoodConcentration;
                 break;
             case R.id.nomal :
-                vm.reasonKind = ReasonKind.NomalConcentration;
+                reasonKind = ReasonKind.NomalConcentration;
                 break;
             case R.id.not :
-                vm.reasonKind = ReasonKind.NotConcentrate;
+                reasonKind = ReasonKind.NotConcentrate;
                 break;
             default:break;
         }
-        findViewById(id).setPressed(true);
 
-
-//        Button btn = findViewById(R.id.good);
-//        btn.setPressed(btn.getPre);
-    }
-
-    public void registerFinishStatus(View view){
         String reason = ((TextView)findViewById(R.id.status_reason)).getText().toString();
-//        vm.registerReason(ReasonKind., reason);
+        vm.registerReason(reasonKind, reason);
         vm.registerWorkedPomo();
 
         ((TextView)findViewById(R.id.status_reason)).setText("");
+        ((RadioButton)findViewById(R.id.good)).setChecked(true);
+
+        vm.isStarted.set(false);
         vm.isShowFinishStatus.set(false);
         showNotification("登録しました");
     }
