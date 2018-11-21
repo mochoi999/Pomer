@@ -6,9 +6,7 @@ import com.mochoi.pomer.model.repository.RemoveTaskRepository;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * タスク削除用サービス
- */
+
 public class RemoveTaskRepositoryImpl implements RemoveTaskRepository {
     private Realm realm;
 

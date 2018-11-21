@@ -13,7 +13,7 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
- * タスク取得サービス
+ * タスク取得用リポジトリのIF
  */
 public interface FindTaskRepository {
     List<Task> findBacklogList();
@@ -22,7 +22,12 @@ public interface FindTaskRepository {
 
     List<Task> findTodoList();
 
-    String findForecastPomo(long taskId);
+    /**
+     * タスクの最新の予想ポモドーロ数を取得
+     * @param taskId タスクid
+     * @return 最新の予想ポモドーロ数
+     */
+    String findLastForecastPomo(long taskId);
 
     String countWorkedPomo(long taskId);
 

@@ -4,6 +4,9 @@ import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.vo.TaskKind;
 
+/**
+ * タスク登録・更新用リポジトリのIF
+ */
 public interface RegisterModTaskRepository {
 
     /**

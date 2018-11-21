@@ -59,7 +59,7 @@ public class TimerActivity extends BaseActivity {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
         SoundPool soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();//stream 同時に扱う効果音の数
-        int mp3 = getResources().getIdentifier("stopwatch", "raw", getPackageName());
+        int mp3 = getResources().getIdentifier("timer_sample", "raw", getPackageName());
         final int soundID = soundPool.load(getBaseContext(), mp3, 1);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override

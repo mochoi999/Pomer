@@ -14,9 +14,6 @@ import java.util.Calendar;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * タスク登録・更新サービス
- */
 public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository {
     private Realm realm;
 
@@ -108,7 +105,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
             maxid = 0;
         }
         wp.id = maxid.longValue() + 1;
-        wp.registerDate = Calendar.getInstance().getTime();
+        wp.registerDate = Calendar.getInstance().getTime();//FIXME
 
         Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();
         task.workedPomos.add(wp);

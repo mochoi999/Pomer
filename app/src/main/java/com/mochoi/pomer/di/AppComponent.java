@@ -1,5 +1,6 @@
 package com.mochoi.pomer.di;
 
+import com.mochoi.pomer.model.service.CalcTodaysPomoService;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 import com.mochoi.pomer.viewmodel.RegisterEditTaskVM;
 import com.mochoi.pomer.viewmodel.TimerVM;
@@ -13,4 +14,6 @@ public interface AppComponent {
     TodolistVM makeTodolistVM();
     BacklogVM makeBacklogVM();
     TimerVM makeTimerVM();
+
+    CalcTodaysPomoService makeCalcTodaysPomoService();
 }

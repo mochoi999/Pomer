@@ -4,8 +4,6 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 
-import com.mochoi.pomer.infra.FindTaskRepositoryImpl;
-import com.mochoi.pomer.infra.RegisterModTaskRepositoryImpl;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.repository.FindTaskRepository;
@@ -13,8 +11,6 @@ import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
 import com.mochoi.pomer.model.vo.ReasonKind;
 
 import javax.inject.Inject;
-
-import io.realm.Realm;
 
 
 /**
@@ -40,7 +36,7 @@ public class TimerVM {
 
     public void setUpTaskData(long id){
         task.set(findTaskRepository.findById(id));
-        forecastPomo.set(findTaskRepository.findForecastPomo(id));
+        forecastPomo.set(findTaskRepository.findLastForecastPomo(id));
         workedPomo.set(findTaskRepository.countWorkedPomo(id));
     }
 

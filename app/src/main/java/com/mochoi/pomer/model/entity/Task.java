@@ -23,6 +23,22 @@ public class Task extends RealmObject {
     public RealmList<WorkedPomo> workedPomos = new RealmList<>();
     public RealmList<Reason> reasons = new RealmList<>();
 
+    /**
+     * 最新の予想ポモドーロ数を取得
+     * @return 最新の予想ポモドーロ数
+     */
+    public int getLastForecastPomoCount(){
+        return Integer.parseInt(forecastPomos.last().pomodoroCount);
+    }
+
+    /**
+     * 実績ポモドーロ数を取得
+     * @return 実績ポモドーロ数
+     */
+    public int getWorkedPomoCount(){
+        return workedPomos.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

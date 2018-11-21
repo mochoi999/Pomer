@@ -13,9 +13,6 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-/**
- * タスク取得サービス
- */
 public class FindTaskRepositoryImpl implements FindTaskRepository {
     private Realm realm;
 
@@ -61,7 +58,7 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         return tasks;
     }
 
-    public String findForecastPomo(long taskId){
+    public String findLastForecastPomo(long taskId){
         RealmResults<ForecastPomo> results = realm.where(ForecastPomo.class)
                 .equalTo("tasks.id", taskId)
                 .findAll();
