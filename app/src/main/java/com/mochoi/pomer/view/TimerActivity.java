@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TimerMainBinding;
 import com.mochoi.pomer.di.DaggerAppComponent;
+import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.viewmodel.TimerVM;
 
 
@@ -37,7 +39,7 @@ public class TimerActivity extends BaseActivity {
         vm.setUpTaskData(id);
         binding.setTimerVM(vm);
 
-        findViewById(R.id.reason).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        findViewById(R.id.status_reason).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -116,19 +118,19 @@ public class TimerActivity extends BaseActivity {
             }
         });
 
-        vm.registerWorkedPomo();//TODO 終了POPUP
+        vm.isShowFinishStatus.set(true);
         vm.isStarted.set(false);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (!vm.isStarted.get()
-                || keyCode != KeyEvent.KEYCODE_BACK) {
+        if (keyCode != KeyEvent.KEYCODE_BACK
+                || (!vm.isStarted.get() && !vm.isShowFinishStatus.get())) {
             return super.onKeyDown(keyCode, event);
         } else {
             //戻るボタンは使えない
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("ポモドーロ中です")
+            builder.setMessage("ポモドーロは終了していません")
                     .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -139,21 +141,57 @@ public class TimerActivity extends BaseActivity {
         }
     }
 
+    ////////// 中断理由登録フラグメント //////////
+
     public void stopPomodoro(View view){
         vm.isShowReason.set(true);
     }
 
-    public void hideReasonView(View view){
+    public void hideNotFinishReasonView(View view){
         vm.isShowReason.set(false);
     }
 
-    public void registerReason(View view){
-        String reason = ((TextView)findViewById(R.id.reason)).getText().toString();
-        vm.registerReason(reason);
-        ((TextView)findViewById(R.id.reason)).setText("");
+    public void registerNotFinishReason(View view){
+        String reason = ((TextView)findViewById(R.id.stop_reason)).getText().toString();
+        vm.registerReason(ReasonKind.InComplete, reason);
+
+        ((TextView)findViewById(R.id.stop_reason)).setText("");
         timerThread.stopRunning();
         vm.isShowReason.set(false);
         vm.isStarted.set(false);
+        showNotification("登録しました");
+    }
+
+    ////////// 終了状態登録フラグメント //////////
+    public void onClickStatusButton(View view){
+        int id = view.getId();
+        switch(id){
+            case R.id.good :
+                vm.reasonKind = ReasonKind.GoodConcentration;
+                break;
+            case R.id.nomal :
+                vm.reasonKind = ReasonKind.NomalConcentration;
+                break;
+            case R.id.not :
+                vm.reasonKind = ReasonKind.NotConcentrate;
+                break;
+            default:break;
+        }
+        findViewById(id).setPressed(true);
+
+
+//        Button btn = findViewById(R.id.good);
+//        btn.setPressed(btn.getPre);
+    }
+
+    public void registerFinishStatus(View view){
+        String reason = ((TextView)findViewById(R.id.status_reason)).getText().toString();
+//        vm.registerReason(ReasonKind., reason);
+        vm.registerWorkedPomo();
+
+        ((TextView)findViewById(R.id.status_reason)).setText("");
+        vm.isShowFinishStatus.set(false);
+        showNotification("登録しました");
     }
 
 }

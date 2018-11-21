@@ -94,19 +94,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{timerVM.isShowReason ? View.VISIBLE : View.GONE}"
-            >
-
-            <fragment
-                android:id="@+id/select_not_finished_reason_view"
-                android:name="com.mochoi.pomer.view.WriteNotFinishedReason"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -142,5 +129,30 @@
                 app:layout_constraintStart_toEndOf="@+id/pomodoro_count"
                 app:layout_constraintTop_toTopOf="@+id/pomodoro_count" />
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{timerVM.isShowReason ? View.VISIBLE : View.GONE}"
+            >
+            <fragment
+                android:id="@+id/select_not_finished_reason_view"
+                android:name="com.mochoi.pomer.view.RegisterNotFinishedReason"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{timerVM.isShowFinishStatus ? View.VISIBLE : View.GONE}"
+            >
+            <fragment
+                android:id="@+id/register_finished_status_view"
+                android:name="com.mochoi.pomer.view.RegisterFinishedStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
     </android.support.constraint.ConstraintLayout>
 </layout>

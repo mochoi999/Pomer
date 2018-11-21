@@ -27,8 +27,8 @@
         android:layout_marginStart="8dp"
         android:text="登録"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reason"
-        android:onClick="registerReason"/>
+        app:layout_constraintTop_toBottomOf="@+id/status_reason"
+        android:onClick="registerNotFinishReason"/>
 
     <Button
         android:id="@+id/button3"
@@ -39,10 +39,10 @@
         android:text="キャンセル"
         app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toTopOf="@+id/button"
-        android:onClick="hideReasonView"/>
+        android:onClick="hideNotFinishReasonView"/>
 
     <EditText
-        android:id="@+id/reason"
+        android:id="@+id/stop_reason"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

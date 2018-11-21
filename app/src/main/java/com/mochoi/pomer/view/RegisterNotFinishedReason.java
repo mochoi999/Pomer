@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import com.mochoi.pomer.R;
 
 /**
- * ポモドーロを完了できない理由を書く画面用ビュー
+ * ポモドーロを完了できない理由を書くフラグメント
  */
-public class WriteNotFinishedReason extends Fragment {
+public class RegisterNotFinishedReason extends Fragment {
 
     @Nullable
     @Override

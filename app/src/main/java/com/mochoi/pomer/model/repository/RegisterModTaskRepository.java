@@ -2,6 +2,7 @@ package com.mochoi.pomer.model.repository;
 
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 /**
@@ -40,7 +41,8 @@ public interface RegisterModTaskRepository {
     /**
      * タスクに諸作業の状態の理由を登録
      * @param taskId 更新対象のタスクid
-     * @param reason 理由オブジェクト
+     * @param reasonKind 理由種別
+     * @param reasonStr 理由
      */
-    void registerReason(long taskId, Reason reason);
+    void registerReason(long taskId, ReasonKind reasonKind, String reasonStr);
 }

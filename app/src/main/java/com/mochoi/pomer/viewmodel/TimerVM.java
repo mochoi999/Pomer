@@ -27,6 +27,8 @@ public class TimerVM {
     public final ObservableInt time = new ObservableInt(timeInitValue);
     public final ObservableInt second = new ObservableInt();
     public final ObservableBoolean isShowReason = new ObservableBoolean(false);
+    public final ObservableBoolean isShowFinishStatus = new ObservableBoolean(false);
+    public ReasonKind reasonKind;
 
     @Inject
     public TimerVM(FindTaskRepository findTaskRepository, RegisterModTaskRepository registerModTaskRepository){
@@ -46,11 +48,8 @@ public class TimerVM {
         registerModTaskRepository.modify(data, null);
     }
 
-    public void registerReason(String reasonStr){
-        Reason reason = new Reason();
-        reason.kind = ReasonKind.InComplete.getValue();
-        reason.reason = reasonStr;
-        registerModTaskRepository.registerReason(task.get().id, reason);
+    public void registerReason(ReasonKind reasonKind, String reason){
+        registerModTaskRepository.registerReason(task.get().id, reasonKind, reason);
     }
 
     public void initializeTimeValue(){

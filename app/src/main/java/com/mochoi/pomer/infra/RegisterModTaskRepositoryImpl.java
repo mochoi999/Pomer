@@ -7,6 +7,7 @@ import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
+import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.Calendar;
@@ -114,13 +115,16 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
 
 
     @Override
-    public void registerReason(long taskId, Reason reason){
+    public void registerReason(long taskId, ReasonKind reasonKind, String reasonStr){
         realm.beginTransaction();
+        Reason reason = new Reason();
+
         Number maxid = realm.where(Reason.class).max("id");
         if (maxid == null){
             maxid = 0;
         }
         reason.id = maxid.longValue() + 1;
+        reason.kind = reasonKind.getValue();
         reason.registerDate = Calendar.getInstance().getTime();
 
         Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();
