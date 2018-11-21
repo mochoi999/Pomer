@@ -20,6 +20,10 @@ public enum ReasonKind {
      * 完了：集中できない
      */
     ,NotConcentrate(4)
+    /**
+     * 完了：予実が異なる
+     */
+    ,DiffActualAndForecast(5)
     ;
 
     private int value;

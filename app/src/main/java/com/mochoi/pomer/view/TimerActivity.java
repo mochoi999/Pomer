@@ -8,11 +8,14 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TimerMainBinding;
 import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.model.vo.ReasonKind;
+import com.mochoi.pomer.model.vo.TaskKind;
 import com.mochoi.pomer.viewmodel.TimerVM;
 
 
@@ -30,6 +34,7 @@ import com.mochoi.pomer.viewmodel.TimerVM;
 public class TimerActivity extends BaseActivity {
     private TimerVM vm;
     private TimerThread timerThread;
+    private RegisterDiffReason diffReasonFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -153,7 +158,10 @@ public class TimerActivity extends BaseActivity {
     }
 
     public void finishTaskAlert(View view){
-        if("0".equals(vm.workedPomo.get())){
+        int forecastPomo = Integer.parseInt(vm.forecastPomo.get());
+        int workedPomo = Integer.parseInt(vm.workedPomo.get());
+        int diff = forecastPomo - workedPomo;
+        if(0 == workedPomo) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("ポモドーロを一度もしていません。完了してよろしいですか？")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -168,6 +176,9 @@ public class TimerActivity extends BaseActivity {
                         }
                     });
             builder.show();
+
+        } else if(diff > 3 || diff < -3){
+            showDiffReasonFragment();
 
         } else {
             finishTask();
@@ -198,6 +209,29 @@ public class TimerActivity extends BaseActivity {
         vm.isShowReason.set(false);
         vm.isStarted.set(false);
         showNotification("登録しました");
+    }
+
+    ////////// 予実差の理由登録フラグメント //////////
+    private void showDiffReasonFragment(){
+        // フラグメントを生成
+        diffReasonFragment = new RegisterDiffReason();
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .add(R.id.diff_reason_container, diffReasonFragment, "fragment")
+                .commit();
+    }
+
+    public void registerDiffReason(View view){
+        String reason = ((EditText)findViewById(R.id.diff_reason)).getText().toString();
+        vm.registerReason(ReasonKind.DiffActualAndForecast, reason);
+
+        //フラグメントを破棄
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .remove(diffReasonFragment)
+                .commit();
+
+        finishTask();
     }
 
     ////////// 終了状態登録フラグメント //////////
