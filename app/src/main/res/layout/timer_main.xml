@@ -12,74 +12,89 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
-            android:text="@{timerVM.isStarted ? `ポモドーロ中です` : `ポモドーロを開始します`}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:background="@color/colorPrimary"
+            android:paddingTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="143dp"
-            android:layout_height="140dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@android:drawable/ic_media_play"
-            android:onClick="startTimer"
-            android:visibility="@{timerVM.isStarted ? View.INVISIBLE : View.VISIBLE}"
-            />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:text="@{timerVM.isStarted ? `ポモドーロ中です` : `ポモドーロを開始します`}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                android:textColorLink="@android:color/white" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:paddingTop="45dp"
-            android:text="@{``+timerVM.time}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}"
-            />
+            <ImageView
+                android:id="@+id/start"
+                android:layout_width="143dp"
+                android:layout_height="140dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="30dp"
+                android:onClick="startTimer"
+                android:visibility="@{timerVM.isStarted ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@android:drawable/ic_media_play" />
 
-        <TextView
-            android:id="@+id/second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="32dp"
-            android:paddingTop="45dp"
-            android:text="@{`：` + timerVM.second}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorAccent"
-            android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/time"
-            app:layout_constraintStart_toEndOf="@+id/time" />
-        <ImageView
-            android:id="@+id/stop"
-            android:layout_width="70dp"
-            android:layout_height="68dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="70dp"
-            android:onClick="stopPomodoro"
-            android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/time"
-            app:srcCompat="@drawable/ic_stop" />
+            <ImageView
+                android:id="@+id/stop"
+                android:layout_width="70dp"
+                android:layout_height="68dp"
+                android:layout_alignEnd="@+id/start"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="70dp"
+                android:onClick="stopPomodoro"
+                android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_stop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:paddingTop="45dp"
+                    android:text="@{``+timerVM.time}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+                    android:textColor="@android:color/white"
+                    android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    android:id="@+id/second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:paddingTop="45dp"
+                    android:text="@{`：` + timerVM.second}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white"
+                    android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}" />
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/task_name"
@@ -92,7 +107,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"/>
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout"/>
 
         <LinearLayout
             android:layout_width="0dp"
