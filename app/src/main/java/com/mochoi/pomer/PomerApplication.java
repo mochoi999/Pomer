@@ -11,7 +11,7 @@ public class PomerApplication extends Application {
         super.onCreate();
         Realm.init(this);
 
-        //TODO
+        //TODO あとでけす
         RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
     }

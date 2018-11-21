@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.BacklogMainBinding;
+import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.viewmodel.BacklogItemVM;
 import com.mochoi.pomer.viewmodel.BacklogVM;
 
@@ -28,7 +29,7 @@ public class BacklogActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         BacklogMainBinding binding = DataBindingUtil.setContentView(this, R.layout.backlog_main);
 
-        vm = new BacklogVM();
+        vm = DaggerAppComponent.create().makeBacklogVM();
         vm.refreshTaskList();
         binding.setBacklogVM(vm);
 

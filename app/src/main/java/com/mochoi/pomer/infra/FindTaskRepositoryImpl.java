@@ -19,8 +19,8 @@ import io.realm.Sort;
 public class FindTaskRepositoryImpl implements FindTaskRepository {
     private Realm realm;
 
-    public FindTaskRepositoryImpl(){
-        realm = Realm.getDefaultInstance();
+    public FindTaskRepositoryImpl(Realm realm){
+        this.realm = realm;
     }
 
     public List<Task> findBacklogList(){

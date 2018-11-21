@@ -21,10 +21,10 @@ public class TaskRepositoryModule {
     }
     @Provides
     public FindTaskRepository provideFindTaskRepository(){
-        return new FindTaskRepositoryImpl();
+        return new FindTaskRepositoryImpl(Realm.getDefaultInstance());
     }
     @Provides
     public RemoveTaskRepository provideRemoveTaskRepository(){
-        return new RemoveTaskRepositoryImpl();
+        return new RemoveTaskRepositoryImpl(Realm.getDefaultInstance());
     }
 }

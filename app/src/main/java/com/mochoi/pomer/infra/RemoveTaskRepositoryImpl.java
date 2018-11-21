@@ -10,10 +10,10 @@ import io.realm.RealmResults;
  * タスク削除用サービス
  */
 public class RemoveTaskRepositoryImpl implements RemoveTaskRepository {
-    Realm realm;
+    private Realm realm;
 
-    public RemoveTaskRepositoryImpl(){
-        realm = Realm.getDefaultInstance();
+    public RemoveTaskRepositoryImpl(Realm realm){
+        this.realm = realm;
     }
 
     public void removeTaskById(long id){

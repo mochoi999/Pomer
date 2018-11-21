@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TimerMainBinding;
+import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.viewmodel.TimerVM;
 
 
@@ -32,7 +33,7 @@ public class TimerActivity extends BaseActivity {
         long id = getIntent().getLongExtra("id", 0);
 
         TimerMainBinding binding = DataBindingUtil.setContentView(this, R.layout.timer_main);
-        vm = new TimerVM();
+        vm = DaggerAppComponent.create().makeTimerVM();
         vm.setUpTaskData(id);
         binding.setTimerVM(vm);
 

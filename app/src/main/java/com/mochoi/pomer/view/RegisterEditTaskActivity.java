@@ -101,7 +101,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
         if(!validateInputData()){
             return;
         }
-        registerEditTaskVM.modifyById();
+        registerEditTaskVM.modify();
         showNotification("更新しました");
         this.finish();
     }

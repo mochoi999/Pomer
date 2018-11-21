@@ -8,7 +8,11 @@ import com.mochoi.pomer.infra.FindTaskRepositoryImpl;
 import com.mochoi.pomer.infra.RegisterModTaskRepositoryImpl;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
+import com.mochoi.pomer.model.repository.FindTaskRepository;
+import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
 import com.mochoi.pomer.model.vo.ReasonKind;
+
+import javax.inject.Inject;
 
 import io.realm.Realm;
 
@@ -17,6 +21,8 @@ import io.realm.Realm;
  * タイマー画面用ビューモデル
  */
 public class TimerVM {
+    private FindTaskRepository findTaskRepository;
+    private RegisterModTaskRepository registerModTaskRepository;
     public final ObservableField<Task> task = new ObservableField<>();
     public final ObservableField<String> forecastPomo = new ObservableField<>();
     public final ObservableField<String> workedPomo = new ObservableField<>();
@@ -26,24 +32,29 @@ public class TimerVM {
     public final ObservableInt second = new ObservableInt();
     public final ObservableBoolean isShowReason = new ObservableBoolean(false);
 
+    @Inject
+    public TimerVM(FindTaskRepository findTaskRepository, RegisterModTaskRepository registerModTaskRepository){
+        this.findTaskRepository = findTaskRepository;
+        this.registerModTaskRepository = registerModTaskRepository;
+    }
+
     public void setUpTaskData(long id){
-        FindTaskRepositoryImpl findTaskService = new FindTaskRepositoryImpl();
-        task.set(findTaskService.findById(id));
-        forecastPomo.set(findTaskService.findForecastPomo(id));
-        workedPomo.set(findTaskService.countWorkedPomo(id));
+        task.set(findTaskRepository.findById(id));
+        forecastPomo.set(findTaskRepository.findForecastPomo(id));
+        workedPomo.set(findTaskRepository.countWorkedPomo(id));
     }
 
     public void modifyStartPomodoro(){
         Task data = task.get();
         data.isWorking = true;
-        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).modify(data, null);
+        registerModTaskRepository.modify(data, null);
     }
 
     public void registerReason(String reasonStr){
         Reason reason = new Reason();
         reason.kind = ReasonKind.InComplete.getValue();
         reason.reason = reasonStr;
-        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).registerReason(task.get().id, reason);
+        registerModTaskRepository.registerReason(task.get().id, reason);
     }
 
     public void initializeTimeValue(){
@@ -52,7 +63,7 @@ public class TimerVM {
 
     public void registerWorkedPomo(){
         long taskId = task.get().id;
-        new RegisterModTaskRepositoryImpl(Realm.getDefaultInstance()).registerWorkedPomo(taskId);
-        workedPomo.set(new FindTaskRepositoryImpl().countWorkedPomo(taskId));
+        registerModTaskRepository.registerWorkedPomo(taskId);
+        workedPomo.set(findTaskRepository.countWorkedPomo(taskId));
     }
 }

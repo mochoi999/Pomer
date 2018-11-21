@@ -45,11 +45,7 @@ public class RegisterModTaskRepositoryImplTest {
         when(mockRealm.where(ForecastPomo.class).max("id")).thenReturn(1);
 
         RegisterModTaskRepositoryImpl repository = new RegisterModTaskRepositoryImpl(mockRealm);
-        Task task = new Task();
-        task.taskName = "taskname";
-        task.taskKind = TaskKind.BackLog.getValue();
-        String forecastPomo = "2";
-        repository.register(task, forecastPomo);
+        Task task = repository.register("taskname", TaskKind.BackLog, "2");
 
         assertThat(task.id, is(1L));
         assertThat(task.taskName, is("taskname"));

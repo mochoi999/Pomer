@@ -7,6 +7,7 @@ import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
+import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.Calendar;
 
@@ -24,8 +25,12 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
     }
 
     @Override
-    public void register(Task task, String forecastPomo){
+    public Task register(String taskName, TaskKind taskKind, String forecastPomo){
         realm.beginTransaction();
+
+        Task task = new Task();
+        task.taskName = taskName;
+        task.taskKind = taskKind.getValue();
 
         Number maxid = realm.where(Task.class).max("id");
         if (maxid == null){
@@ -46,6 +51,8 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
 
         realm.copyToRealm(task);
         realm.commitTransaction();
+
+        return task;
     }
 
     @Override
@@ -70,11 +77,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         realm.commitTransaction();
     }
 
-    /**
-     * タスク種別を更新
-     * @param ids 更新対象のid配列
-     * @param taskKind タスク種別
-     */
+    @Override
     public void modifyTaskKind(Long[] ids, int taskKind){
         realm.beginTransaction();
         RealmResults<Task> results = realm.where(Task.class).in("id", ids).findAll();
@@ -96,10 +99,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
 //        realm.commitTransaction();
 //    }
 
-    /**
-     * 稼働ポモドーロ（実績）を登録
-     * @param taskId 更新対象のタスクid
-     */
+    @Override
     public void registerWorkedPomo(long taskId){
         realm.beginTransaction();
         WorkedPomo wp = new WorkedPomo();
@@ -116,11 +116,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
     }
 
 
-    /**
-     * タスクに諸作業の状態の理由を登録
-     * @param taskId 更新対象のタスクid
-     * @param reason 理由オブジェクト
-     */
+    @Override
     public void registerReason(long taskId, Reason reason){
         realm.beginTransaction();
         Number maxid = realm.where(Reason.class).max("id");

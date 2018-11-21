@@ -28,15 +28,14 @@ public class RegisterEditTaskVM {
     }
 
     public void register(TaskKind kind){
-        task.get().taskKind = kind.getValue();
-        registerModTaskRepository.register(task.get(), forecastPomo.get());
+        registerModTaskRepository.register(task.get().taskName, kind, forecastPomo.get());
     }
 
     public Task getTaskDataById(long id){
         return findTaskRepository.findById(id);
     }
 
-    public void modifyById(){
+    public void modify(){
         registerModTaskRepository.modify(task.get(), forecastPomo.get());
     }
 
