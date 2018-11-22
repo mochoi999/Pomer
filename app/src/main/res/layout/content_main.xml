@@ -56,9 +56,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_marginTop="8dp"
+                    android:background="@color/colorPlan"
+                    android:onClick="moveBacklog"
                     android:text="Backlog"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:onClick="moveBacklog"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                 <TextView
                     android:id="@+id/textView10"

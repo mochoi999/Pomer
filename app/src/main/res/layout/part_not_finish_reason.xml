@@ -29,7 +29,8 @@
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        android:theme="@style/EditTextColorControl"/>
 
     <Button
         android:id="@+id/button"
@@ -39,6 +40,7 @@
         android:layout_marginStart="8dp"
         android:onClick="registerNotFinishReason"
         android:text="登録"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stop_reason" />
 
@@ -50,6 +52,7 @@
         android:layout_marginStart="8dp"
         android:onClick="hideNotFinishReasonView"
         android:text="キャンセル"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toTopOf="@+id/button" />
 

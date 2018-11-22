@@ -22,12 +22,16 @@
             </intent-filter>
         </activity>
         <activity android:name="com.mochoi.pomer.view.TodoListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name="com.mochoi.pomer.view.RegisterEditTaskActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name="com.mochoi.pomer.view.BacklogActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".view.TimerActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"/>
     </application>
 
