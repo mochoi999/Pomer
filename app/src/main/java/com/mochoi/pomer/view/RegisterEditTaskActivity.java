@@ -101,6 +101,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
         if(!validateInputData()){
             return;
         }
+        registerEditTaskVM.forecastPomo.set(convertForecastPomoCnt(registerEditTaskVM.forecastPomo.get()));
         registerEditTaskVM.modify();
         showNotification("更新しました");
         this.finish();
