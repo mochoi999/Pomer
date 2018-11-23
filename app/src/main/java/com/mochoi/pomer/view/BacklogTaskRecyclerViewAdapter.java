@@ -43,9 +43,8 @@ public class BacklogTaskRecyclerViewAdapter extends RecyclerView.Adapter<Backlog
         BacklogItemVM item = items.get(position);
         //TODO
         Task task = item.task.get();
-        item.forecastPomo.set(task.forecastPomos.last().pomodoroCount);
-        item.workedPomo.set(String.valueOf(task.workedPomos.size()));
-
+        item.forecastPomo.set(String.valueOf(task.getLastForecastPomoCount()));
+        item.workedPomo.set(String.valueOf(task.getWorkedPomoCount()));
         holder.binding.setItem(item);
     }
 

@@ -9,7 +9,11 @@ import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.RegisterModTaskRepository;
 import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.model.vo.TaskKind;
+import com.mochoi.pomer.util.Utility;
 
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.nio.channels.CancelledKeyException;
 import java.util.Calendar;
 
 import io.realm.Realm;
@@ -29,6 +33,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         Task task = new Task();
         task.taskName = taskName;
         task.taskKind = taskKind.getValue();
+        task.registerDate = Utility.getNowYear2Date();
 
         Number maxid = realm.where(Task.class).max("id");
         if (maxid == null){
@@ -44,7 +49,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         ForecastPomo fp = new ForecastPomo();
         fp.id = maxidFp.longValue() + 1L;
         fp.pomodoroCount = forecastPomo;
-        fp.registerDate = Calendar.getInstance().getTime();
+        fp.registerDate = Utility.getNowYear2Date();
         task.forecastPomos.add(fp);
 
         realm.copyToRealm(task);
@@ -68,7 +73,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
             Number maxidFp = realm.where(ForecastPomo.class).max("id");
             fp.id = maxidFp.longValue() + 1L;
             fp.pomodoroCount = forecastPomo;
-            fp.registerDate = Calendar.getInstance().getTime();
+            fp.registerDate = Utility.getNowYear2Date();
             result.forecastPomos.add(fp);
         }
 
@@ -102,7 +107,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
             maxid = 0;
         }
         wp.id = maxid.longValue() + 1;
-        wp.registerDate = Calendar.getInstance().getTime();//FIXME
+        wp.registerDate = Utility.getNowYear2Date();
 
         Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();
         task.workedPomos.add(wp);
@@ -121,7 +126,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         }
         reason.id = maxid.longValue() + 1;
         reason.kind = reasonKind.getValue();
-        reason.registerDate = Calendar.getInstance().getTime();
+        reason.registerDate = Utility.getNowYear2Date();
 
         Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();
         task.reasons.add(reason);

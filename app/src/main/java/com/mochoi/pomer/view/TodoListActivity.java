@@ -20,11 +20,13 @@ import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TodolistItemBinding;
 import com.mochoi.pomer.databinding.TodolistMainBinding;
 import com.mochoi.pomer.di.DaggerAppComponent;
+import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.viewmodel.TodolistItemVM;
 import com.mochoi.pomer.viewmodel.TodolistVM;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * Todoリスト画面用アクティビティ
@@ -112,6 +114,11 @@ public class TodoListActivity extends BaseActivity {
         vm.refreshTaskList();
     }
 
+    public void movePastTask(View view){
+        Intent intent = new Intent(this, PastActivity.class);
+        startActivity(intent);
+    }
+
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
         private List<TodolistItemVM> items;
         private TodoListActivity activity;
@@ -132,8 +139,9 @@ public class TodoListActivity extends BaseActivity {
         public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
             TodolistItemVM item = items.get(position);
             //TODO
-            item.forecastPomo.set(item.task.get().forecastPomos.last().pomodoroCount);
-            item.workedPomo.set(String.valueOf(item.task.get().workedPomos.size()));
+            Task task = item.task.get();
+            item.forecastPomo.set(String.valueOf(task.getLastForecastPomoCount()));
+            item.workedPomo.set(String.valueOf(task.getWorkedPomoCount()));
             holder.binding.setItem(item);
         }
 

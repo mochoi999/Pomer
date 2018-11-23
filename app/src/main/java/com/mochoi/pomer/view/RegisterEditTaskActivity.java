@@ -56,7 +56,7 @@ public class RegisterEditTaskActivity extends BaseActivity {
     }
 
     private boolean validateInputData(){
-        if(StringUtils.isEmpty(registerEditTaskVM.task.get().taskName)){
+        if(StringUtils.isBlank(registerEditTaskVM.task.get().taskName)){
             showNotification("タスク名を入力してください");
             return false;
         }

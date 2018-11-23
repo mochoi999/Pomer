@@ -2,6 +2,7 @@ package com.mochoi.pomer.model.entity;
 
 import com.mochoi.pomer.model.vo.TaskKind;
 
+import java.util.Date;
 import java.util.Objects;
 
 import io.realm.RealmList;
@@ -22,6 +23,7 @@ public class Task extends RealmObject {
     public RealmList<ForecastPomo> forecastPomos = new RealmList<>();
     public RealmList<WorkedPomo> workedPomos = new RealmList<>();
     public RealmList<Reason> reasons = new RealmList<>();
+    public Date registerDate;
 
     /**
      * 最新の予想ポモドーロ数を取得

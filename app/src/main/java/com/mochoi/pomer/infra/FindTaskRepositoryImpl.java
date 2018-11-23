@@ -7,6 +7,7 @@ import com.mochoi.pomer.model.repository.FindTaskRepository;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -37,12 +38,16 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         Task results = realm.where(Task.class)
                 .equalTo("id", id)
                 .findFirst();
+
         Task task = new Task();
         task.id = id;
         task.taskName = results.taskName;
         task.taskKind = results.taskKind;
         task.isWorking = results.isWorking;
+        task.isFinished = results.isFinished;
         task.forecastPomos = results.forecastPomos;
+        task.workedPomos = results.workedPomos;
+        task.reasons = results.reasons;
         return task;
     }
 
@@ -72,4 +77,16 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         return String.valueOf(results.size());
     }
 
+    @Override
+    public List<Task> findFinishedList(Date fromDate, Date toDate) {
+        RealmResults<Task> results = realm.where(Task.class)
+                .equalTo("isFinished", true)
+                .between("registerDate", fromDate, toDate)
+                .findAll().sort("id", Sort.DESCENDING);
+        List<Task> tasks = null;
+        if(results != null){
+            tasks = Arrays.asList(results.toArray(new Task[0]));
+        }
+        return tasks;
+    }
 }
