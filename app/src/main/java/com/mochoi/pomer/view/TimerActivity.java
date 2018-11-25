@@ -9,12 +9,12 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,8 +24,8 @@ import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TimerMainBinding;
 import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.model.vo.ReasonKind;
-import com.mochoi.pomer.model.vo.TaskKind;
 import com.mochoi.pomer.viewmodel.TimerVM;
+
 
 
 /**
@@ -39,6 +39,7 @@ public class TimerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         long id = getIntent().getLongExtra("id", 0);
 
         TimerMainBinding binding = DataBindingUtil.setContentView(this, R.layout.timer_main);
@@ -66,6 +67,22 @@ public class TimerActivity extends BaseActivity {
                 }
             }
         });
+
+        // アクションバーをカスタマイズ
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        setTitle("Pomodoro");
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void startTimer(View view){
@@ -113,7 +130,7 @@ public class TimerActivity extends BaseActivity {
                 }
             }
 
-            finishedPomodoro();
+            finishPomodoro();
         }
 
         void stopRunning(){
@@ -121,7 +138,8 @@ public class TimerActivity extends BaseActivity {
         }
     }
 
-    private void finishedPomodoro(){
+
+    private void finishPomodoro(){
         //play sound
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();

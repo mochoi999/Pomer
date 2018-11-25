@@ -58,6 +58,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/colorPlan"
                     android:onClick="moveBacklog"
+                    android:paddingRight="8dp"
                     android:text="Backlog"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
@@ -158,11 +159,11 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="21dp"
-        android:layout_marginStart="208dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="タスクを登録>>"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.85" />

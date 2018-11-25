@@ -2,6 +2,8 @@ package com.mochoi.pomer.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.mochoi.pomer.R;
@@ -49,10 +51,22 @@ public class RegisterEditTaskActivity extends BaseActivity {
         if(!registerEditTaskVM.isRegisterMode.get()){
             setTaskData(getIntent().getLongExtra("id", 0));
         }
+
+        // アクションバーをカスタマイズ
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        setTitle("タスクの登録・更新");
+
     }
 
-    public void backActivity(View view) {
-        this.finish();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private boolean validateInputData(){
