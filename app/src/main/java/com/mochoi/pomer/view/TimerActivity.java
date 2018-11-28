@@ -1,16 +1,21 @@
 package com.mochoi.pomer.view;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.mochoi.pomer.R;
@@ -35,6 +41,10 @@ public class TimerActivity extends BaseActivity {
     private TimerVM vm;
     private TimerThread timerThread;
     private RegisterDiffReason diffReasonFragment;
+    /**
+     * 通知処理用のID
+     */
+    private int NOTIFICATION_ID = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +115,7 @@ public class TimerActivity extends BaseActivity {
         });
 
     }
+
     private class TimerThread extends Thread {
         private boolean running = true;
         public void run() {
@@ -122,6 +133,8 @@ public class TimerActivity extends BaseActivity {
                         return;
                     }
                     vm.second.set(j);
+                    //通知
+                    showNotificationCompat(R.id.timer, i + ":" + j);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -136,6 +149,60 @@ public class TimerActivity extends BaseActivity {
         void stopRunning(){
             this.running = false;
         }
+    }
+
+    /**
+     * 通知を出す
+     */
+    private void showNotificationCompat(int viewId, String text){
+        String channelId = "pomer";
+
+        //カスタムレイアウト
+        RemoteViews customView = new RemoteViews(getPackageName(), R.layout.notification_main);
+        //いったんクリアしてからセット
+        customView.setTextViewText(R.id.timer, "");
+        customView.setTextViewText(viewId, text);
+
+        // 通知をタップしたときにActivityを起動
+        Intent intent = new Intent(this, TimerActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0
+                , intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                .setSmallIcon(R.drawable.tomato)
+                .setAutoCancel(false)   //    通知をタップしたときに、その通知を消すかどうか
+                .setOngoing(true)
+                .setContent(customView)
+                .setContentIntent(contentIntent)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)//ロック画面通知の表示の詳細レベル
+        .build();
+        notification.flags += Notification.FLAG_ONGOING_EVENT;
+        notification.flags += Notification.FLAG_NO_CLEAR;
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Notification　Channel 設定
+//            NotificationChannel channel = new NotificationChannel(
+//                    channelId, title, NotificationManager.IMPORTANCE_DEFAULT);
+//            channel.setDescription(message);
+//            channel.enableVibration(true);
+//            channel.canShowBadge();
+//            channel.enableLights(true);
+//            channel.setLightColor(Color.BLUE);
+//            // the channel appears on the lockscreen
+//            channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+//            channel.setSound(defaultSoundUri, null);
+//            channel.setShowBadge(true);
+        }
+
+        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+        manager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private void cancelNotificationCompat(){
+        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+        manager.cancel(NOTIFICATION_ID);
     }
 
 
@@ -154,6 +221,7 @@ public class TimerActivity extends BaseActivity {
         });
 
         vm.isShowFinishStatus.set(true);
+        showNotificationCompat(R.id.text,"ポモドーロ時間が終了しました");
     }
 
     @Override
@@ -227,6 +295,9 @@ public class TimerActivity extends BaseActivity {
         vm.isShowReason.set(false);
         vm.isStarted.set(false);
         showNotification("登録しました");
+
+        //通知を消す
+        cancelNotificationCompat();
     }
 
     ////////// 予実差の理由登録フラグメント //////////
