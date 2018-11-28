@@ -27,11 +27,9 @@
             android:id="@+id/task_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_gravity="center_vertical"
             android:maxWidth="180dp"
             android:minWidth="180dp"
-            android:paddingEnd="8dp"
             android:paddingBottom="8dp"
             android:text="@{item.task.taskName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -43,13 +41,12 @@
             android:id="@+id/pomodoroCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="30dp"
-            android:maxWidth="30dp"
-            android:gravity="end"
-            android:text="@{item.workedPomo + `/` + item.forecastPomo}"
-            android:textColor="@{(Integer.parseInt(item.workedPomo) > Integer.parseInt(item.forecastPomo)) ? @color/colorAccent : @android:color/black}"
             android:layout_gravity="center"
-            />
+            android:gravity="end"
+            android:maxWidth="38dp"
+            android:minWidth="38dp"
+            android:text="@{item.workedPomo + `/` + item.forecastPomo}"
+            android:textColor="@{(Integer.parseInt(item.workedPomo) > Integer.parseInt(item.forecastPomo)) ? @color/colorAccent : @android:color/black}" />
 
         <ImageButton
             android:id="@+id/remove"

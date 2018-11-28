@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.TimerMainBinding;
 import com.mochoi.pomer.di.DaggerAppComponent;
+import com.mochoi.pomer.model.vo.IdSharedPreference;
+import com.mochoi.pomer.model.vo.NameSharedPreference;
 import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.viewmodel.TimerVM;
 
@@ -96,7 +99,11 @@ public class TimerActivity extends BaseActivity {
     }
 
     public void startTimer(View view){
-        vm.initializeTimeValue();
+
+        SharedPreferences pref = getSharedPreferences(NameSharedPreference.Setting.getValue(), Context.MODE_PRIVATE);
+        int pomodoroTime = pref.getInt(IdSharedPreference.SettingPomodoroTime.getValue(), 25);
+        vm.setTimeValue(pomodoroTime);
+
         vm.isStarted.set(true);
         vm.modifyStartPomodoro();
         timerThread = new TimerThread();

@@ -18,17 +18,16 @@
             android:id="@+id/checkBox"
             android:layout_width="11dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:checked="@={item.check}"/>
+            android:layout_weight="1"
+            android:checked="@={item.check}" />
 
         <TextView
             android:id="@+id/taskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="9"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="7"
             android:gravity="start"
             android:maxWidth="100dp"
             android:minWidth="100dp"

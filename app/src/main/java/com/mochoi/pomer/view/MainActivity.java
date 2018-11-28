@@ -17,6 +17,8 @@ import android.widget.Button;
 
 import com.mochoi.pomer.R;
 
+import java.util.zip.Inflater;
+
 /**
  * メイン画面用アクティビティ
  */
@@ -60,7 +62,8 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-//                newGame();
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
