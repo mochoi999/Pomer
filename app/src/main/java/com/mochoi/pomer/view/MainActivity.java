@@ -41,10 +41,10 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(this, TodoListActivity.class);
         startActivity(intent);
     }
-//    public void moveReport(View view){
-//        Intent intent = new Intent(this, TodoListActivity.class);
-//        startActivity(intent);
-//    }
+    public void moveReport(View view){
+        Intent intent = new Intent(this, ReportActivity.class);
+        startActivity(intent);
+    }
 //    public void moveAction(View view){
 //        Intent intent = new Intent(this, TodoListActivity.class);
 //        startActivity(intent);

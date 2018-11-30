@@ -23,11 +23,35 @@ public class Utility {
     }
 
     /**
+     * 日付を指定フォーマットで文字列に変換。
+     * @param date 日付
+     * @param format フォーマット
+     * @return 日付文字列
+     */
+    public static String convDate2String(Date date, String format){
+        SimpleDateFormat sdFormat = new SimpleDateFormat(format);
+        return sdFormat.format(date);
+    }
+
+    /**
      * 処理日（年月日）を取得
      * @return 年月日
      */
-    public static Date getNowYear2Date() {
+    public static Date getNowDate() {
         Calendar calendar = Calendar.getInstance();
         return DateUtils.truncate(calendar.getTime(), Calendar.DATE);
+    }
+
+    /**
+     * 日付に指定日数を加算
+     * @param date 日付
+     * @param day 加算日数
+     * @return 加算後の日付
+     */
+    public static Date addDay(Date date, int day){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, day);
+        return calendar.getTime();
     }
 }

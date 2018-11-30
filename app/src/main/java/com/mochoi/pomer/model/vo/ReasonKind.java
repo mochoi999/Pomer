@@ -15,7 +15,7 @@ public enum ReasonKind {
     /**
      * 完了：まあまあ集中できた
      */
-    ,NomalConcentration(3)
+    ,NormalConcentration(3)
     /**
      * 完了：集中できない
      */
@@ -35,4 +35,16 @@ public enum ReasonKind {
     public int getValue(){
         return this.value;
     }
+
+    public static ReasonKind getReason(int value){
+        switch (value){
+            case 1: return InComplete;
+            case 2: return GoodConcentration;
+            case 3: return NormalConcentration;
+            case 4: return NotConcentrate;
+            case 5: return DiffActualAndForecast;
+            default: return null;
+        }
+    }
+
 }

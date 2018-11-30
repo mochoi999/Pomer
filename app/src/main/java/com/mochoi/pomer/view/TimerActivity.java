@@ -346,7 +346,7 @@ public class TimerActivity extends BaseActivity {
                 reasonKind = ReasonKind.GoodConcentration;
                 break;
             case R.id.nomal :
-                reasonKind = ReasonKind.NomalConcentration;
+                reasonKind = ReasonKind.NormalConcentration;
                 break;
             case R.id.not :
                 reasonKind = ReasonKind.NotConcentrate;

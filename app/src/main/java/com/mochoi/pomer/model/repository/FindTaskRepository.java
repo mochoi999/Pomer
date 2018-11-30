@@ -1,6 +1,7 @@
 package com.mochoi.pomer.model.repository;
 
 import com.mochoi.pomer.model.entity.ForecastPomo;
+import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.vo.TaskKind;
@@ -42,7 +43,16 @@ public interface FindTaskRepository {
      * @return 完了したタスクのリスト
      * @param fromDate 登録日From
      * @param toDate 登録日To
+     * @return タスクリスト
      */
     List<Task> findFinishedList(Date fromDate, Date toDate);
+
+    /**
+     * 指定期間内の理由データを取得
+     * @param fromDate 期間From
+     * @param toDate 期間To
+     * @return 理由リスト
+     */
+    List<Reason> findReason(Date fromDate, Date toDate);
 
 }

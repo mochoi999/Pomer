@@ -1,6 +1,7 @@
 package com.mochoi.pomer.infra;
 
 import com.mochoi.pomer.model.entity.ForecastPomo;
+import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.FindTaskRepository;
@@ -88,5 +89,17 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
             tasks = Arrays.asList(results.toArray(new Task[0]));
         }
         return tasks;
+    }
+
+    @Override
+    public List<Reason> findReason(Date fromDate, Date toDate){
+        RealmResults<Reason> results = realm.where(Reason.class)
+                .between("registerDate", fromDate, toDate)
+                .findAll().sort("id", Sort.ASCENDING);
+        List<Reason> reasons = null;
+        if(results != null){
+            reasons = Arrays.asList(results.toArray(new Reason[0]));
+        }
+        return reasons;
     }
 }
