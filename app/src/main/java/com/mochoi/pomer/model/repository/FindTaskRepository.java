@@ -48,11 +48,19 @@ public interface FindTaskRepository {
     List<Task> findFinishedList(Date fromDate, Date toDate);
 
     /**
-     * 指定期間内の理由データを取得
+     * Reportグラフに表示する指定期間内の理由データを取得
      * @param fromDate 期間From
      * @param toDate 期間To
      * @return 理由リスト
      */
-    List<Reason> findReason(Date fromDate, Date toDate);
+    List<Reason> findReasonForGraph(Date fromDate, Date toDate);
+
+    /**
+     * 指定期間内の実績ポモドーロを取得
+     * @param fromDate 期間From
+     * @param toDate 期間To
+     * @return 実績ポモドーロ
+     */
+    List<WorkedPomo> findWorkedPomoInTerm(Date fromDate, Date toDate);
 
 }

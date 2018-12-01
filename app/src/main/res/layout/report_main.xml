@@ -21,10 +21,11 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:elevation="0dp"
+            android:onClick="preWeek"
             android:paddingTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/back_sign"/>
+            app:srcCompat="@drawable/back_sign" />
 
         <EditText
             android:id="@+id/from_date"
@@ -72,27 +73,47 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:background="@android:color/transparent"
+            android:onClick="nextWeek"
             android:paddingTop="10dp"
             app:layout_constraintStart_toEndOf="@+id/to_date"
             app:layout_constraintTop_toTopOf="@+id/to_date"
             app:srcCompat="@drawable/next_sign" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/from_date">
-
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/bar_chart"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
-        </LinearLayout>
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/from_date"/>
+
+        <TextView
+            android:id="@+id/avg_pomo_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="平均実績ポモドーロ数"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bar_chart" />
+
+        <TextView
+            android:id="@+id/avg_pomo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@{reportVM.avgWorkedPomo}"
+            app:layout_constraintStart_toEndOf="@+id/avg_pomo_text"
+            app:layout_constraintTop_toTopOf="@+id/avg_pomo_text" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="／日"
+            app:layout_constraintStart_toEndOf="@+id/avg_pomo"
+            app:layout_constraintTop_toTopOf="@+id/avg_pomo" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

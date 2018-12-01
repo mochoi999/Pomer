@@ -5,6 +5,7 @@ import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.FindTaskRepository;
+import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.model.vo.TaskKind;
 
 import java.util.Arrays;
@@ -92,14 +93,30 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
     }
 
     @Override
-    public List<Reason> findReason(Date fromDate, Date toDate){
+    public List<Reason> findReasonForGraph(Date fromDate, Date toDate){
+        Integer[] reasonKinds = {ReasonKind.GoodConcentration.getValue()
+                ,ReasonKind.NormalConcentration.getValue()
+                ,ReasonKind.NotConcentrate.getValue()};
         RealmResults<Reason> results = realm.where(Reason.class)
                 .between("registerDate", fromDate, toDate)
+                .in("kind", reasonKinds)
                 .findAll().sort("id", Sort.ASCENDING);
         List<Reason> reasons = null;
         if(results != null){
             reasons = Arrays.asList(results.toArray(new Reason[0]));
         }
         return reasons;
+    }
+
+    @Override
+    public List<WorkedPomo> findWorkedPomoInTerm(Date fromDate, Date toDate){
+        RealmResults<WorkedPomo> results = realm.where(WorkedPomo.class)
+                .between("registerDate", fromDate, toDate)
+                .findAll();
+        List<WorkedPomo> workedPomos = null;
+        if(results != null){
+            workedPomos = Arrays.asList(results.toArray(new WorkedPomo[0]));
+        }
+        return workedPomos;
     }
 }

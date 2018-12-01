@@ -4,8 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.ReportMainBinding;
@@ -30,8 +29,6 @@ import com.mochoi.pomer.viewmodel.ReportVM;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import io.realm.internal.Util;
 
 /**
  * レポート画面用アクティビティ
@@ -68,15 +65,18 @@ public class ReportActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void preWeek(View view){
+        refreshActivity(Utility.addDay(toDate, -7));
+    }
+
+    public void nextWeek(View view){
+        refreshActivity(Utility.addDay(toDate, 7));
+    }
+
     private void refreshActivity(Date date){
         setTermDate(date);
-
-        reasons = vm.findReason(fromDate, toDate);
-        if(reasons.isEmpty()){
-            return;
-        }
-
         createBarChart();
+        vm.setAvgWorkedPomo4Week(fromDate, toDate);
     }
 
     private void setTermDate(Date toDate){
@@ -125,7 +125,9 @@ public class ReportActivity extends BaseActivity {
         barChart.setData(createBarChartData(barChart));
         float groupSpace = 0.1f;
         float barSpace = 0.1f;
-        barChart.groupBars(0f, groupSpace, barSpace);
+        if(barChart.getData() != null) {
+            barChart.groupBars(0f, groupSpace, barSpace);
+        }
 
         barChart.invalidate();// refresh
 
@@ -135,11 +137,14 @@ public class ReportActivity extends BaseActivity {
 
     // BarChartの設定
     private BarData createBarChartData(BarChart barChart) {
-        for(Reason reason :reasons){
-            Log.d("TEST", reason.registerDate + " " +reason.kind);
+//        for(Reason reason :reasons){
+//            Log.d("TEST", reason.registerDate + " " +reason.kind);
+//        }
+
+        reasons = vm.findReasonForGraph(fromDate, toDate);
+        if(reasons.isEmpty()){
+            return null;
         }
-
-
 
         //X軸ラベル用
         final String[] labels = new String[7];
@@ -166,13 +171,6 @@ public class ReportActivity extends BaseActivity {
                 //X軸の日付と異なるデータの場合はスキップ
                 if(!label.equals(Utility.convDate2String(reason.registerDate, "MM/dd"))) {
 //                    Log.d("TEST", "skip");
-                    continue;
-                }
-
-                //集計対象外の場合はスキップ
-                if(ReasonKind.InComplete.getValue() == reason.kind
-                        || ReasonKind.DiffActualAndForecast.getValue() ==reason.kind){
-//                    Log.d("TEST", "skip kind:"+ reason.kind);
                     continue;
                 }
 
