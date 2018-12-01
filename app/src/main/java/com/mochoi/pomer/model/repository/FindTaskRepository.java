@@ -25,6 +25,13 @@ public interface FindTaskRepository {
     List<Task> findTodoList();
 
     /**
+     * タスクの最初の予想ポモドーロ数を取得
+     * @param taskId タスクid
+     * @return 最初の予想ポモドーロ数
+     */
+    String findFirstForecastPomo(long taskId);
+
+    /**
      * タスクの最新の予想ポモドーロ数を取得
      * @param taskId タスクid
      * @return 最新の予想ポモドーロ数
@@ -40,7 +47,6 @@ public interface FindTaskRepository {
 
     /**
      * 完了したタスクのリストを取得。指定期間でタスクの登録日を検索。
-     * @return 完了したタスクのリスト
      * @param fromDate 登録日From
      * @param toDate 登録日To
      * @return タスクリスト
@@ -59,8 +65,16 @@ public interface FindTaskRepository {
      * 指定期間内の実績ポモドーロを取得
      * @param fromDate 期間From
      * @param toDate 期間To
-     * @return 実績ポモドーロ
+     * @return 実績ポモドーロリスト
      */
     List<WorkedPomo> findWorkedPomoInTerm(Date fromDate, Date toDate);
+
+    /**
+     * 指定期間に実績のあるタスクを取得
+     * @param fromDate 期間From
+     * @param toDate 期間To
+     * @return タスクリスト
+     */
+    List<Task> findTaskWorked(Date fromDate, Date toDate);
 
 }

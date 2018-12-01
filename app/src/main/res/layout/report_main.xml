@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="〜"
             app:layout_constraintStart_toEndOf="@+id/from_date"
             app:layout_constraintTop_toTopOf="@+id/from_date" />
@@ -114,6 +114,52 @@
             android:text="／日"
             app:layout_constraintStart_toEndOf="@+id/avg_pomo"
             app:layout_constraintTop_toTopOf="@+id/avg_pomo" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="予実の合わなかったタスク数"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/avg_pomo_text" />
+
+        <TextView
+            android:id="@+id/diff_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@{reportVM.taskCountDiffForcastAndWorked}"
+            app:layout_constraintStart_toEndOf="@+id/textView20"
+            app:layout_constraintTop_toTopOf="@+id/textView20" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="／"
+            app:layout_constraintStart_toEndOf="@+id/diff_count"
+            app:layout_constraintTop_toTopOf="@+id/diff_count" />
+
+        <TextView
+            android:id="@+id/diff_denominator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{reportVM.taskCountDiffDenominator}"
+            app:layout_constraintStart_toEndOf="@+id/textView22"
+            app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="タスク"
+            app:layout_constraintStart_toEndOf="@+id/diff_denominator"
+            app:layout_constraintTop_toTopOf="@+id/diff_denominator" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

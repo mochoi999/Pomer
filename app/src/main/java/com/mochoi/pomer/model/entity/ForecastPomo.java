@@ -18,5 +18,5 @@ public class ForecastPomo extends RealmObject {
     public String pomodoroCount;
     public Date registerDate;
     @LinkingObjects("forecastPomos")
-    public final RealmResults<Task> tasks = null;
+    public final RealmResults<Task> task = null;
 }

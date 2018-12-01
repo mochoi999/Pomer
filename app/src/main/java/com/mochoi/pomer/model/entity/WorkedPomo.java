@@ -15,5 +15,9 @@ public class WorkedPomo extends RealmObject {
     public long id;
     public Date registerDate;
     @LinkingObjects("workedPomos")
-    public final RealmResults<Task> tasks = null;
+    public final RealmResults<Task> task = null;
+
+    public Task getTask(){
+        return task.first();
+    }
 }

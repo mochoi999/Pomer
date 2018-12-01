@@ -77,6 +77,7 @@ public class ReportActivity extends BaseActivity {
         setTermDate(date);
         createBarChart();
         vm.setAvgWorkedPomo4Week(fromDate, toDate);
+        vm.setDiffTaskForecastAndWorked(fromDate, toDate);
     }
 
     private void setTermDate(Date toDate){

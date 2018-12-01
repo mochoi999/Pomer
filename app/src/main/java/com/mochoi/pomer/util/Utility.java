@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * ユーティリティ突っ込みクラス
@@ -29,7 +30,7 @@ public class Utility {
      * @return 日付文字列
      */
     public static String convDate2String(Date date, String format){
-        SimpleDateFormat sdFormat = new SimpleDateFormat(format);
+        SimpleDateFormat sdFormat = new SimpleDateFormat(format, Locale.JAPAN);
         return sdFormat.format(date);
     }
 

@@ -14,5 +14,5 @@ public class Reason extends RealmObject {
     public String reason = "";
     public Date registerDate;
     @LinkingObjects("reasons")
-    public final RealmResults<Task> tasks = null;
+    public final RealmResults<Task> task = null;
 }

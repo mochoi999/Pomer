@@ -1,5 +1,7 @@
 package com.mochoi.pomer.infra;
 
+import android.util.Log;
+
 import com.mochoi.pomer.model.entity.ForecastPomo;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
@@ -8,9 +10,12 @@ import com.mochoi.pomer.model.repository.FindTaskRepository;
 import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.model.vo.TaskKind;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -23,6 +28,7 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         this.realm = realm;
     }
 
+    @Override
     public List<Task> findBacklogList(){
         RealmResults<Task> results = realm.where(Task.class)
                 .equalTo("taskKind", TaskKind.BackLog.getValue())
@@ -35,6 +41,7 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         return tasks;
     }
 
+    @Override
     public Task findById(long id){
         //FIXME 詰め直ししたくない
         Task results = realm.where(Task.class)
@@ -53,6 +60,7 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         return task;
     }
 
+    @Override
     public List<Task> findTodoList(){
         RealmResults<Task> results = realm.where(Task.class)
                 .equalTo("taskKind", TaskKind.ToDoToday.getValue())
@@ -65,16 +73,26 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         return tasks;
     }
 
+    @Override
+    public String findFirstForecastPomo(long taskId){
+        RealmResults<ForecastPomo> results = realm.where(ForecastPomo.class)
+                .equalTo("task.id", taskId)
+                .findAll();
+        return results.first().pomodoroCount;
+    }
+
+    @Override
     public String findLastForecastPomo(long taskId){
         RealmResults<ForecastPomo> results = realm.where(ForecastPomo.class)
-                .equalTo("tasks.id", taskId)
+                .equalTo("task.id", taskId)
                 .findAll();
         return results.last().pomodoroCount;
     }
 
+    @Override
     public String countWorkedPomo(long taskId){
         RealmResults<WorkedPomo> results = realm.where(WorkedPomo.class)
-                .equalTo("tasks.id", taskId)
+                .equalTo("task.id", taskId)
                 .findAll();
         return String.valueOf(results.size());
     }
@@ -118,5 +136,26 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
             workedPomos = Arrays.asList(results.toArray(new WorkedPomo[0]));
         }
         return workedPomos;
+    }
+
+    @Override
+    public List<Task> findTaskWorked(Date fromDate, Date toDate){
+        RealmResults<WorkedPomo> workedPomos = realm.where(WorkedPomo.class)
+                .between("registerDate", fromDate, toDate)
+                .findAll();
+        if(workedPomos.isEmpty()) {
+            return null;
+        }
+
+        List<Task> tasks = new ArrayList<>();
+        long taskId = workedPomos.first().getTask().id;
+        tasks.add(workedPomos.first().getTask());
+        for(WorkedPomo workedPomo : workedPomos){
+            if(taskId != workedPomo.getTask().id){
+                taskId = workedPomo.getTask().id;
+                tasks.add(workedPomo.task.first());
+            }
+        }
+        return tasks;
     }
 }
