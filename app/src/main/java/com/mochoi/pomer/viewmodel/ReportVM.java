@@ -3,10 +3,13 @@ package com.mochoi.pomer.viewmodel;
 import android.databinding.ObservableField;
 import android.util.Log;
 
+import com.mochoi.pomer.model.entity.ForecastPomo;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.FindTaskRepository;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +21,7 @@ public class ReportVM {
     public final ObservableField<String> avgWorkedPomo = new ObservableField<>();
     public final ObservableField<String> taskCountDiffForcastAndWorked = new ObservableField<>();
     public final ObservableField<String> taskCountDiffDenominator = new ObservableField<>();
+    public final ObservableField<List<ReportDetailItemVM>> details = new ObservableField<>();
     private FindTaskRepository findTaskRepository;
 
     @Inject
@@ -29,6 +33,11 @@ public class ReportVM {
         return findTaskRepository.findReasonForGraph(fromDate, toDate);
     }
 
+    /**
+     * 指定期間の平均実績ポモドーロ数を設定
+     * @param fromDate 期間From
+     * @param toDate 期間To
+     */
     public void setAvgWorkedPomo4Week(Date fromDate, Date toDate){
         List<WorkedPomo> pomos = findTaskRepository.findWorkedPomoInTerm(fromDate, toDate);
 
@@ -51,6 +60,11 @@ public class ReportVM {
         avgWorkedPomo.set(String.valueOf(avg));
     }
 
+    /**
+     * 指定期間の予想と実績のポモドーロ数を設定
+     * @param fromDate 期間From
+     * @param toDate 期間To
+     */
     public void setDiffTaskForecastAndWorked(Date fromDate, Date toDate){
         List<Task> tasks = findTaskRepository.findTaskWorked(fromDate, toDate);
         if(tasks == null){
@@ -69,5 +83,30 @@ public class ReportVM {
         }
         taskCountDiffForcastAndWorked.set("" + count);
         taskCountDiffDenominator.set("" + tasks.size());
+    }
+
+    public void setDetailList(Date fromDate, Date toDate){
+        List<Task> tasks = findTaskRepository.findTaskWorked(fromDate, toDate);
+        if(tasks == null){
+            return;
+        }
+
+        List<ReportDetailItemVM> details = new ArrayList<>();
+        for (Task t : tasks){
+            StringBuilder task = new StringBuilder(t.taskName+" : "+t.getWorkedPomoCount()+"／");
+
+            int i = 0;
+            for(ForecastPomo fp : t.forecastPomos){
+                if(i++ != 0){
+                    task.append("→");
+                }
+                task.append(fp.pomodoroCount);
+            }
+
+            ReportDetailItemVM vm = new ReportDetailItemVM();
+            vm.task.set(task.toString());
+            details.add(vm);
+        }
+        this.details.set(details);
     }
 }
