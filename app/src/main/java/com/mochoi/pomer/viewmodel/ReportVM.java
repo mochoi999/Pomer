@@ -87,11 +87,13 @@ public class ReportVM {
 
     public void setDetailList(Date fromDate, Date toDate){
         List<Task> tasks = findTaskRepository.findTaskWorked(fromDate, toDate);
+        List<ReportDetailItemVM> details = new ArrayList<>();
+
         if(tasks == null){
+            this.details.set(details);
             return;
         }
 
-        List<ReportDetailItemVM> details = new ArrayList<>();
         for (Task t : tasks){
             StringBuilder task = new StringBuilder(t.taskName+" : "+t.getWorkedPomoCount()+"／");
 

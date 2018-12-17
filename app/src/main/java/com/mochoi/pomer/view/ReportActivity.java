@@ -9,10 +9,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -93,6 +95,9 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void refreshActivity(Date date){
+
+        Log.d("TEST", "refreshActivity: ");
+
         setTermDate(date);
         createBarChart();
         vm.setAvgWorkedPomo4Week(fromDate, toDate);
@@ -111,9 +116,11 @@ public class ReportActivity extends BaseActivity {
 
         //Detailエリアを閉じる
         detailBtn.setBackgroundResource(R.drawable.open);
+        detailBtn.clearAnimation();
+        int height = detailRecyclerView.getHeight();
         ResizeAnimation collapseAnimation = new ResizeAnimation(detailRecyclerView
-                , -detailRecyclerView.getHeight()
-                , detailRecyclerView.getHeight());
+                , -height
+                , height);
         detailRecyclerView.startAnimation(collapseAnimation);
 
     }
@@ -322,34 +329,41 @@ public class ReportActivity extends BaseActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        // ExpandするViewの元のサイズを保持する
-        int originalHeight = detailRecyclerView.getHeight();
-        // 展開ボタンの幅(デフォルトサイズ)を保持
+        // 展開ボタンのデフォルトサイズを保持
         final int btnWidth = detailBtn.getWidth();
-        // 展開ボタンの(デフォルトサイズ)を保持
         final int btnHeight = detailBtn.getHeight();
-
-        // ビューを閉じるアニメーションを生成
-        final ResizeAnimation collapseAnimation = new ResizeAnimation(detailRecyclerView
-                                                                    , -detailRecyclerView.getHeight()
-                                                                    , detailRecyclerView.getHeight());
-        collapseAnimation.setDuration(300);
-        // ビューを開くアニメーションを生成
-        final ResizeAnimation expandAnimation = new ResizeAnimation(detailRecyclerView, originalHeight, 0);
-        expandAnimation.setDuration(300);
 
         detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 detailRecyclerView.clearAnimation();
+
+                // ExpandするViewの元のサイズを保持する
+//                int originalHeight = detailRecyclerView.getHeight();
+                int originalHeight = vm.details.get().size() * 57;//TODO
+
+
+                Log.d("TEST", "detailRecyclerView.getHeight() :"+detailRecyclerView.getHeight());
+                Log.d("TEST", "originalHeight:"+originalHeight);
+
+
                 if(detailRecyclerView.getHeight() > 0) {
                     detailBtn.setBackgroundResource(R.drawable.close);
                     startRotateAnim(-180, btnWidth / 2, btnHeight / 2);
+
+                    // ビューを閉じるアニメーションを生成
+                    final ResizeAnimation collapseAnimation = new ResizeAnimation(detailRecyclerView
+                            , -originalHeight
+                            , originalHeight);
+                    collapseAnimation.setDuration(DURATION_DETAIL);
                     detailRecyclerView.startAnimation(collapseAnimation);
                 } else{
                     detailBtn.setBackgroundResource(R.drawable.open);
                     startRotateAnim(180, btnWidth / 2, btnHeight / 2);
+
+                    // ビューを開くアニメーションを生成
+                    final ResizeAnimation expandAnimation = new ResizeAnimation(detailRecyclerView, originalHeight, 0);
+                    expandAnimation.setDuration(DURATION_DETAIL);
                     detailRecyclerView.startAnimation(expandAnimation);
                 }
             }
