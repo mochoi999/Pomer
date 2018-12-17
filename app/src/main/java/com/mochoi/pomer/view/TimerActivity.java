@@ -2,12 +2,15 @@ package com.mochoi.pomer.view;
 
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Build;
@@ -17,6 +20,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,8 +96,20 @@ public class TimerActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-                finish();
-                return true;
+                if (!vm.isStarted.get() && !vm.isShowFinishStatus.get()) {
+                    finish();
+                    return true;
+                } else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("ポモドーロは終了していません")
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    builder.show();
+                    return false;
+                }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -164,6 +180,17 @@ public class TimerActivity extends BaseActivity {
     private void showNotificationCompat(int viewId, String text){
         String channelId = "pomer";
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId, "pomer", NotificationManager.IMPORTANCE_LOW);
+            channel.setDescription("残り時間の通知");
+            channel.enableVibration(false);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
         //カスタムレイアウト
         RemoteViews customView = new RemoteViews(getPackageName(), R.layout.notification_main);
         //いったんクリアしてからセット
@@ -183,28 +210,14 @@ public class TimerActivity extends BaseActivity {
                 .setContent(customView)
                 .setContentIntent(contentIntent)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)//ロック画面通知の表示の詳細レベル
-        .build();
+                .build();
         notification.flags += Notification.FLAG_ONGOING_EVENT;
         notification.flags += Notification.FLAG_NO_CLEAR;
 
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Notification　Channel 設定
-//            NotificationChannel channel = new NotificationChannel(
-//                    channelId, title, NotificationManager.IMPORTANCE_DEFAULT);
-//            channel.setDescription(message);
-//            channel.enableVibration(true);
-//            channel.canShowBadge();
-//            channel.enableLights(true);
-//            channel.setLightColor(Color.BLUE);
-//            // the channel appears on the lockscreen
-//            channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-//            channel.setSound(defaultSoundUri, null);
-//            channel.setShowBadge(true);
-        }
-
         NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
         manager.notify(NOTIFICATION_ID, notification);
+
+
     }
 
     private void cancelNotificationCompat(){
@@ -228,7 +241,8 @@ public class TimerActivity extends BaseActivity {
         });
 
         vm.isShowFinishStatus.set(true);
-        showNotificationCompat(R.id.text,"ポモドーロ時間が終了しました");
+//        showNotificationCompat(R.id.text,"ポモドーロ時間が終了しました");
+        cancelNotificationCompat();
     }
 
     @Override
