@@ -1,6 +1,8 @@
 package com.mochoi.pomer.view;
 
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 

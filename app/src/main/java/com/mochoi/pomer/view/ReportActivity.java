@@ -54,7 +54,6 @@ public class ReportActivity extends BaseActivity {
     private ReportMainBinding binding;
     private Date fromDate;
     private Date toDate;
-    private List<Reason> reasons;
     private RecyclerView detailRecyclerView;
     private ImageButton detailBtn;
     private final static int DURATION_DETAIL = 300;    // Detailボタンのアニメーションにかける時間(ミリ秒)
@@ -74,6 +73,28 @@ public class ReportActivity extends BaseActivity {
 
         detailBtn = findViewById(R.id.detail_btn);
         detailRecyclerView = findViewById(R.id.detail_recycler_view);
+
+        //Task Detailリスト
+        DetailRecyclerViewAdapter adapter = new DetailRecyclerViewAdapter();
+        RecyclerView recyclerView = binding.detailRecyclerView;
+        //data set
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        //decoration
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        //理由一覧
+        ReasonRecyclerViewAdapter reasonAdapter = new ReasonRecyclerViewAdapter();
+        RecyclerView reasonRecyclerView = binding.reasonRecyclerView;
+        //data set
+        reasonRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        reasonRecyclerView.setAdapter(reasonAdapter);
+        //decoration
+        DividerItemDecoration reasonDividerItemDecoration = new DividerItemDecoration(reasonRecyclerView.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        reasonRecyclerView.addItemDecoration(reasonDividerItemDecoration);
 
         refreshActivity(Utility.getNowDate());
     }
@@ -104,15 +125,6 @@ public class ReportActivity extends BaseActivity {
 
         //Detailリスト
         vm.setDetailList(fromDate, toDate);
-        DetailRecyclerViewAdapter adapter = new DetailRecyclerViewAdapter();
-        RecyclerView recyclerView = binding.detailRecyclerView;
-        //data set
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        //decoration
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                new LinearLayoutManager(this).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
         //Detailリストを閉じる
         detailBtn.setBackgroundResource(R.drawable.open);
@@ -125,15 +137,6 @@ public class ReportActivity extends BaseActivity {
 
         //理由リスト
         vm.setReasonList(fromDate, toDate);
-        ReasonRecyclerViewAdapter reasonAdapter = new ReasonRecyclerViewAdapter();
-        RecyclerView reasonRecyclerView = binding.reasonRecyclerView;
-        //data set
-        reasonRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        reasonRecyclerView.setAdapter(reasonAdapter);
-        //decoration
-        DividerItemDecoration reasonDividerItemDecoration = new DividerItemDecoration(reasonRecyclerView.getContext(),
-                new LinearLayoutManager(this).getOrientation());
-        reasonRecyclerView.addItemDecoration(reasonDividerItemDecoration);
 
     }
 
@@ -202,11 +205,7 @@ public class ReportActivity extends BaseActivity {
      * @return BarChart用データ
      */
     private BarData createBarChartData(BarChart barChart) {
-//        for(Reason reason :reasons){
-//            Log.d("TEST", reason.registerDate + " " +reason.kind);
-//        }
-
-        reasons = vm.findReasonForGraph(fromDate, toDate);
+        List<Reason> reasons = vm.findReasonForGraph(fromDate, toDate);
         if(reasons.isEmpty()){
             return null;
         }
@@ -227,20 +226,11 @@ public class ReportActivity extends BaseActivity {
         List<BarEntry> notConcentrates = new ArrayList<>();
         int labelIndex = 0;
         for(String label : labels){
-//            Log.d("TEST", "///////"+labelIndex + "  " + label+" / " + reasonIndex );
-
             for(Reason reason : reasons){
-
-//                Log.d("TEST", "" + reason.registerDate);
-
                 //X軸の日付と異なるデータの場合はスキップ
                 if(!label.equals(Utility.convDate2String(reason.registerDate, "MM/dd"))) {
-//                    Log.d("TEST", "skip");
                     continue;
                 }
-
-//                Log.d("TEST", "ADD");
-
                 ReasonKind kind = ReasonKind.getReason(reason.kind);
                 switch (kind) {
                     case GoodConcentration : good++; break;
@@ -346,13 +336,7 @@ public class ReportActivity extends BaseActivity {
                 detailRecyclerView.clearAnimation();
 
                 // ExpandするViewの元のサイズを保持する
-//                int originalHeight = detailRecyclerView.getHeight();
-                int originalHeight = vm.details.get().size() * 57;//TODO
-
-
-                Log.d("TEST", "detailRecyclerView.getHeight() :"+detailRecyclerView.getHeight());
-                Log.d("TEST", "originalHeight:"+originalHeight);
-
+                int originalHeight = vm.details.get().size() * 57;
 
                 if(detailRecyclerView.getHeight() > 0) {
                     detailBtn.setBackgroundResource(R.drawable.close);
