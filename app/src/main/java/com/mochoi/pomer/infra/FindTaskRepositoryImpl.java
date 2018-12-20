@@ -43,7 +43,6 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
 
     @Override
     public Task findById(long id){
-        //FIXME 詰め直ししたくない
         Task results = realm.where(Task.class)
                 .equalTo("id", id)
                 .findFirst();
@@ -118,6 +117,18 @@ public class FindTaskRepositoryImpl implements FindTaskRepository {
         RealmResults<Reason> results = realm.where(Reason.class)
                 .between("registerDate", fromDate, toDate)
                 .in("kind", reasonKinds)
+                .findAll().sort("id", Sort.ASCENDING);
+        List<Reason> reasons = null;
+        if(results != null){
+            reasons = Arrays.asList(results.toArray(new Reason[0]));
+        }
+        return reasons;
+    }
+
+    @Override
+    public List<Reason> findReasonForReportList(Date fromDate, Date toDate){
+        RealmResults<Reason> results = realm.where(Reason.class)
+                .between("registerDate", fromDate, toDate)
                 .findAll().sort("id", Sort.ASCENDING);
         List<Reason> reasons = null;
         if(results != null){

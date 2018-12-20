@@ -8,10 +8,14 @@ import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
 import com.mochoi.pomer.model.entity.WorkedPomo;
 import com.mochoi.pomer.model.repository.FindTaskRepository;
+import com.mochoi.pomer.model.vo.ReasonKind;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -22,6 +26,7 @@ public class ReportVM {
     public final ObservableField<String> taskCountDiffForcastAndWorked = new ObservableField<>();
     public final ObservableField<String> taskCountDiffDenominator = new ObservableField<>();
     public final ObservableField<List<ReportDetailItemVM>> details = new ObservableField<>();
+    public final ObservableField<List<ReportReasonItemVM>> reasons = new ObservableField<>();
     private FindTaskRepository findTaskRepository;
 
     @Inject
@@ -95,6 +100,7 @@ public class ReportVM {
         }
 
         for (Task t : tasks){
+            //「タスク名　実績数／予想数→予想数…（変更の数分）」の文字列を作る
             StringBuilder task = new StringBuilder(t.taskName+" : "+t.getWorkedPomoCount()+"／");
 
             int i = 0;
@@ -110,5 +116,52 @@ public class ReportVM {
             details.add(vm);
         }
         this.details.set(details);
+    }
+
+    public void setReasonList(Date fromDate, Date toDate){
+        List<Reason> reasons = findTaskRepository.findReasonForReportList(fromDate, toDate);
+        List<Reason> goodConcentration = reasons.stream()
+                .filter(reason -> reason.kind == ReasonKind.GoodConcentration.getValue())
+                .filter(reason -> StringUtils.isNotBlank(reason.reason))
+                .collect(Collectors.toList());
+        List<Reason> normalConcentration = reasons.stream()
+                .filter(reason -> reason.kind == ReasonKind.NormalConcentration.getValue())
+                .filter(reason -> StringUtils.isNotBlank(reason.reason))
+                .collect(Collectors.toList());
+        List<Reason> notConcentrate = reasons.stream()
+                .filter(reason -> reason.kind == ReasonKind.InComplete.getValue()
+                        || reason.kind == ReasonKind.NotConcentrate.getValue())
+                .filter(reason -> StringUtils.isNotBlank(reason.reason))
+                .collect(Collectors.toList());
+
+        //画面表示用リストを作る
+        List<String> reasonList = new ArrayList<>();
+        reasonList.add("■集中できた");
+        if(goodConcentration.isEmpty()){
+            reasonList.add("--");
+        } else {
+            goodConcentration.forEach(reason -> reasonList.add("・"+reason.reason));
+        }
+        reasonList.add("■まぁまぁ集中できた");
+        if(normalConcentration.isEmpty()){
+            reasonList.add("--");
+        } else {
+            normalConcentration.forEach(reason -> reasonList.add("・"+reason.reason));
+        }
+        reasonList.add("■集中できなかった／中断した");
+        if(notConcentrate.isEmpty()){
+            reasonList.add("--");
+        } else {
+            notConcentrate.forEach(reason -> reasonList.add("・"+reason.reason));
+        }
+
+        List<ReportReasonItemVM> vmList = new ArrayList<>();
+        for(String reason : reasonList){
+            ReportReasonItemVM vm = new ReportReasonItemVM();
+            vm.reason.set(reason);
+            vmList.add(vm);
+        }
+
+        this.reasons.set(vmList);
     }
 }

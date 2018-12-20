@@ -119,6 +119,7 @@ public class RegisterModTaskRepositoryImpl implements RegisterModTaskRepository 
         }
         reason.id = maxid.longValue() + 1;
         reason.kind = reasonKind.getValue();
+        reason.reason = reasonStr;
         reason.registerDate = Utility.getNowDate();
 
         Task task = realm.where(Task.class).equalTo("id", taskId).findFirst();

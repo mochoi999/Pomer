@@ -62,6 +62,14 @@ public interface FindTaskRepository {
     List<Reason> findReasonForGraph(Date fromDate, Date toDate);
 
     /**
+     * Report画面の理由リストに表示する指定期間内の理由データを取得
+     * @param fromDate 期間From
+     * @param toDate 期間To
+     * @return 理由リスト
+     */
+    List<Reason> findReasonForReportList(Date fromDate, Date toDate);
+
+    /**
      * 指定期間内の実績ポモドーロを取得
      * @param fromDate 期間From
      * @param toDate 期間To

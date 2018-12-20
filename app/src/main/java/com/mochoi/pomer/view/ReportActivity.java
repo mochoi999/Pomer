@@ -33,11 +33,13 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.mochoi.pomer.R;
 import com.mochoi.pomer.databinding.ReportDetailItemBinding;
 import com.mochoi.pomer.databinding.ReportMainBinding;
+import com.mochoi.pomer.databinding.ReportReasonItemBinding;
 import com.mochoi.pomer.di.DaggerAppComponent;
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.util.Utility;
 import com.mochoi.pomer.viewmodel.ReportDetailItemVM;
+import com.mochoi.pomer.viewmodel.ReportReasonItemVM;
 import com.mochoi.pomer.viewmodel.ReportVM;
 
 import java.util.ArrayList;
@@ -95,16 +97,14 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void refreshActivity(Date date){
-
-        Log.d("TEST", "refreshActivity: ");
-
         setTermDate(date);
         createBarChart();
         vm.setAvgWorkedPomo4Week(fromDate, toDate);
         vm.setDiffTaskForecastAndWorked(fromDate, toDate);
 
+        //Detailリスト
         vm.setDetailList(fromDate, toDate);
-        DetailRecyclerViewAdapter adapter = new DetailRecyclerViewAdapter(this);
+        DetailRecyclerViewAdapter adapter = new DetailRecyclerViewAdapter();
         RecyclerView recyclerView = binding.detailRecyclerView;
         //data set
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -114,7 +114,7 @@ public class ReportActivity extends BaseActivity {
                 new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        //Detailエリアを閉じる
+        //Detailリストを閉じる
         detailBtn.setBackgroundResource(R.drawable.open);
         detailBtn.clearAnimation();
         int height = detailRecyclerView.getHeight();
@@ -122,6 +122,18 @@ public class ReportActivity extends BaseActivity {
                 , -height
                 , height);
         detailRecyclerView.startAnimation(collapseAnimation);
+
+        //理由リスト
+        vm.setReasonList(fromDate, toDate);
+        ReasonRecyclerViewAdapter reasonAdapter = new ReasonRecyclerViewAdapter();
+        RecyclerView reasonRecyclerView = binding.reasonRecyclerView;
+        //data set
+        reasonRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        reasonRecyclerView.setAdapter(reasonAdapter);
+        //decoration
+        DividerItemDecoration reasonDividerItemDecoration = new DividerItemDecoration(reasonRecyclerView.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        reasonRecyclerView.addItemDecoration(reasonDividerItemDecoration);
 
     }
 
@@ -279,11 +291,6 @@ public class ReportActivity extends BaseActivity {
 
     public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder> {
         private List<ReportDetailItemVM> items;
-        private ReportActivity activity;
-
-        DetailRecyclerViewAdapter(ReportActivity activity){
-            this.activity = activity;
-        }
 
         @Override
         @NonNull
@@ -383,5 +390,50 @@ public class ReportActivity extends BaseActivity {
         rotate.setDuration(DURATION_DETAIL);       // アニメーションにかける時間(ミリ秒)
         rotate.setFillAfter(true);          // アニメーション表示後の状態を保持
         detailBtn.startAnimation(rotate);    // アニメーション開始
+    }
+
+    public class ReasonRecyclerViewAdapter extends RecyclerView.Adapter<ReasonRecyclerViewAdapter.ViewHolder> {
+        private List<ReportReasonItemVM> items;
+
+        @Override
+        @NonNull
+        public ReasonRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            // DataBinding
+            ReportReasonItemBinding binding = ReportReasonItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new ReasonRecyclerViewAdapter.ViewHolder(binding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ReasonRecyclerViewAdapter.ViewHolder holder, int position) {
+            ReportReasonItemVM item = items.get(position);
+            holder.binding.setItemVM(item);
+        }
+
+        @Override
+        public int getItemCount() {
+            if(items == null){
+                return 0;
+            } else {
+                return items.size();
+            }
+        }
+
+        void replaceData(List<ReportReasonItemVM> items) {
+            setList(items);
+        }
+        private void setList(List<ReportReasonItemVM> items) {
+            this.items = items;
+            notifyDataSetChanged();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder{
+
+            final ReportReasonItemBinding binding;
+
+            ViewHolder(final ReportReasonItemBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
+            }
+        }
     }
 }
