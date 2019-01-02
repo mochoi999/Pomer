@@ -10,11 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -39,6 +40,7 @@ import com.mochoi.pomer.model.vo.NameSharedPreference;
 import com.mochoi.pomer.model.vo.ReasonKind;
 import com.mochoi.pomer.viewmodel.TimerVM;
 
+import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -46,12 +48,22 @@ import com.mochoi.pomer.viewmodel.TimerVM;
  */
 public class TimerActivity extends BaseActivity {
     private TimerVM vm;
-    private TimerThread timerThread;
     private RegisterDiffReason diffReasonFragment;
+    private CountDownTimer timer;
     /**
      * 通知処理用のID
      */
     private int NOTIFICATION_ID = 0;
+    /**
+     * 通知チャンネル用のID タイマー残り時間
+     */
+    private String CHANNEL_ID_COUNT = "pomer_count";
+    /**
+     * 通知チャンネル用のID タイマー終了
+     */
+    private String CHANNEL_ID_FINISH = "pomer_finish";
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +102,9 @@ public class TimerActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         setTitle("Pomodoro");
 
+        //通知チャンネルの設定
+        setNotificationCountTimerChannel();
+        setNotificationFinishChannel();
     }
 
     @Override
@@ -115,15 +130,15 @@ public class TimerActivity extends BaseActivity {
     }
 
     public void startTimer(View view){
-
         SharedPreferences pref = getSharedPreferences(NameSharedPreference.Setting.getValue(), Context.MODE_PRIVATE);
         int pomodoroTime = pref.getInt(IdSharedPreference.SettingPomodoroTime.getValue(), 25);
-        vm.setTimeValue(pomodoroTime);
 
         vm.isStarted.set(true);
         vm.modifyStartPomodoro();
-        timerThread = new TimerThread();
-        timerThread.start();
+
+        timer = new MyCountDownTimer(pomodoroTime * 60 * 1000, 1000);
+        timer.start();
+
         //play sound
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
@@ -139,62 +154,64 @@ public class TimerActivity extends BaseActivity {
 
     }
 
-    private class TimerThread extends Thread {
-        private boolean running = true;
-        public void run() {
-            int minutes = vm.time.get() -1;
-            for (int i = minutes; i >-1; i--) {
-                if(!running){
-                    return;
-                }
-                vm.time.set(i);
-
-                int second = 59;
-                vm.second.set(second);
-                for (int j = second; j >-1; j--) {
-                    if(!running){
-                        return;
-                    }
-                    vm.second.set(j);
-                    //通知
-                    showNotificationCompat(R.id.timer, i + ":" + j);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            finishPomodoro();
+    private class MyCountDownTimer extends CountDownTimer {
+        MyCountDownTimer(long millisInFuture, long countDownInterval){
+            super(millisInFuture, countDownInterval);
         }
 
-        void stopRunning(){
-            this.running = false;
+        @Override
+        public void onTick(long millisUntilFinished) {
+            long minute = millisUntilFinished / 1000L / 60L;
+            long second = millisUntilFinished / 1000L % 60L;
+            vm.time.set(minute);
+            vm.second.set(second);
+
+            showNotificationCompat(CHANNEL_ID_COUNT, R.id.timer, minute + ":" + StringUtils.leftPad(String.valueOf(second), 2, "0"),
+                    false, true,false);
+        }
+
+        @Override
+        public void onFinish() {
+            vm.time.set(0L);
+            vm.second.set(0L);
+            finishPomodoro();
         }
     }
 
-    /**
-     * 通知を出す
-     */
-    private void showNotificationCompat(int viewId, String text){
-        String channelId = "pomer";
-
+    private void setNotificationCountTimerChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    channelId, "pomer", NotificationManager.IMPORTANCE_LOW);
+                    CHANNEL_ID_COUNT, "タイマー", NotificationManager.IMPORTANCE_LOW);
             channel.setDescription("残り時間の通知");
-            channel.enableVibration(false);
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
+    }
 
+    private void setNotificationFinishChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID_FINISH, "カウントダウン終了", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("カウントダウン終了通知");
+            channel.enableVibration(true);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            channel.setSound(Uri.parse("android.resource://"+getPackageName()+"/raw/alarm"), null);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
+    }
+
+    private void showNotificationCompat(String channelId, int viewId, String text, boolean isAutoCancel,
+                                        boolean isGoing, boolean isVibration){
         //カスタムレイアウト
         RemoteViews customView = new RemoteViews(getPackageName(), R.layout.notification_main);
         //いったんクリアしてからセット
         customView.setTextViewText(R.id.timer, "");
+        customView.setTextViewText(R.id.text, "");
         customView.setTextViewText(viewId, text);
 
         // 通知をタップしたときにActivityを起動
@@ -203,21 +220,20 @@ public class TimerActivity extends BaseActivity {
         PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0
                 , intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.drawable.tomato)
-                .setAutoCancel(false)   //    通知をタップしたときに、その通知を消すかどうか
-                .setOngoing(true)
-                .setContent(customView)
-                .setContentIntent(contentIntent)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)//ロック画面通知の表示の詳細レベル
-                .build();
-        notification.flags += Notification.FLAG_ONGOING_EVENT;
-        notification.flags += Notification.FLAG_NO_CLEAR;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
+        builder.setSmallIcon(R.drawable.tomato);
+        builder.setAutoCancel(isAutoCancel);   //    通知をタップしたときに、その通知を消すかどうか
+        builder.setOngoing(isGoing);
+        builder.setContent(customView);
+        builder.setContentIntent(contentIntent);
+        builder.setVisibility(Notification.VISIBILITY_PUBLIC);//ロック画面通知の表示の詳細レベル
+
+        if(isVibration){
+            builder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
-        manager.notify(NOTIFICATION_ID, notification);
-
-
+        manager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private void cancelNotificationCompat(){
@@ -227,22 +243,24 @@ public class TimerActivity extends BaseActivity {
 
 
     private void finishPomodoro(){
-        //play sound
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
-        SoundPool soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();//stream 同時に扱う効果音の数
-        int mp3 = getResources().getIdentifier("alarm", "raw", getPackageName());
-        final int soundID = soundPool.load(getBaseContext(), mp3, 1);
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                soundPool.play(soundID,1f, 1f, 0, 0, 1);
-            }
-        });
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            //Oreo未満の場合、終了通知用のチャンネルが無いためここで鳴らす
+            //play sound
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
+            SoundPool soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();//stream 同時に扱う効果音の数
+            int mp3 = getResources().getIdentifier("alarm", "raw", getPackageName());
+            final int soundID = soundPool.load(getBaseContext(), mp3, 1);
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                @Override
+                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                    soundPool.play(soundID, 1f, 1f, 0, 0, 1);
+                }
+            });
+        }
 
         vm.isShowFinishStatus.set(true);
-//        showNotificationCompat(R.id.text,"ポモドーロ時間が終了しました");
-        cancelNotificationCompat();
+        showNotificationCompat(CHANNEL_ID_FINISH, R.id.text,"ポモドーロ時間が終了しました", true, false,true);
     }
 
     @Override
@@ -312,7 +330,7 @@ public class TimerActivity extends BaseActivity {
         vm.registerReason(ReasonKind.InComplete, reason);
 
         ((TextView)findViewById(R.id.stop_reason)).setText("");
-        timerThread.stopRunning();
+        timer.cancel();
         vm.isShowReason.set(false);
         vm.isStarted.set(false);
         showNotification("登録しました");

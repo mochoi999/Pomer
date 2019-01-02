@@ -3,6 +3,7 @@ package com.mochoi.pomer.viewmodel;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.databinding.ObservableLong;
 
 import com.mochoi.pomer.model.entity.Reason;
 import com.mochoi.pomer.model.entity.Task;
@@ -23,8 +24,8 @@ public class TimerVM {
     public final ObservableField<String> forecastPomo = new ObservableField<>();
     public final ObservableField<String> workedPomo = new ObservableField<>();
     public final ObservableBoolean isStarted = new ObservableBoolean(false);
-    public final ObservableInt time = new ObservableInt();
-    public final ObservableInt second = new ObservableInt();
+    public final ObservableLong time = new ObservableLong();
+    public final ObservableLong second = new ObservableLong();
     public final ObservableBoolean isShowReason = new ObservableBoolean(false);
     public final ObservableBoolean isShowFinishStatus = new ObservableBoolean(false);
 
@@ -48,10 +49,6 @@ public class TimerVM {
 
     public void registerReason(ReasonKind reasonKind, String reason){
         registerModTaskRepository.registerReason(task.get().id, reasonKind, reason);
-    }
-
-    public void setTimeValue(int pomodoroTime){
-        time.set(pomodoroTime);
     }
 
     public void registerWorkedPomo(){

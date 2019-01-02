@@ -336,7 +336,7 @@ public class ReportActivity extends BaseActivity {
                 detailRecyclerView.clearAnimation();
 
                 // ExpandするViewの元のサイズを保持する
-                int originalHeight = vm.details.get().size() * 57;
+                int originalHeight = vm.details.get().size() * 90;
 
                 if(detailRecyclerView.getHeight() > 0) {
                     detailBtn.setBackgroundResource(R.drawable.close);

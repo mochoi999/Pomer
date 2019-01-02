@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
+        <import type="org.apache.commons.lang3.StringUtils"/>
         <variable
             name="timerVM"
             type="com.mochoi.pomer.viewmodel.TimerVM"/>
@@ -88,7 +89,7 @@
                     android:layout_weight="2"
                     android:gravity="start"
                     android:paddingTop="45dp"
-                    android:text="@{`：` + timerVM.second}"
+                    android:text="@{`：` + StringUtils.leftPad(String.valueOf(timerVM.second), 2,`0`)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/white"
                     android:visibility="@{timerVM.isStarted ? View.VISIBLE : View.GONE}" />
